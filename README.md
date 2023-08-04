@@ -10,3 +10,5 @@
 - comments table
 - portfolioPosts table
 - resume table
+- workHistory table
+- Education
