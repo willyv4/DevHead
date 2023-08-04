@@ -1,14 +1,15 @@
 ## API DATA:
+
 - github API
+- Personal backend API (links user data between the front and back end).
+
 - leetCode Api(possibly - stretch goal)
-- Personal backend API (links user data between the front and back end). 
 
 ## Database Outline:
-- users table
-- followers table
-- likes table
-- comments table
-- portfolioPosts table
+
+![Database Schema](./assets/database.png)
+
+- (stretch goals...)
 - resume table
 - workHistory table
 - Education
