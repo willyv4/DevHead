@@ -1,11 +1,15 @@
 CREATE TABLE users (
   id int PRIMARY KEY NOT NULL,
+  code_start text,
+  place text,
   image_url text DEFAULT 'https://kansai-resilience-forum.jp/wp-content/uploads/2019/02/IAFOR-Blank-Avatar-Image-1.jpg',
   username varchar(255) UNIQUE NOT NULL,
   email varchar(255) NOT NULL,
   title text,
   about text,
-  skills text
+  skills text,
+  followers text[],
+  following text[]
 );
 
 CREATE TABLE portfolio_posts (
@@ -27,13 +31,6 @@ CREATE TABLE portfolio_comments (
   FOREIGN KEY (post_id) REFERENCES portfolio_posts(id)
 );
 
-CREATE TABLE followers (
-  follower_id int,
-  followed_user_id int,
-  FOREIGN KEY (follower_id) REFERENCES users(id),
-  FOREIGN KEY (followed_user_id) REFERENCES users(id)
-);
-
 CREATE TABLE likes (
   id int PRIMARY KEY,
   post_id int,
@@ -41,3 +38,15 @@ CREATE TABLE likes (
   FOREIGN KEY (post_id) REFERENCES portfolio_posts(id),
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+CREATE TABLE follows (
+  user_being_followed_id int,
+  user_following_id int,
+  FOREIGN KEY (user_being_followed_id) REFERENCES users(id),
+  FOREIGN KEY (user_following_id) REFERENCES users(id)
+);
+
+
+
+
+

@@ -1,3 +1,4 @@
+import { ClerkApp } from "@clerk/remix";
 import {
 	Links,
 	LiveReload,
@@ -7,14 +8,24 @@ import {
 	ScrollRestoration,
 } from "@remix-run/react";
 import { Analytics } from "@vercel/analytics/react";
-import type { LinksFunction } from "@vercel/remix";
+import type { LinksFunction, LoaderFunction } from "@vercel/remix";
+import { rootAuthLoader } from "@clerk/remix/ssr.server";
+
 import stylesheet from "./tailwind.css";
 
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: stylesheet },
 ];
 
-export default function App() {
+// export async function loader() {
+// 	console.log("CLERK PUB KEY", process.env.CLERK_PUBLISHABLE_KEY);
+// 	console.log("CLERK SEC KEY", process.env.CLERK_SECRET_KEY);
+// 	return process.env.CLERK_PUBLISHABLE_KEY;
+// }
+
+export const loader: LoaderFunction = (args) => rootAuthLoader(args);
+
+function App() {
 	return (
 		<html lang="en">
 			<head>
@@ -33,3 +44,5 @@ export default function App() {
 		</html>
 	);
 }
+
+export default ClerkApp(App);

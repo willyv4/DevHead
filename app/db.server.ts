@@ -2,7 +2,7 @@ import { Client } from "pg";
 
 let db: any;
 
-export const getDatabaseUri = () => {
+const getDatabaseUri = () => {
 	return process.env.NODE_ENV === "test"
 		? "devhead_test"
 		: process.env.DEVHEAD_DATABASE_URL || "postgres://@localhost:5432/devhead";
@@ -22,7 +22,5 @@ if (process.env.NODE_ENV === "production") {
 }
 
 db.connect();
-
-console.log(db);
 
 export default db;
