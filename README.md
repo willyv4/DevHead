@@ -7,7 +7,7 @@
 
 ## Database Outline:
 
-![Database Schema](./assets/database.png)
+![Database Schema](./public/database.png)
 
 - (stretch goals...)
 - resume table

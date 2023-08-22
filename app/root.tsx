@@ -1,4 +1,6 @@
-import { ClerkApp } from "@clerk/remix";
+import { ClerkApp, V2_ClerkErrorBoundary } from "@clerk/remix";
+import type { LinksFunction, LoaderFunction } from "@vercel/remix";
+
 import {
 	Links,
 	LiveReload,
@@ -7,27 +9,24 @@ import {
 	Scripts,
 	ScrollRestoration,
 } from "@remix-run/react";
+
 import { Analytics } from "@vercel/analytics/react";
-import type { LinksFunction, LoaderFunction } from "@vercel/remix";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
 
 import stylesheet from "./tailwind.css";
+import NavBar from "./components/NavBar";
 
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: stylesheet },
 ];
 
-// export async function loader() {
-// 	console.log("CLERK PUB KEY", process.env.CLERK_PUBLISHABLE_KEY);
-// 	console.log("CLERK SEC KEY", process.env.CLERK_SECRET_KEY);
-// 	return process.env.CLERK_PUBLISHABLE_KEY;
-// }
-
 export const loader: LoaderFunction = (args) => rootAuthLoader(args);
+
+export const ErrorBoundary = V2_ClerkErrorBoundary();
 
 function App() {
 	return (
-		<html lang="en">
+		<html lang="en" data-theme="night">
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -35,6 +34,7 @@ function App() {
 				<Links />
 			</head>
 			<body>
+				<NavBar />
 				<Outlet />
 				<ScrollRestoration />
 				<Scripts />

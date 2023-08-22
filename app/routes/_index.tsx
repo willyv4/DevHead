@@ -1,46 +1,54 @@
-import type { V2_MetaFunction } from "@vercel/remix";
-import { useLoaderData } from "@remix-run/react";
-import { json } from "@remix-run/node";
+import { getAuth } from "@clerk/remix/ssr.server";
+import type { LoaderFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
+import { UserButton } from "@clerk/remix";
+import { createClerkClient } from "@clerk/remix/api.server";
 import { User } from "../models/users";
 
-export const meta: V2_MetaFunction = () => [{ title: "DevHEad" }];
-
-export const loader = async () => {
-	const users = await User.getUserOverviews();
-	return json({ users });
+type UserData = {
+	id: string;
+	username: string | null;
+	firstName: string | null;
+	lastName: string | null;
+	email: string;
+	imageUrl: string;
 };
 
-type UserData = {
-	id: number;
-	username: string;
-	email: string;
-	title: string;
-	image_url: string;
-	about: string;
-	skills: string;
-	code_start: string;
-	followers: Number[];
-	following: Number[];
+export const loader: LoaderFunction = async (args) => {
+	const { userId }: { userId: string | null } = await getAuth(args);
+
+	if (userId) {
+		const userWithId = await User.getUserById(userId);
+
+		if (userWithId[0]?.id) return redirect("/home");
+
+		const user = await createClerkClient({
+			secretKey: process.env.CLERK_SECRET_KEY,
+		}).users.getUser(userId);
+
+		if (user.id !== userWithId[0]?.id) {
+			const userData: UserData = {
+				id: user.id,
+				username: user.username,
+				firstName: user.firstName,
+				lastName: user.lastName,
+				email: user.emailAddresses[0].emailAddress,
+				imageUrl: user.imageUrl,
+			};
+
+			await User.addUser(userData);
+		}
+	}
+
+	return redirect("/home");
 };
 
 export default function Index() {
-	const { users } = useLoaderData<typeof loader>();
-
 	return (
-		<>
-			<h1 className="text-3xl font-bold text-emerald-500">
-				Home Page: User Data List
-			</h1>
-			<div>
-				{users.map((user: UserData) => (
-					<div key={user.id}>
-						<div>{user.username}</div>
-						<div>{user.email}</div>
-						<div>{user.title}</div>
-						<img src={user.image_url} alt={user.username + "image"}></img>
-					</div>
-				))}
-			</div>
-		</>
+		<div>
+			<h1>Index route</h1>
+			<p>You are signed in!</p>
+			<UserButton afterSignOutUrl="/" />
+		</div>
 	);
 }
