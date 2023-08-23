@@ -1,3 +1,4 @@
+import { json } from "@remix-run/node";
 import db from "../db.server";
 
 interface UserData {
@@ -15,7 +16,11 @@ export class User {
 			`SELECT username, id FROM users WHERE id = $1`,
 			[id]
 		);
-		console.log(result.rows);
+		return result.rows;
+	}
+
+	static async getUserProfileById(id: string) {
+		const result = await db.query(`SELECT * FROM users WHERE id = $1`, [id]);
 		return result.rows;
 	}
 
@@ -26,7 +31,7 @@ export class User {
 
 	static async getUserOverviews() {
 		const result = await db.query(
-			`SELECT id, image_url, username, title, code_start, place, email FROM users ORDER BY username`
+			`SELECT id, image_url, first_name, last_name, title, code_start, place, email FROM users ORDER BY first_name`
 		);
 		return result.rows;
 	}
@@ -66,16 +71,18 @@ export class User {
 		return result.rows[0];
 	}
 
-	static async remove(id: string) {
+	static async remove(id: string | null) {
 		let result = await db.query(
 			`DELETE
            FROM users
            WHERE id = $1
-           RETURNING id`,
+           RETURNING id, username`,
 			[id]
 		);
 		const user = result.rows[0];
 
 		if (!user) throw new Error(`No user with id: ${id}`);
+
+		return json({ deleted: true });
 	}
 }

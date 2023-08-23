@@ -33,7 +33,6 @@ export default function Example() {
 	return (
 		<div className="bg-gray-900">
 			<main>
-				<Link to="/delete">Delete Account</Link>
 				{/* Hero section */}
 				<div className="relative isolate overflow-hidden">
 					<svg

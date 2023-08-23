@@ -2,18 +2,14 @@ import type { V2_MetaFunction } from "@vercel/remix";
 import { Link, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { User } from "../models/users";
-import { ChevronRightIcon } from "@heroicons/react/20/solid";
+import { EnvelopeIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 
 export const meta: V2_MetaFunction = () => [{ title: "DevHead" }];
 
-export const loader = async () => {
-	const users = await User.getUserOverviews();
-	return json({ users });
-};
-
 type UserData = {
 	id: number;
-	username: string;
+	first_name: string;
+	last_name: string;
 	email: string;
 	title: string;
 	image_url: string;
@@ -22,42 +18,70 @@ type UserData = {
 	code_start: string;
 };
 
+export const loader = async () => {
+	const users = await User.getUserOverviews();
+	return json({ users });
+};
+
 export default function UserList() {
 	const { users } = useLoaderData<typeof loader>();
 
 	return (
-		<ul className="divide-y divide-alternate">
+		<ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 p-4">
 			{users.map((user: UserData) => (
-				<li key={user.id} className="relative flex justify-between py-5">
-					<div className="flex gap-x-4 pr-6 sm:w-1/2 sm:flex-none">
-						<img
-							className="h-12 w-12 flex-none rounded-full bg-alternate"
-							src={user.image_url}
-							alt=""
-						/>
-						<div className="min-w-0 flex-auto">
-							<p className="text-sm font-semibold leading-6 text-alternate">
-								<Link to="/user-profile">
-									<span className="absolute inset-x-0 -top-px bottom-0" />
-									{user.username}
-								</Link>
+				<li
+					key={user.email + user.id}
+					className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow"
+				>
+					<div className="flex w-full items-center justify-between space-x-6 p-6">
+						<div className="flex-1 truncate">
+							<div className="flex items-center space-x-3">
+								<h3 className="truncate text-sm font-medium text-gray-900">
+									{user.first_name + " " + user.last_name}
+								</h3>
+							</div>
+							<p className="mt-1 truncate text-sm text-gray-500">
+								{new Date().getFullYear() - parseInt(user.code_start)} yrs exp
+								as {user.title}
 							</p>
-							<p className="mt-1 flex text-xs leading-5 text-primary">
-								{user.email}
-							</p>
+							<p className="text-xs mt-1">key skills: sk8 sk8 sk8</p>
+						</div>
+						<div className="flex-3 truncate">
+							<img
+								className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 ml-20 mb-2"
+								src={user.image_url}
+								alt=""
+							/>
+							<p>featured project</p>
 						</div>
 					</div>
-					<div className="flex items-center justify-between gap-x-4 sm:w-1/2 sm:flex-none">
-						<div className="min-w-0 flex-auto">
-							<p className="text-sm font-bold text-alternate">{user.title}</p>
-							<p className="mt-1 flex text-xs leading-5 text-primary">
-								yrs exp: {new Date().getFullYear() - parseInt(user.code_start)}
-							</p>
+					<div>
+						<div className="-mt-px flex divide-x divide-gray-200">
+							<div className="flex w-0 flex-1">
+								<a
+									href={`mailto:${user.email}`}
+									className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
+								>
+									<EnvelopeIcon
+										className="h-5 w-5 text-gray-400"
+										aria-hidden="true"
+									/>
+									Email
+								</a>
+							</div>
+							<div className="flex w-0 flex-1">
+								<Link
+									to={`/user/${user.id}`}
+									className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-xs font-semibold text-gray-900"
+								>
+									{user.first_name}'s profile
+									<ArrowRightIcon
+										className="h-5 w-5 text-gray-400"
+										aria-hidden="true"
+									/>
+								</Link>
+							</div>
 						</div>
-						<ChevronRightIcon
-							className="h-5 w-5 flex-none text-alternate"
-							aria-hidden="true"
-						/>
 					</div>
 				</li>
 			))}

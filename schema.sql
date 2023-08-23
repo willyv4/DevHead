@@ -10,6 +10,7 @@ CREATE TABLE users (
   title text,
   about text,
   skills text,
+  leetcode_username text,
   followers text[],
   following text[]
 );

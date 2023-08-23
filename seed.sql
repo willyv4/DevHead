@@ -1,11 +1,12 @@
 -- Insert data into the users table
-INSERT INTO users (id, username, email, title, about, skills, code_start, place)
+INSERT INTO users (id, username, email, title, about, skills, code_start, place, first_name, last_name)
 VALUES
-  (1, 'user1', 'user1@example.com', 'Software Engineer', 'I love coding!', 'Python, JavaScript', '2002', 'UT'),
-  (2, 'user2', 'user2@example.com', 'Web Developer', 'Passionate about front-end development.', 'HTML, CSS, React', '2020', 'FL'),
-  (3, 'user3', 'user3@example.com', 'Data Scientist', 'Exploring the world of data.', 'Python, R, SQL', '1994', 'OH'),
-  (4, 'user4', 'user4@example.com', 'Mobile App Developer', 'Building awesome apps.', 'Flutter, Dart, Java', '2008', 'CA'),
-  (5, 'user5', 'user5@example.com', 'UI/UX Designer', 'Creating beautiful interfaces.', 'Sketch, Adobe XD', '2013', 'NY');
+  (1, 'user1', 'user1@example.com', 'Software Engineer', 'I love coding!', 'Python, JavaScript', '2002', 'UT', 'John', 'Doe'),
+  (2, 'user2', 'user2@example.com', 'Web Developer', 'Passionate about front-end development.', 'HTML, CSS, React', '2020', 'FL', 'Jane', 'Smith'),
+  (3, 'user3', 'user3@example.com', 'Data Scientist', 'Exploring the world of data.', 'Python, R, SQL', '1994', 'OH', 'Michael', 'Johnson'),
+  (4, 'user4', 'user4@example.com', 'Mobile App Developer', 'Building awesome apps.', 'Flutter, Dart, Java', '2008', 'CA', 'Emily', 'Williams'),
+  (5, 'user5', 'user5@example.com', 'UI/UX Designer', 'Creating beautiful interfaces.', 'Sketch, Adobe XD', '2013', 'NY', 'David', 'Brown');
+
 
 -- Insert data into the portfolioPosts table
 INSERT INTO portfolio_posts (id, user_id, title, description, like_count, image_url)
