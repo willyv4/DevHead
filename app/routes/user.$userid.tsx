@@ -43,15 +43,17 @@ export default function UserList() {
 	const loaderData = useLoaderData<LoaderData>();
 	const { user } = useUser();
 
-	console.log(user);
+	console.log(user?.firstName);
 
 	if (loaderData) {
 		const userProfile: UserProfile = loaderData.userProfile;
 
 		return (
 			<div>
-				<GitHubStat />
-				<LeetCodeStats />
+				<div className="m-2 p-4 bg-white rounded-sm">
+					<GitHubStat />
+					<LeetCodeStats />
+				</div>
 				<p>
 					{userProfile.first_name} {userProfile.last_name}
 				</p>

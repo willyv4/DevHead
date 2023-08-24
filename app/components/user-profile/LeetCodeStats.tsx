@@ -1,10 +1,54 @@
-import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import LeetCodeIcon from "../icons/LeetCodeIcon";
 
+type Tag = {
+	name: string;
+	solved: number;
+};
+
+type Tags = {
+	advancedTags: Tag[];
+	intermediateTags: Tag[];
+	fundamentalTags: Tag[];
+};
+
+type LeetCodeData = {
+	leetCodeSummary: any[];
+	rank: number;
+	prefferedLanguage: {
+		languageName: string;
+	};
+	tags: Tags;
+};
+
+const TagList = ({
+	color,
+	level,
+	tags,
+}: {
+	color: string;
+	level: string;
+	tags: Tag[];
+}) => (
+	<div>
+		<h1 className="p-2 text-base font-bold text-gray-900">{level}</h1>
+		<div className="flex flex-row flex-wrap p-2">
+			{tags.map((tag: Tag) => (
+				<div key={tag.name} className="m-1">
+					<p
+						className={`bg-${color}-100 text-${color}-500 px-1 rounded text-xs`}
+					>
+						{tag.name} {tag.solved}
+					</p>
+				</div>
+			))}
+		</div>
+	</div>
+);
+
 const LeetCodeStats = () => {
-	const [data, setData] = useState();
+	const [data, setData] = useState<LeetCodeData | undefined>();
 	const leetcodeUsername = "willyv4";
 
 	useEffect(() => {
@@ -18,88 +62,86 @@ const LeetCodeStats = () => {
 		getLeetcodeData();
 	}, []);
 
-	console.log("Leetcode Data:", data);
-
-	const stats = [
-		{
-			name: "Total Subscribers",
-			stat: "71,897",
-			previousStat: "70,946",
-			change: "12%",
-			changeType: "increase",
-		},
-		{
-			name: "Avg. Open Rate",
-			stat: "58.16%",
-			previousStat: "56.14%",
-			change: "2.02%",
-			changeType: "increase",
-		},
-		{
-			name: "Avg. Click Rate",
-			stat: "24.57%",
-			previousStat: "28.62%",
-			change: "4.05%",
-			changeType: "decrease",
-		},
-	];
-
-	function classNames(...classes: any) {
-		return classes.filter(Boolean).join(" ");
-	}
+	const {
+		leetCodeSummary: overView = [],
+		rank,
+		prefferedLanguage: { languageName: language } = { languageName: "" },
+		tags: {
+			advancedTags = [],
+			intermediateTags = [],
+			fundamentalTags = [],
+		} = {},
+	} = data || {};
 
 	return (
-		<div className="p-4">
-			<LeetCodeIcon />
-			<h3 className="text-base font-semibold leading-6 text-gray-900">
-				Last 30 days
-			</h3>
-			<dl className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0">
-				{stats.map((item) => (
+		<>
+			<div className="flex flex-row">
+				<LeetCodeIcon />
+				<p className="ml-2 mt-[.5px]">LEETCODE STATS</p>
+			</div>
+			<p className="ml-1">Primary language: {language}</p>
+			<p className="ml-1">Rank: {rank}</p>
+			<dl className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-4 md:divide-x md:divide-y-0">
+				{overView.map((item: any) => (
 					<div key={item.name} className="px-4 py-5 sm:p-6">
-						<dt className="text-base font-normal text-gray-900">{item.name}</dt>
+						<dt className="text-base font-bold text-gray-900">
+							{item.name} Problems
+						</dt>
 						<dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
 							<div className="flex items-baseline text-2xl font-semibold text-indigo-600">
-								{item.stat}
-								<span className="ml-2 text-sm font-medium text-gray-500">
-									from {item.previousStat}
-								</span>
+								{item.solved} / {item.total}
 							</div>
 
 							<div
-								className={classNames(
-									item.changeType === "increase"
-										? "bg-green-100 text-green-800"
-										: "bg-red-100 text-red-800",
+								className={
 									"inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium md:mt-2 lg:mt-0"
-								)}
+								}
 							>
-								{item.changeType === "increase" ? (
-									<ArrowUpIcon
-										className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
-										aria-hidden="true"
-									/>
-								) : (
-									<ArrowDownIcon
-										className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500"
-										aria-hidden="true"
-									/>
-								)}
-
-								<span className="sr-only">
-									{" "}
-									{item.changeType === "increase"
-										? "Increased"
-										: "Decreased"}{" "}
-									by{" "}
+								<span
+									className={`-ml-3 mr-0.5 flex-shrink-0 self-center text-xs font-medium mt-1 ${
+										item.successRate > 50
+											? "text-emerald-500 bg-emerald-100 px-1"
+											: "text-yellow-500 bg-yellow-100 px-1"
+									} ${item.successRate === undefined && "hidden"} rounded`}
+								>
+									{item.successRate !== undefined
+										? `${
+												item.successRate
+													? `beats: ${item.successRate} %`
+													: "Not Enough Data"
+										  }`
+										: ""}
 								</span>
-								{item.change}
 							</div>
 						</dd>
+						<div className="text-xs mt-2 -mb-6">
+							completed: {((item.solved / item.total) * 100).toFixed(2)} %
+						</div>
+						<progress
+							className="progress w-full -mb-4"
+							value={(item.solved / item.total) * 100}
+							max="100"
+						></progress>
 					</div>
 				))}
 			</dl>
-		</div>
+
+			{/* Tag Section */}
+			<h1 className="mt-5">Skills</h1>
+			<div className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0">
+				<TagList
+					color={"emerald"}
+					level={"Fundemental"}
+					tags={fundamentalTags}
+				/>
+				<TagList
+					color={"yellow"}
+					level={"Intermediate"}
+					tags={intermediateTags}
+				/>
+				<TagList color={"rose"} level={"Advanced"} tags={advancedTags} />
+			</div>
+		</>
 	);
 };
 

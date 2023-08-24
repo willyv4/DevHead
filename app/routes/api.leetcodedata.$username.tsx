@@ -53,7 +53,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 		},
 		referrer: `https://leetcode.com/${username}/`,
 		referrerPolicy: "strict-origin-when-cross-origin",
-		body: `{\"query\":\"\\n    query skillStats($username: String!) {\\n  matchedUser(username: $username) {\\n    tagProblemCounts {\\n      advanced {\\n        tagName\\n        tagSlug\\n        problemsSolved\\n      }\\n      intermediate {\\n        tagName\\n        tagSlug\\n        problemsSolved\\n      }\\n      fundamental {\\n        tagName\\n        tagSlug\\n        problemsSolved\\n      }\\n    }\\n  }\\n}\\n    \",\"variables\":{\"username\":\"${username}\"},\"operationName\":\"skillStats\"}`,
+		body: `{"query":"\\n    query skillStats($username: String!) {\\n  matchedUser(username: $username) {\\n    tagProblemCounts {\\n      advanced {\\n        tagName\\n        tagSlug\\n        problemsSolved\\n      }\\n      intermediate {\\n        tagName\\n        tagSlug\\n        problemsSolved\\n      }\\n      fundamental {\\n        tagName\\n        tagSlug\\n        problemsSolved\\n      }\\n    }\\n  }\\n}\\n    ","variables":{"username":"${username}"},"operationName":"skillStats"}`,
 		method: "POST",
 		mode: "cors",
 		credentials: "include",
@@ -81,7 +81,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 		},
 		referrer: `https://leetcode.com/${username}/`,
 		referrerPolicy: "strict-origin-when-cross-origin",
-		body: `{\"query\":\"\\n    query languageStats($username: String!) {\\n  matchedUser(username: $username) {\\n    languageProblemCount {\\n      languageName\\n      problemsSolved\\n    }\\n  }\\n}\\n    \",\"variables\":{\"username\":\"${username}\"},\"operationName\":\"languageStats\"}`,
+		body: `{"query":"\\n    query languageStats($username: String!) {\\n  matchedUser(username: $username) {\\n    languageProblemCount {\\n      languageName\\n      problemsSolved\\n    }\\n  }\\n}\\n    ","variables":{"username":"${username}"},"operationName":"languageStats"}`,
 		method: "POST",
 		mode: "cors",
 		credentials: "include",
@@ -107,9 +107,9 @@ export const loader: LoaderFunction = async ({ params }) => {
 			"x-csrftoken":
 				"czDD35OEzd12TUOAdRHxc2kyGDQPCypwekUrf9HoPwTcpI0U20fYdZysod33rObw",
 		},
-		referrer: "https://leetcode.com/willyv4/",
+		referrer: `https://leetcode.com/${username}`,
 		referrerPolicy: "strict-origin-when-cross-origin",
-		body: '{"query":"\\n    query userProblemsSolved($username: String!) {\\n  allQuestionsCount {\\n    difficulty\\n    count\\n  }\\n  matchedUser(username: $username) {\\n    problemsSolvedBeatsStats {\\n      difficulty\\n      percentage\\n    }\\n    submitStatsGlobal {\\n      acSubmissionNum {\\n        difficulty\\n        count\\n      }\\n    }\\n  }\\n}\\n    ","variables":{"username":"willyv4"},"operationName":"userProblemsSolved"}',
+		body: `{"query":"\\n    query userProblemsSolved($username: String!) {\\n  allQuestionsCount {\\n    difficulty\\n    count\\n  }\\n  matchedUser(username: $username) {\\n    problemsSolvedBeatsStats {\\n      difficulty\\n      percentage\\n    }\\n    submitStatsGlobal {\\n      acSubmissionNum {\\n        difficulty\\n        count\\n      }\\n    }\\n  }\\n}\\n    ","variables":{"username":"${username}"},"operationName":"userProblemsSolved"}`,
 		method: "POST",
 		mode: "cors",
 		credentials: "include",
@@ -128,61 +128,57 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 	const advancedTags = skills.data.matchedUser.tagProblemCounts.advanced.map(
 		(tags: any) => {
-			return { tag: tags.tagName, solved: tags.problemsSolved };
+			return { name: tags.tagName, solved: tags.problemsSolved };
 		}
 	);
 
-	const intermediateTag =
+	const intermediateTags =
 		skills.data.matchedUser.tagProblemCounts.intermediate.map((tags: any) => {
-			return { tag: tags.tagName, solved: tags.problemsSolved };
+			return { name: tags.tagName, solved: tags.problemsSolved };
 		});
 
-	const fundamentalTag =
+	const fundamentalTags =
 		skills.data.matchedUser.tagProblemCounts.fundamental.map((tags: any) => {
-			return { tag: tags.tagName, solved: tags.problemsSolved };
+			return { name: tags.tagName, solved: tags.problemsSolved };
 		});
 
-	const leetCodeSummary = {
-		difficulty: {
-			all: {
-				name: "All",
-				solved:
-					summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[0].count,
-				total: summary.data.allQuestionsCount[0].count,
-			},
-			easy: {
-				name: "Easy",
-				solved:
-					summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[1].count,
-				total: summary.data.allQuestionsCount[1].count,
-				successRate:
-					summary.data.matchedUser.problemsSolvedBeatsStats[0].percentage,
-			},
-			medium: {
-				name: "Medium",
-				solved:
-					summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[2].count,
-				total: summary.data.allQuestionsCount[2].count,
-				successRate:
-					summary.data.matchedUser.problemsSolvedBeatsStats[1].percentage,
-			},
-			hard: {
-				name: "Hard",
-				solved:
-					summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[3].count,
-				total: summary.data.allQuestionsCount[3].count,
-				successRate:
-					summary.data.matchedUser.problemsSolvedBeatsStats[2].percentage,
-			},
+	const leetCodeSummary = [
+		{
+			name: "All",
+			solved:
+				summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[0].count,
+			total: summary.data.allQuestionsCount[0].count,
 		},
-	};
+		{
+			name: "Easy",
+			solved:
+				summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[1].count,
+			total: summary.data.allQuestionsCount[1].count,
+			successRate:
+				summary.data.matchedUser.problemsSolvedBeatsStats[0].percentage,
+		},
+		{
+			name: "Medium",
+			solved:
+				summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[2].count,
+			total: summary.data.allQuestionsCount[2].count,
+			successRate:
+				summary.data.matchedUser.problemsSolvedBeatsStats[1].percentage,
+		},
+		{
+			name: "Hard",
+			solved:
+				summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[3].count,
+			total: summary.data.allQuestionsCount[3].count,
+			successRate:
+				summary.data.matchedUser.problemsSolvedBeatsStats[2].percentage,
+		},
+	];
 
 	return json({
 		prefferedLanguage: languages.data.matchedUser.languageProblemCount[0],
 		rank: profile.data.matchedUser.profile.ranking,
-		advancedTags,
-		intermediateTag,
-		fundamentalTag,
+		tags: { advancedTags, intermediateTags, fundamentalTags },
 		leetCodeSummary,
 	});
 };
