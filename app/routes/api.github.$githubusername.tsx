@@ -32,7 +32,6 @@ export const loader: LoaderFunction = async ({ params }) => {
 		language: mostCommonLanguages,
 	};
 
-	console.log(data);
 	return data;
 };
 

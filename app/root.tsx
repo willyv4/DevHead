@@ -40,6 +40,7 @@ function App() {
 				<Scripts />
 				<LiveReload />
 				<Analytics />
+				<div className="display-none bg-red-500"></div>
 			</body>
 		</html>
 	);

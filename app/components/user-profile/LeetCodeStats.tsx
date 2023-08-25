@@ -22,6 +22,10 @@ type LeetCodeData = {
 	tags: Tags;
 };
 
+interface LeetCodeStatProps {
+	leetcodeUsername: string | null;
+}
+
 const TagList = ({
 	color,
 	level,
@@ -47,9 +51,8 @@ const TagList = ({
 	</div>
 );
 
-const LeetCodeStats = () => {
+const LeetCodeStats: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 	const [data, setData] = useState<LeetCodeData | undefined>();
-	const leetcodeUsername = "willyv4";
 
 	useEffect(() => {
 		async function getLeetcodeData() {
@@ -59,8 +62,8 @@ const LeetCodeStats = () => {
 
 			setData(data);
 		}
-		getLeetcodeData();
-	}, []);
+		if (leetcodeUsername) getLeetcodeData();
+	}, [leetcodeUsername]);
 
 	const {
 		leetCodeSummary: overView = [],
@@ -98,11 +101,11 @@ const LeetCodeStats = () => {
 								}
 							>
 								<span
-									className={`-ml-3 mr-0.5 flex-shrink-0 self-center text-xs font-medium mt-1 ${
+									className={`-ml-3 mr-0.5 flex-shrink-0 self-center text-xs font-medium mt-1  ${
 										item.successRate > 50
 											? "text-emerald-500 bg-emerald-100 px-1"
 											: "text-yellow-500 bg-yellow-100 px-1"
-									} ${item.successRate === undefined && "hidden"} rounded`}
+									} ${item.successRate === undefined && "hidden"} rounded `}
 								>
 									{item.successRate !== undefined
 										? `${

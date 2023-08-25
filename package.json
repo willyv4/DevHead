@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@clerk/remix": "^2.9.1",
+    "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@remix-run/css-bundle": "^1.18.0",
     "@remix-run/node": "^1.18.0",

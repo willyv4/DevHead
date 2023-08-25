@@ -1,14 +1,23 @@
 import { json } from "@remix-run/node";
 import db from "../db.server";
 
-interface UserData {
+type UserData = {
 	id: string;
-	username: string | null;
+	code_start: string | null;
 	firstName: string | null;
 	lastName: string | null;
-	email: string;
+	place: string | null;
 	imageUrl: string;
-}
+	username: string;
+	githubUsername: string | null;
+	leetcodeUsername: string | null;
+	email: string;
+	title: string | null;
+	about: string | null;
+	skills: string | null;
+	followers: string[] | null;
+	following: string[] | null;
+};
 
 export class User {
 	static async getUserById(id: string) {
@@ -69,6 +78,34 @@ export class User {
 		);
 
 		return result.rows[0];
+	}
+
+	static async connectLeetcode(id: string, leetcodeUsername: string | null) {
+		if (!leetcodeUsername) return json({ update: false });
+
+		await db.query(
+			`
+        UPDATE users
+        SET leetcode_username = $2
+        WHERE id = $1`,
+			[id, leetcodeUsername]
+		);
+
+		return json({ success: true });
+	}
+
+	static async connectGithub(id: string, githubUsername: string | null) {
+		if (!githubUsername) return json({ update: false });
+
+		await db.query(
+			`
+        UPDATE users
+        SET github_username = $2
+        WHERE id = $1`,
+			[id, githubUsername]
+		);
+
+		return json({ success: true });
 	}
 
 	static async remove(id: string | null) {

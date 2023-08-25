@@ -5,19 +5,8 @@ import { createClerkClient } from "@clerk/remix/api.server";
 import { User } from "../models/users";
 import { Link } from "@remix-run/react";
 
-type UserData = {
-	id: string;
-	username: string | null;
-	firstName: string | null;
-	lastName: string | null;
-	email: string;
-	imageUrl: string;
-};
-
 export const loader: LoaderFunction = async (args) => {
 	const { userId }: { userId: string | null } = await getAuth(args);
-
-	console.log("USERID:", userId);
 
 	if (userId) {
 		const userWithId = await User.getUserById(userId);
@@ -28,10 +17,14 @@ export const loader: LoaderFunction = async (args) => {
 			secretKey: process.env.CLERK_SECRET_KEY,
 		}).users.getUser(userId);
 
+		const username =
+			user.emailAddresses[0].emailAddress.split("@")[0] +
+			Math.floor(Math.random() * 1000);
+
 		if (user.id !== userWithId[0]?.id) {
-			const userData: UserData = {
+			const userData: any = {
 				id: user.id,
-				username: user.username,
+				username: user.username || username,
 				firstName: user.firstName,
 				lastName: user.lastName,
 				email: user.emailAddresses[0].emailAddress,
