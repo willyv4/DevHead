@@ -9,13 +9,16 @@ import { User } from "../models/users";
 import GitHubStat from "../components/user-profile/GitHubStats";
 import LeetCodeStats from "~/components/user-profile/LeetCodeStats";
 import Modal from "~/components/Modal";
-import AddUsernameConnectionForm from "~/components/user-profile/forms/AddConnectionUsernames";
+import LeetCodeForm from "~/components/user-profile/forms/LeetCodeForm";
 import { useState } from "react";
 import EmptyStatus from "~/components/user-profile/EmptyStatus";
-import GitHubIcon from "~/components/icons/GitHubIcon";
-import LeetCodeIcon from "~/components/icons/LeetCodeIcon";
+import GitHubIcon from "~/components/icon-components/GitHubIcon";
+import LeetCodeIcon from "~/components/icon-components/LeetCodeIcon";
 import GitHubForm from "~/components/user-profile/forms/GitHubForm";
 import { PencilIcon } from "@heroicons/react/20/solid";
+import ProfileHeader from "~/components/user-profile/ProfileHeader";
+import BioSection from "~/components/user-profile/BioSection";
+import { json } from "react-router";
 
 type UserProfile = {
 	id: string;
@@ -59,9 +62,11 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		userId: string;
 		githubUsername: string;
 		leetcodeUsername: string;
+		userBio: string;
+		userTitle: string;
 	};
 
-	console.log(data);
+	console.log("Request Data", data);
 
 	if (data.githubUsername) {
 		return await User.connectGithub(data.userId, data.githubUsername);
@@ -70,9 +75,19 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 	if (data.leetcodeUsername) {
 		return await User.connectLeetcode(data.userId, data.leetcodeUsername);
 	}
+
+	if (data.userBio) {
+		return await User.addUserBio(data.userId, data.userBio);
+	}
+
+	if (data.userTitle) {
+		return await User.addUserTitle(data.userId, data.userTitle);
+	}
+
+	return json({ success: false });
 };
 
-export default function UserList() {
+export default function UserProfile() {
 	const [leetCodeOpen, setLeetCodeOpen] = useState(false);
 	const [gitHubOpen, setGitHubOpen] = useState(false);
 	const loaderData = useLoaderData<LoaderData>();
@@ -109,10 +124,16 @@ export default function UserList() {
 					/>
 
 					<Modal
-						FormComponent={<AddUsernameConnectionForm userId={userid} />}
+						FormComponent={<LeetCodeForm userId={userid} />}
 						open={leetCodeOpen}
 						setOpen={setLeetCodeOpen}
 					/>
+
+					<ProfileHeader user={userProfile} />
+
+					<BioSection userId={userProfile.id} userBio={userProfile.about} />
+
+					<div>Skills Section</div>
 
 					{userProfile.github_username ? (
 						<div className="border-t-2 pt-6 mt-6">
@@ -125,7 +146,10 @@ export default function UserList() {
 							<GitHubStat githubUsername={userProfile.github_username} />
 						</div>
 					) : (
-						<EmptyStatus Icon={<GitHubIcon />} ModalButton={GitHubModal} />
+						<EmptyStatus
+							Icon={<GitHubIcon height="2.5rem" width="2.5rem" />}
+							ModalButton={GitHubModal}
+						/>
 					)}
 					{userProfile.leetcode_username ? (
 						<div className="border-t-2 pt-6 mt-6">
@@ -138,7 +162,10 @@ export default function UserList() {
 							<LeetCodeStats leetcodeUsername={userProfile.leetcode_username} />
 						</div>
 					) : (
-						<EmptyStatus Icon={<LeetCodeIcon />} ModalButton={LeetCodeModal} />
+						<EmptyStatus
+							Icon={<LeetCodeIcon height="2.5rem" width="2.5rem" />}
+							ModalButton={LeetCodeModal}
+						/>
 					)}
 				</div>
 				<p>

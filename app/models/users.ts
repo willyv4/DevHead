@@ -108,6 +108,34 @@ export class User {
 		return json({ success: true });
 	}
 
+	static async addUserTitle(id: string, userTitle: string | null) {
+		if (!userTitle) return json({ update: false });
+
+		await db.query(
+			`
+        UPDATE users
+        SET title = $2
+        WHERE id = $1`,
+			[id, userTitle]
+		);
+
+		return json({ success: true });
+	}
+
+	static async addUserBio(id: string, userBio: string | null) {
+		if (!userBio) return json({ update: false });
+
+		await db.query(
+			`
+        UPDATE users
+        SET about = $2
+        WHERE id = $1`,
+			[id, userBio]
+		);
+
+		return json({ success: true });
+	}
+
 	static async remove(id: string | null) {
 		let result = await db.query(
 			`DELETE

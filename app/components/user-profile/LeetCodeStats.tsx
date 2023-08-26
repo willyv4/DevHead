@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import LeetCodeIcon from "../icons/LeetCodeIcon";
+import LeetCodeIcon from "../icon-components/LeetCodeIcon";
 
 type Tag = {
 	name: string;
@@ -67,8 +67,6 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 
 	const {
 		leetCodeSummary: overView = [],
-		rank,
-		prefferedLanguage: { languageName: language } = { languageName: "" },
 		tags: {
 			advancedTags = [],
 			intermediateTags = [],
@@ -78,12 +76,13 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 
 	return (
 		<>
-			<div className="flex flex-row">
-				<LeetCodeIcon />
-				<p className="ml-2 mt-[.5px]">LEETCODE STATS</p>
+			<div className="font-bold tracking-tight sm:text-4xl text-gray-900">
+				<div className="flex flex-row">
+					<LeetCodeIcon height="2.5rem" width="2.5rem" />
+					<p className="ml-2 text-3xl">LeetCode</p>
+				</div>
 			</div>
-			<p className="ml-1">Primary language: {language}</p>
-			<p className="ml-1">Rank: {rank}</p>
+
 			<dl className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-4 md:divide-x md:divide-y-0">
 				{overView.map((item: any) => (
 					<div key={item.name} className="px-4 py-5 sm:p-6">
@@ -101,7 +100,7 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 								}
 							>
 								<span
-									className={`-ml-3 mr-0.5 flex-shrink-0 self-center text-xs font-medium mt-1  ${
+									className={`-ml-3 mr-0.5 flex-shrink-0 self-center text-xs font-medium mt-1 ${
 										item.successRate > 50
 											? "text-emerald-500 bg-emerald-100 px-1"
 											: "text-yellow-500 bg-yellow-100 px-1"
