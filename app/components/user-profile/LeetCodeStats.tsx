@@ -1,6 +1,10 @@
+import { PencilIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import LeetCodeIcon from "../icon-components/LeetCodeIcon";
+import Modal from "../Modal";
+import EmptyStatus from "./EmptyStatus";
+import LeetCodeForm from "./forms/LeetCodeForm";
 
 type Tag = {
 	name: string;
@@ -24,6 +28,7 @@ type LeetCodeData = {
 
 interface LeetCodeStatProps {
 	leetcodeUsername: string | null;
+	userId: string | undefined;
 }
 
 const TagList = ({
@@ -51,8 +56,12 @@ const TagList = ({
 	</div>
 );
 
-const LeetCodeStats: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
+const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
+	leetcodeUsername,
+	userId,
+}) => {
 	const [data, setData] = useState<LeetCodeData | undefined>();
+	const [leetCodeOpen, setLeetCodeOpen] = useState(false);
 
 	useEffect(() => {
 		async function getLeetcodeData() {
@@ -74,8 +83,40 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 		} = {},
 	} = data || {};
 
+	const LeetCodeModal = (
+		<button
+			className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+			onClick={() => setLeetCodeOpen(true)}
+		>
+			Connect LeetCode
+		</button>
+	);
+
+	if (!leetcodeUsername)
+		return (
+			<EmptyStatus
+				Icon={<LeetCodeIcon height="2.5rem" width="2.5rem" />}
+				ModalButton={LeetCodeModal}
+			/>
+		);
+
 	return (
 		<>
+			<Modal
+				FormComponent={<LeetCodeForm userId={userId} />}
+				open={leetCodeOpen}
+				setOpen={setLeetCodeOpen}
+			/>
+
+			<div className="border-t-2 pt-6 mt-6">
+				<button
+					className="flex flex-row rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 float-right mt-1"
+					onClick={() => setLeetCodeOpen(true)}
+				>
+					Edit <PencilIcon className="h-4 w-4 ml-2 mt-[2px]" />
+				</button>
+			</div>
+
 			<div className="font-bold tracking-tight sm:text-4xl text-gray-900">
 				<div className="flex flex-row">
 					<LeetCodeIcon height="2.5rem" width="2.5rem" />
