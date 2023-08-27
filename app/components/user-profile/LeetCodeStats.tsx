@@ -94,20 +94,21 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 
 	if (!leetcodeUsername)
 		return (
-			<EmptyStatus
-				Icon={<LeetCodeIcon height="2.5rem" width="2.5rem" />}
-				ModalButton={LeetCodeModal}
-			/>
+			<>
+				<Modal
+					FormComponent={<LeetCodeForm userId={userId} />}
+					open={leetCodeOpen}
+					setOpen={setLeetCodeOpen}
+				/>
+				<EmptyStatus
+					Icon={<LeetCodeIcon height="2.5rem" width="2.5rem" />}
+					ModalButton={LeetCodeModal}
+				/>
+			</>
 		);
 
 	return (
 		<>
-			<Modal
-				FormComponent={<LeetCodeForm userId={userId} />}
-				open={leetCodeOpen}
-				setOpen={setLeetCodeOpen}
-			/>
-
 			<div className="border-t-2 pt-6 mt-6">
 				<button
 					className="flex flex-row rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 float-right mt-1"

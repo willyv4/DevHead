@@ -16,6 +16,8 @@ const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 	const [languages, setLanguages] = useState<any | undefined>();
 	const [gitHubOpen, setGitHubOpen] = useState(false);
 
+	console.log("GitHUb Open State: ", gitHubOpen);
+
 	useEffect(() => {
 		async function getGithubData() {
 			const { data } = await axios.get(
@@ -39,19 +41,21 @@ const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 
 	if (!githubUsername)
 		return (
-			<EmptyStatus
-				Icon={<GitHubIcon height="2.5rem" width="2.5rem" />}
-				ModalButton={GitHubModal}
-			/>
+			<>
+				<Modal
+					FormComponent={<GitHubForm userId={userId} />}
+					open={gitHubOpen}
+					setOpen={setGitHubOpen}
+				/>
+				<EmptyStatus
+					Icon={<GitHubIcon height="2.5rem" width="2.5rem" />}
+					ModalButton={GitHubModal}
+				/>
+			</>
 		);
 
 	return (
 		<div className="border-t-2 pt-6 mt-6">
-			<Modal
-				FormComponent={<GitHubForm userId={userId} />}
-				open={gitHubOpen}
-				setOpen={setGitHubOpen}
-			/>
 			<button
 				className="flex flex-row rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 float-right mt-1"
 				onClick={() => setGitHubOpen(true)}

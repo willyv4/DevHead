@@ -22,6 +22,8 @@ CREATE TABLE portfolio_posts (
   user_id text,
   title text,
   description text,
+  code_link text,
+  live_link text,
   like_count int,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
