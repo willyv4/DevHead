@@ -150,4 +150,14 @@ export class User {
 
 		return json({ deleted: true });
 	}
+
+	static async getUserProjectsById(id: string | null) {
+		const result = await db.query(
+			`SELECT * FROM portfolio_posts WHERE user_id = $1`,
+			[id]
+		);
+
+		// console.log(result);
+		return result.rows;
+	}
 }

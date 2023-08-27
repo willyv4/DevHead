@@ -11,6 +11,7 @@ import LeetCodeStats from "~/components/user-profile/LeetCodeStats";
 import ProfileHeader from "~/components/user-profile/ProfileHeader";
 import BioSection from "~/components/user-profile/BioSection";
 import { json } from "react-router";
+import UserProjects from "~/components/user-profile/UserProjects";
 
 type UserProfile = {
 	id: string;
@@ -41,7 +42,10 @@ export const loader: LoaderFunction = async ({
 
 	if (userId) {
 		let userProfile = await User.getUserProfileById(userId);
+		// let userProjects = await User.getUserProjectsById(userId);
 		userProfile = userProfile[0];
+
+		// console.log("UserProjects:", userProjects);
 		return { userProfile };
 	}
 
@@ -58,7 +62,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		userTitle: string;
 	};
 
-	console.log("Request Data", data);
+	// console.log("Request Data", data);
 
 	if (data.githubUsername) {
 		return await User.connectGithub(data.userId, data.githubUsername);
@@ -86,6 +90,8 @@ export default function UserProfile() {
 	if (loaderData) {
 		const userProfile: UserProfile = loaderData.userProfile;
 
+		// console.log(userProfile);
+
 		return (
 			<div>
 				<div className="m-2 p-4 bg-white rounded-sm">
@@ -99,6 +105,7 @@ export default function UserProfile() {
 						leetcodeUsername={userProfile.leetcode_username}
 						userId={userid}
 					/>
+					<UserProjects userId={userid} />
 				</div>
 				<p>
 					{userProfile.first_name} {userProfile.last_name}
