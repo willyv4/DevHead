@@ -12,6 +12,7 @@ import ProfileHeader from "~/components/user-profile/ProfileHeader";
 import BioSection from "~/components/user-profile/BioSection";
 import { json } from "react-router";
 import UserProjects from "~/components/user-profile/UserProjects";
+import ProjectList from "~/components/ProjectList";
 
 type UserProfile = {
 	id: string;
@@ -31,8 +32,18 @@ type UserProfile = {
 	leetcode_username: string | null;
 };
 
+type UserProjects = {
+	id: string;
+	image_url: string;
+	title: string;
+	code_link: string;
+	live_link: string;
+	like_count: string[] | null;
+};
+
 type LoaderData = {
 	userProfile: UserProfile;
+	userProjects: UserProjects;
 };
 
 export const loader: LoaderFunction = async ({
@@ -42,11 +53,10 @@ export const loader: LoaderFunction = async ({
 
 	if (userId) {
 		let userProfile = await User.getUserProfileById(userId);
-		// let userProjects = await User.getUserProjectsById(userId);
+		let userProjects = await User.getUserProjectsById(userId);
 		userProfile = userProfile[0];
 
-		// console.log("UserProjects:", userProjects);
-		return { userProfile };
+		return { userProfile, userProjects };
 	}
 
 	return null;
@@ -60,9 +70,27 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		leetcodeUsername: string;
 		userBio: string;
 		userTitle: string;
+		projectImage: string;
+		projectTitle: string;
+		projectLiveLink: string;
+		projectCodeLink: string;
 	};
 
-	// console.log("Request Data", data);
+	console.log("Request Data", data);
+	if (
+		data.projectImage &&
+		data.projectTitle &&
+		data.projectCodeLink &&
+		data.projectLiveLink
+	) {
+		return await User.addUserProject(
+			data.userId,
+			data.projectImage,
+			data.projectTitle,
+			data.projectCodeLink,
+			data.projectLiveLink
+		);
+	}
 
 	if (data.githubUsername) {
 		return await User.connectGithub(data.userId, data.githubUsername);
@@ -87,11 +115,12 @@ export default function UserProfile() {
 	const loaderData = useLoaderData<LoaderData>();
 	const { userid } = useParams();
 
-	if (loaderData) {
-		const userProfile: UserProfile = loaderData.userProfile;
+	const userProfile: UserProfile = loaderData.userProfile;
+	const userProjects: UserProjects = loaderData.userProjects;
 
-		// console.log(userProfile);
+	console.log("USER PROJECT DATA:", userProjects);
 
+	if (userProfile) {
 		return (
 			<div>
 				<div className="m-2 p-4 bg-white rounded-sm">
@@ -106,6 +135,7 @@ export default function UserProfile() {
 						userId={userid}
 					/>
 					<UserProjects userId={userid} />
+					<ProjectList {...userProjects} />
 				</div>
 				<p>
 					{userProfile.first_name} {userProfile.last_name}

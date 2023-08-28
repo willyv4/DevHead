@@ -157,7 +157,23 @@ export class User {
 			[id]
 		);
 
-		// console.log(result);
-		return result.rows;
+		return result.rows[0];
+	}
+
+	static async addUserProject(
+		userId: string,
+		projectImage: string,
+		projectTitle: string,
+		projectLiveLink: string,
+		projectCodeLink: string
+	) {
+		await db.query(
+			`INSERT INTO portfolio_posts
+           	(user_id, image_url, title, code_link, live_link)
+            VALUES ($1, $2, $3, $4, $5)`,
+			[userId, projectImage, projectTitle, projectLiveLink, projectCodeLink]
+		);
+
+		return json({ success: true });
 	}
 }

@@ -1,28 +1,77 @@
 import { PhotoIcon } from "@heroicons/react/20/solid";
 import { Form } from "@remix-run/react";
-import { useState } from "react";
-// import axios from "axios";
+import React, { useEffect, useState } from "react";
+
+const imageTypeRegex = /image\/(png|jpg|jpeg)/gm;
 
 const ProjectForm = ({ userId }: { userId: string | undefined }) => {
-	const [projectImage, setProjectImage]: any = useState(null);
-	// const [progess, setProgress]: {
-	// 	started: boolean;
-	// 	pc: number;
-	// } = useState({ started: false, pc: 0 });
+	const [imageFiles, setImageFiles]: any = useState([]);
+	const [images, setImages]: any = useState([]);
 
-	function handleUpload() {
-		if (!projectImage) {
-			console.log("NO FIle Selected");
+	const image = images[0];
+
+	console.log(image);
+	const handleChange = (e: any) => {
+		const { files } = e.target;
+		const validImageFiles = [];
+		for (let i = 0; i < files.length; i++) {
+			const file = files[i];
+			if (file.type.match(imageTypeRegex)) {
+				validImageFiles.push(file);
+			}
+		}
+		if (validImageFiles.length) {
+			setImageFiles(validImageFiles);
 			return;
 		}
+		alert("Selected images are not of valid type!");
+	};
 
-		const fd = new FormData();
-		fd.append("file", projectImage);
-	}
+	useEffect(() => {
+		const images: any = [],
+			fileReaders: any = [];
+		let isCancel = false;
+		if (imageFiles.length) {
+			imageFiles.forEach((file: any) => {
+				const fileReader = new FileReader();
+				fileReaders.push(fileReader);
+				fileReader.onload = (e) => {
+					const { result }: any = e.target;
+					if (result) {
+						images.push(result);
+					}
+					if (images.length === imageFiles.length && !isCancel) {
+						setImages(images);
+					}
+				};
+				fileReader.readAsDataURL(file);
+			});
+		}
+		return () => {
+			isCancel = true;
+			fileReaders.forEach((fileReader: any) => {
+				if (fileReader.readyState === 1) {
+					fileReader.abort();
+				}
+			});
+		};
+	}, [imageFiles]);
 
-	if (projectImage) handleUpload();
+	// const [file, setFile] = useState<File | undefined>("ready");
 
-	console.log(projectImage);
+	// console.log(file);
+
+	// function handleChange(e: React.FormEvent<HTMLInputElement>) {
+	// 	const target = e.target as HTMLInputElement & {
+	// 		files: FileList;
+	// 	};
+
+	// 	setFile(target.files[0]);
+
+	// 	if (typeof file === undefined) return;
+	// 	const formData = new FormData();
+	// 	formData.append("file", file);
+	// }
 
 	return (
 		<Form method="post" encType="multipart/form-data">
@@ -32,8 +81,25 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 				name="userId"
 				className="pl-2 bg-white block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 			/>
+			<input
+				defaultValue={image}
+				type="hidden"
+				name="projectImage"
+				className="pl-2 bg-white block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+			/>
 
-			{/* {fileList[0]?.name && <img src={fileList[0]?.name} alt="project" />} */}
+			{images.length > 0 ? (
+				<div>
+					{images.map((image: any, idx: any) => {
+						return (
+							<p key={idx}>
+								{" "}
+								<img src={image} alt="" />{" "}
+							</p>
+						);
+					})}
+				</div>
+			) : null}
 			<div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
 				<div className="text-center">
 					<PhotoIcon
@@ -47,15 +113,12 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 						>
 							<span>Upload a Project Image</span>
 							<input
-								onChange={(e) => {
-									setProjectImage(e.target.files[0]);
-								}}
+								onChange={handleChange}
 								id="file-upload"
-								// ref={inputRef}
-								name="ProjectImage"
 								type="file"
 								className="sr-only"
-								accept="image/png, image/gif, image/jpeg"
+								accept="image/*"
+								value={""}
 							/>
 						</label>
 						<p className="pl-1">or drag and drop</p>
@@ -71,9 +134,10 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 					Project Title
 				</label>
 				<input
+					required
 					id="file-upload"
 					type="text"
-					name="ProjectTitle"
+					name="projectTitle"
 					className="pl-2 bg-white block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 				/>
 			</div>
@@ -82,9 +146,9 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 					Project Live Link
 				</label>
 				<input
-					accept="*"
+					required
 					type="text"
-					name="ProjectLiveLink"
+					name="projectLiveLink"
 					className="pl-2 bg-white block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 				/>
 			</div>
@@ -93,8 +157,9 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 					Project Code Link
 				</label>
 				<input
+					required
 					type="text"
-					name="ProjectCodeLink"
+					name="projectCodeLink"
 					className="pl-2 bg-white block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 				/>
 			</div>

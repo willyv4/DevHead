@@ -17,7 +17,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE portfolio_posts (
-  id int PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   image_url text DEFAULT 'https://th.bing.com/th/id/OIP.e9PHbpvIOy4amhGHg7FUeAHaHa?w=215&h=215&c=7&r=0&o=5&dpr=2&pid=1.7',
   user_id text NOT NULL,
   title text,

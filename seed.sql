@@ -9,13 +9,13 @@ VALUES
 
 
 -- Insert data into the portfolioPosts table
-INSERT INTO portfolio_posts (id, user_id, title, description, like_count, image_url)
+INSERT INTO portfolio_posts (user_id, title, description, like_count)
 VALUES
-  (1, 1, 'My Project 1', 'Check out my latest project!', 50, 'https://th.bing.com/th/id/OIP.AMf3_unDy19GQrtkKzjdDgHaEo?w=300&h=180&c=7&r=0&o=5&dpr=2&pid=1.7'),
-  (2, 2, 'Web App Demo', 'A demo of my web app.', 30, ''),
-  (3, 3, 'Data Analysis', 'Analyzing data from a real-world dataset.', 20, ''),
-  (4, 4, 'Mobile Game', 'Play my new mobile game!', 15, ''),
-  (5, 5, 'UI Redesign', 'Redesigned the user interface for an app.', 25, '');
+  (1, 'My Project 1', 'Check out my latest project!', 50),
+  (2, 'Web App Demo', 'A demo of my web app.', 30),
+  (3, 'Data Analysis', 'Analyzing data from a real-world dataset.', 20),
+  (4, 'Mobile Game', 'Play my new mobile game!', 15),
+  (5, 'UI Redesign', 'Redesigned the user interface for an app.', 25);
 
 -- Insert data into the portfolioComments table
 INSERT INTO portfolio_comments (id, user_id, post_id, comment)

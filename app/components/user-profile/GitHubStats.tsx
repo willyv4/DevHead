@@ -16,8 +16,6 @@ const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 	const [languages, setLanguages] = useState<any | undefined>();
 	const [gitHubOpen, setGitHubOpen] = useState(false);
 
-	// console.log("GitHUb Open State: ", gitHubOpen);
-
 	useEffect(() => {
 		async function getGithubData() {
 			const { data } = await axios.get(
