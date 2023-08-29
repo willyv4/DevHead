@@ -33,7 +33,7 @@ type UserProfile = {
 };
 
 type UserProjects = {
-	id: string;
+	id: number;
 	image_url: string;
 	title: string;
 	code_link: string;
@@ -55,6 +55,8 @@ export const loader: LoaderFunction = async ({
 		let userProfile = await User.getUserProfileById(userId);
 		let userProjects = await Projects.getUserProjectsById(userId);
 
+		// console.log("PROJECTS FROM DB:", typeof userProjects[0].id);
+
 		return { userProfile, userProjects };
 	}
 
@@ -64,6 +66,7 @@ export const loader: LoaderFunction = async ({
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
 	const formData = await request.formData();
 	const data = Object.fromEntries(formData) as unknown as {
+		_action: string;
 		userId: string;
 		githubUsername: string;
 		leetcodeUsername: string;
@@ -73,25 +76,50 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		projectTitle: string;
 		projectLiveLink: string;
 		projectCodeLink: string;
-		projectId: string;
+		projectId: number;
 	};
+
+	if (data._action === "PUT") {
+		if (
+			data.projectImage &&
+			data.projectTitle &&
+			data.projectCodeLink &&
+			data.projectLiveLink
+		) {
+			return await Projects.updateUserProject(
+				data.projectId,
+				data.userId,
+				data.projectImage,
+				data.projectTitle,
+				data.projectCodeLink,
+				data.projectLiveLink
+			);
+		}
+	}
 
 	if (data.projectId) {
 		return await Projects.deleteProjectById(data.projectId);
 	}
 
-	if (
-		data.projectImage &&
-		data.projectTitle &&
-		data.projectCodeLink &&
-		data.projectLiveLink
-	) {
+	if (data._action === "POST_PROJECTS") {
+		console.log(
+			"CALLED",
+			"User ID:",
+			data.userId,
+			"Project Title:",
+			data.projectTitle,
+			"Project Live Link:",
+			data.projectLiveLink,
+			"Project Code Link:",
+			data.projectCodeLink
+		);
+
 		return await Projects.addUserProject(
 			data.userId,
 			data.projectImage,
 			data.projectTitle,
-			data.projectCodeLink,
-			data.projectLiveLink
+			data.projectLiveLink,
+			data.projectCodeLink
 		);
 	}
 
@@ -122,6 +150,7 @@ export default function UserProfile() {
 	const userProjects: UserProjects[] | null | undefined =
 		loaderData.userProjects;
 
+	console.log("USERPROJECTS:", userProjects);
 	if (userProfile) {
 		return (
 			<div className="m-2 p-4 bg-white rounded-sm">

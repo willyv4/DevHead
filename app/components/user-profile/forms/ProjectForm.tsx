@@ -58,18 +58,8 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 
 	return (
 		<Form method="post" encType="multipart/form-data">
-			<input
-				defaultValue={userId}
-				type="hidden"
-				name="userId"
-				className="pl-2 bg-white block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-			/>
-			<input
-				defaultValue={image}
-				type="hidden"
-				name="projectImage"
-				className="pl-2 bg-white block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-			/>
+			<input defaultValue={userId} type="hidden" name="userId" />
+			<input defaultValue={image} type="hidden" name="projectImage" />
 
 			{images.length > 0 ? (
 				<div>
@@ -149,6 +139,8 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 			<button
 				className="w-full rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 				type="submit"
+				name="_action"
+				value="POST_PROJECTS"
 			>
 				Submit
 			</button>

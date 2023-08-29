@@ -1,15 +1,6 @@
 import { json } from "@remix-run/node";
 import db from "~/db.server";
 
-// type UserProjects = {
-// 	id: string;
-// 	image_url: string;
-// 	title: string;
-// 	code_link: string;
-// 	live_link: string;
-// 	like_count: string[] | null;
-// };
-
 export class Projects {
 	static async getUserProjectsById(id: string | null) {
 		const result = await db.query(
@@ -29,15 +20,44 @@ export class Projects {
 	) {
 		await db.query(
 			`INSERT INTO portfolio_posts
-           	(user_id, image_url, title, code_link, live_link)
-            VALUES ($1, $2, $3, $4, $5)`,
+     (user_id, image_url, title, code_link, live_link)
+     VALUES ($1, $2, $3, $4, $5)`,
 			[userId, projectImage, projectTitle, projectLiveLink, projectCodeLink]
 		);
 
 		return json({ success: true });
 	}
 
-	static async deleteProjectById(id: string) {
+	static async updateUserProject(
+		projectId: number,
+		userId: string,
+		projectImage: string,
+		projectTitle: string,
+		projectCodeLink: string,
+		projectLiveLink: string
+	) {
+		await db.query(
+			`UPDATE portfolio_posts
+     		SET user_id = $2,
+         	image_url = $3,
+         	title = $4,
+         	code_link = $5,
+         	live_link = $6
+     		WHERE id = $1`,
+			[
+				projectId,
+				userId,
+				projectImage,
+				projectTitle,
+				projectCodeLink,
+				projectLiveLink,
+			]
+		);
+
+		return { success: true };
+	}
+
+	static async deleteProjectById(id: number) {
 		await db.query(
 			`DELETE
             FROM portfolio_posts

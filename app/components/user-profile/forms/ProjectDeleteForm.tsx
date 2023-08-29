@@ -1,6 +1,6 @@
 import { Form } from "@remix-run/react";
 
-const ProjectDeleteForm = ({ postId }: { postId: string }) => {
+const ProjectDeleteForm = ({ postId }: { postId: number }) => {
 	return (
 		<Form method="post" className="absolute top-[14px] right-5 z-10">
 			<input type="hidden" defaultValue={postId} name="projectId" />

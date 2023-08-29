@@ -10,10 +10,10 @@ import Modal from "./Modal";
 import ProjectDeleteForm from "./user-profile/forms/ProjectDeleteForm";
 import ProjectUpdateForm from "./user-profile/forms/ProjectUpdateForm";
 // import ProjectUpdateForm from "./user-profile/forms/ProjectUpdateForm";
-import UserProjectForm from "./user-profile/UserProjectForm";
+import UserProjectForm from "./user-profile/UserProjects";
 
 type UserProject = {
-	id: string;
+	id: number;
 	image_url: string;
 	title: string;
 	code_link: string;
@@ -95,7 +95,7 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 			<div className="flex flex-row flex-wrap mt-10 justify-center">
 				{userProjects?.map((post, idx) => (
 					<div
-						key={(post.id = post.title)}
+						key={post.id + post.title}
 						className="w-[300px] mx-2 my-6 justify-center align-items"
 					>
 						<div className="relative isolate flex flex-col justify-end overflow-hidden rounded-lg bg-gray-900 px-8 pb-8 pt-80">

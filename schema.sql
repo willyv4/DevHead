@@ -29,7 +29,7 @@ CREATE TABLE portfolio_posts (
 );
 
 CREATE TABLE portfolio_comments (
-  id int PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id text NOT NULL,
   post_id int,
   comment text,
