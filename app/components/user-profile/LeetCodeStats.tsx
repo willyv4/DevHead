@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import LeetCodeIcon from "../icon-components/LeetCodeIcon";
 import Modal from "../Modal";
+import TagList from "../TagList";
 import EmptyStatus from "./EmptyStatus";
 import LeetCodeForm from "./forms/LeetCodeForm";
 
@@ -30,31 +31,6 @@ interface LeetCodeStatProps {
 	leetcodeUsername: string | null;
 	userId: string | undefined;
 }
-
-const TagList = ({
-	color,
-	level,
-	tags,
-}: {
-	color: string;
-	level: string;
-	tags: Tag[];
-}) => (
-	<div>
-		<h1 className="p-2 text-base font-bold text-gray-900">{level}</h1>
-		<div className="flex flex-row flex-wrap p-2">
-			{tags.map((tag: Tag) => (
-				<div key={tag.name} className="m-1">
-					<p
-						className={`bg-${color}-100 text-${color}-500 px-1 rounded text-xs`}
-					>
-						{tag.name} {tag.solved}
-					</p>
-				</div>
-			))}
-		</div>
-	</div>
-);
 
 const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 	leetcodeUsername,
@@ -109,6 +85,13 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 
 	return (
 		<>
+			{leetCodeOpen && (
+				<Modal
+					FormComponent={<LeetCodeForm userId={userId} />}
+					open={leetCodeOpen}
+					setOpen={setLeetCodeOpen}
+				/>
+			)}
 			<div className="border-t-2 pt-6 mt-6">
 				<button
 					className="flex flex-row rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 float-right mt-1"

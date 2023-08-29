@@ -30,7 +30,7 @@ export class User {
 
 	static async getUserProfileById(id: string) {
 		const result = await db.query(`SELECT * FROM users WHERE id = $1`, [id]);
-		return result.rows;
+		return result.rows[0];
 	}
 
 	static async findAll() {
@@ -149,31 +149,5 @@ export class User {
 		if (!user) throw new Error(`No user with id: ${id}`);
 
 		return json({ deleted: true });
-	}
-
-	static async getUserProjectsById(id: string | null) {
-		const result = await db.query(
-			`SELECT * FROM portfolio_posts WHERE user_id = $1`,
-			[id]
-		);
-
-		return result.rows[0];
-	}
-
-	static async addUserProject(
-		userId: string,
-		projectImage: string,
-		projectTitle: string,
-		projectLiveLink: string,
-		projectCodeLink: string
-	) {
-		await db.query(
-			`INSERT INTO portfolio_posts
-           	(user_id, image_url, title, code_link, live_link)
-            VALUES ($1, $2, $3, $4, $5)`,
-			[userId, projectImage, projectTitle, projectLiveLink, projectCodeLink]
-		);
-
-		return json({ success: true });
 	}
 }

@@ -11,8 +11,8 @@ import LeetCodeStats from "~/components/user-profile/LeetCodeStats";
 import ProfileHeader from "~/components/user-profile/ProfileHeader";
 import BioSection from "~/components/user-profile/BioSection";
 import { json } from "react-router";
-import UserProjects from "~/components/user-profile/UserProjects";
 import ProjectList from "~/components/ProjectList";
+import { Projects } from "~/models/projects";
 
 type UserProfile = {
 	id: string;
@@ -43,7 +43,7 @@ type UserProjects = {
 
 type LoaderData = {
 	userProfile: UserProfile;
-	userProjects: UserProjects;
+	userProjects: UserProjects[] | null | undefined;
 };
 
 export const loader: LoaderFunction = async ({
@@ -53,8 +53,7 @@ export const loader: LoaderFunction = async ({
 
 	if (userId) {
 		let userProfile = await User.getUserProfileById(userId);
-		let userProjects = await User.getUserProjectsById(userId);
-		userProfile = userProfile[0];
+		let userProjects = await Projects.getUserProjectsById(userId);
 
 		return { userProfile, userProjects };
 	}
@@ -64,7 +63,7 @@ export const loader: LoaderFunction = async ({
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
 	const formData = await request.formData();
-	const data = Object.fromEntries(formData) as {
+	const data = Object.fromEntries(formData) as unknown as {
 		userId: string;
 		githubUsername: string;
 		leetcodeUsername: string;
@@ -74,16 +73,20 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		projectTitle: string;
 		projectLiveLink: string;
 		projectCodeLink: string;
+		projectId: string;
 	};
 
-	console.log("Request Data", data);
+	if (data.projectId) {
+		return await Projects.deleteProjectById(data.projectId);
+	}
+
 	if (
 		data.projectImage &&
 		data.projectTitle &&
 		data.projectCodeLink &&
 		data.projectLiveLink
 	) {
-		return await User.addUserProject(
+		return await Projects.addUserProject(
 			data.userId,
 			data.projectImage,
 			data.projectTitle,
@@ -116,30 +119,23 @@ export default function UserProfile() {
 	const { userid } = useParams();
 
 	const userProfile: UserProfile = loaderData.userProfile;
-	const userProjects: UserProjects = loaderData.userProjects;
-
-	console.log("USER PROJECT DATA:", userProjects);
+	const userProjects: UserProjects[] | null | undefined =
+		loaderData.userProjects;
 
 	if (userProfile) {
 		return (
-			<div>
-				<div className="m-2 p-4 bg-white rounded-sm">
-					<ProfileHeader user={userProfile} />
-					<BioSection userId={userProfile.id} userBio={userProfile.about} />
-					<GitHubStat
-						githubUsername={userProfile.github_username}
-						userId={userid}
-					/>
-					<LeetCodeStats
-						leetcodeUsername={userProfile.leetcode_username}
-						userId={userid}
-					/>
-					<UserProjects userId={userid} />
-					<ProjectList {...userProjects} />
-				</div>
-				<p>
-					{userProfile.first_name} {userProfile.last_name}
-				</p>
+			<div className="m-2 p-4 bg-white rounded-sm">
+				<ProfileHeader user={userProfile} />
+				<BioSection userId={userProfile.id} userBio={userProfile.about} />
+				<GitHubStat
+					githubUsername={userProfile.github_username}
+					userId={userid}
+				/>
+				<LeetCodeStats
+					leetcodeUsername={userProfile.leetcode_username}
+					userId={userid}
+				/>
+				<ProjectList userId={userid} userProjects={userProjects} />
 			</div>
 		);
 	}

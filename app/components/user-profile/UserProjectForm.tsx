@@ -1,6 +1,6 @@
 import ProjectForm from "./forms/ProjectForm";
 
-const UserProjects = ({ userId }: { userId: string | undefined }) => {
+const UserProjectForm = ({ userId }: { userId: string | undefined }) => {
 	// if (!userId) return (<div>User has</div>)
 	return (
 		<>
@@ -10,4 +10,4 @@ const UserProjects = ({ userId }: { userId: string | undefined }) => {
 	);
 };
 
-export default UserProjects;
+export default UserProjectForm;

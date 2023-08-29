@@ -2,11 +2,36 @@ import { PhotoIcon } from "@heroicons/react/20/solid";
 import { Form } from "@remix-run/react";
 import { useEffect, useState } from "react";
 
+type Project = {
+	id: string;
+	image_url: string;
+	title: string;
+	code_link: string;
+	live_link: string;
+	like_count: string[] | null;
+};
+type Props = {
+	userId: string | undefined;
+	project: Project | null;
+};
+
 const imageTypeRegex = /image\/(png|jpg|jpeg)/gm;
 
-const ProjectForm = ({ userId }: { userId: string | undefined }) => {
+const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
+	// const INITIAL_STATE = {
+	// 	id: project?.id,
+	// 	imageUrl: project?.image_url,
+	// 	title: project?.title,
+	// 	codeLink: project?.code_link,
+	// 	liveLink: project?.live_link,
+	// 	likeCount: project?.like_count,
+	// };
+
 	const [imageFiles, setImageFiles]: any = useState([]);
 	const [images, setImages]: any = useState([]);
+	// const [formData, setFormData] = useState(INITIAL_STATE);
+
+	// console.log(formData);
 
 	const image = images[0];
 
@@ -156,4 +181,4 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 	);
 };
 
-export default ProjectForm;
+export default ProjectUpdateForm;
