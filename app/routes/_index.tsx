@@ -11,6 +11,8 @@ export const loader: LoaderFunction = async (args) => {
 	if (userId) {
 		const userWithId = await User.getUserById(userId);
 
+		console.log("CURR USER", userWithId);
+
 		if (userWithId[0]?.id) return redirect("/home");
 
 		const user = await createClerkClient({
@@ -43,7 +45,6 @@ export const loader: LoaderFunction = async (args) => {
 export default function Index() {
 	return (
 		<div className="bg-gray-900">
-			{/* Hero section */}
 			<div className="relative isolate overflow-hidden">
 				<svg
 					className="absolute inset-0 -z-10 h-full w-full stroke-white/5 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"

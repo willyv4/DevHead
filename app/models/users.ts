@@ -22,7 +22,7 @@ type UserData = {
 export class User {
 	static async getUserById(id: string) {
 		const result = await db.query(
-			`SELECT username, id FROM users WHERE id = $1`,
+			`SELECT username, id, image_url FROM users WHERE id = $1`,
 			[id]
 		);
 		return result.rows;

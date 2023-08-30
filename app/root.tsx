@@ -1,6 +1,5 @@
 import { ClerkApp, V2_ClerkErrorBoundary } from "@clerk/remix";
 import type { LinksFunction, LoaderFunction } from "@vercel/remix";
-
 import {
 	Links,
 	LiveReload,
@@ -9,13 +8,10 @@ import {
 	Scripts,
 	ScrollRestoration,
 } from "@remix-run/react";
-
 import { Analytics } from "@vercel/analytics/react";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
-
 import stylesheet from "./tailwind.css";
 import NavBar from "./components/NavBar";
-
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: stylesheet },
 ];
@@ -40,7 +36,6 @@ function App() {
 				<Scripts />
 				<LiveReload />
 				<Analytics />
-				<div className="display-none bg-red-500"></div>
 			</body>
 		</html>
 	);

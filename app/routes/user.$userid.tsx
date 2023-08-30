@@ -10,11 +10,13 @@ import GitHubStat from "../components/user-profile/GitHubStats";
 import LeetCodeStats from "~/components/user-profile/LeetCodeStats";
 import ProfileHeader from "~/components/user-profile/ProfileHeader";
 import BioSection from "~/components/user-profile/BioSection";
-import { json } from "react-router";
+import { json, useNavigate } from "react-router";
 import ProjectList from "~/components/ProjectList";
 import { Projects } from "~/models/projects";
 import SkillsSection from "~/components/SkillsSection";
 import { Skills } from "~/models/skills";
+import { useUser } from "@clerk/remix";
+import { useEffect } from "react";
 
 type UserProfile = {
 	id: string;
@@ -165,8 +167,14 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 };
 
 export default function UserProfile() {
+	const navigate = useNavigate();
+	const { user } = useUser();
 	const loaderData = useLoaderData<LoaderData>();
 	const { userid } = useParams();
+
+	useEffect(() => {
+		if (user?.id !== userid) return navigate("/home");
+	}, [navigate, user?.id, userid]);
 
 	const userSkills: UserSkills[] = loaderData.userSkills;
 	const userProfile: UserProfile = loaderData.userProfile;
