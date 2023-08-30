@@ -1,7 +1,7 @@
 import { Form } from "@remix-run/react";
 import { useState } from "react";
-import Modal from "./Modal";
-import SkillsForm from "./user-profile/forms/SkillsForm";
+import Modal from "../Modal";
+import SkillsForm from "./forms/SkillsForm";
 
 type UserSkills = {
 	id: number;

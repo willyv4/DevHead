@@ -4,12 +4,12 @@ import {
 	PlusIcon,
 } from "@heroicons/react/20/solid";
 import { useState } from "react";
-import Modal from "./Modal";
-import EditButtonView from "./user-profile/EditButtonView";
-import EditPostForm from "./user-profile/forms/EditPostForm";
-import ProjectDeleteForm from "./user-profile/forms/ProjectDeleteForm";
-import ProjectForm from "./user-profile/forms/ProjectForm";
-import ProjectUpdateForm from "./user-profile/forms/ProjectUpdateForm";
+import Modal from "../Modal";
+import EditButtonView from "./EditButtonView";
+import EditPostForm from "./forms/EditPostForm";
+import ProjectDeleteForm from "./forms/ProjectDeleteForm";
+import ProjectForm from "./forms/ProjectForm";
+import ProjectUpdateForm from "./forms/ProjectUpdateForm";
 
 type UserProject = {
 	id: number;

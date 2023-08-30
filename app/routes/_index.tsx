@@ -11,8 +11,6 @@ export const loader: LoaderFunction = async (args) => {
 	if (userId) {
 		const userWithId = await User.getUserById(userId);
 
-		console.log("CURR USER", userWithId);
-
 		if (userWithId[0]?.id) return redirect("/home");
 
 		const user = await createClerkClient({

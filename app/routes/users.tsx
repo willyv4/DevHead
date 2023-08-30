@@ -71,7 +71,7 @@ export default function UserList() {
 							</div>
 							<div className="flex w-0 flex-1">
 								<Link
-									to={`/user/${user.id}`}
+									to={`/user/view/${user.id}`}
 									className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-xs font-semibold text-gray-900"
 								>
 									{user.first_name}'s profile

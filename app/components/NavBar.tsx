@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 const NavBar = () => {
 	const [CURR_USER, SET_CURR_USER] = useState<any>(null);
 	const { user } = useUser();
-	console.log(CURR_USER);
 
 	useEffect(() => {
 		async function getUser() {
