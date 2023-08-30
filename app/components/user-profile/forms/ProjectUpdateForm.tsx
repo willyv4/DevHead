@@ -21,10 +21,10 @@ const imageTypeRegex = /image\/(png|jpg|jpeg)/gm;
 const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 	const INITIAL_STATE = {
 		imageUrl: project?.image_url,
-		title: project?.title,
-		codeLink: project?.code_link,
-		liveLink: project?.live_link,
-		likeCount: project?.like_count,
+		projectTitle: project?.title,
+		projectCodeLink: project?.code_link,
+		projectLiveLink: project?.live_link,
+		projectLikeCount: project?.like_count,
 	};
 
 	const [imageFiles, setImageFiles]: any = useState([]);
@@ -94,8 +94,6 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 		}));
 	};
 
-	console.log("PROJECTID:", project?.id);
-
 	return (
 		<Form method="post" encType="multipart/form-data">
 			{!formData.imageUrl ? (
@@ -153,7 +151,7 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 				</label>
 				<input
 					required
-					value={formData.title}
+					value={formData.projectTitle}
 					onChange={handleInputChange}
 					type="text"
 					name="projectTitle"
@@ -166,7 +164,7 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 				</label>
 				<input
 					required
-					value={formData.liveLink}
+					value={formData.projectLiveLink}
 					onChange={handleInputChange}
 					type="text"
 					name="projectLiveLink"
@@ -179,7 +177,7 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 				</label>
 				<input
 					required
-					value={formData.codeLink}
+					value={formData.projectCodeLink}
 					onChange={handleInputChange}
 					type="text"
 					name="projectCodeLink"

@@ -1,16 +1,15 @@
 import {
 	CodeBracketIcon,
 	ComputerDesktopIcon,
-	PencilIcon,
 	PlusIcon,
 } from "@heroicons/react/20/solid";
-import { Form } from "@remix-run/react";
 import { useState } from "react";
 import Modal from "./Modal";
+import EditButtonView from "./user-profile/EditButtonView";
+import EditPostForm from "./user-profile/forms/EditPostForm";
 import ProjectDeleteForm from "./user-profile/forms/ProjectDeleteForm";
+import ProjectForm from "./user-profile/forms/ProjectForm";
 import ProjectUpdateForm from "./user-profile/forms/ProjectUpdateForm";
-// import ProjectUpdateForm from "./user-profile/forms/ProjectUpdateForm";
-import UserProjectForm from "./user-profile/UserProjects";
 
 type UserProject = {
 	id: number;
@@ -46,16 +45,13 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 				My Projects
 			</h2>
 
-			{(!userProjects || userProjects.length < 1 || addButton) &&
-				(addButton ? (
-					<Modal
-						FormComponent={<UserProjectForm userId={userId} />}
-						open={addButton}
-						setOpen={setAddButton}
-					/>
-				) : (
-					<UserProjectForm userId={userId} />
-				))}
+			{(!userProjects || userProjects.length < 1 || addButton) && (
+				<Modal
+					FormComponent={<ProjectForm userId={userId} />}
+					open={addButton}
+					setOpen={setAddButton}
+				/>
+			)}
 
 			{editFormView && (
 				<Modal
@@ -67,22 +63,11 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 				/>
 			)}
 
-			{!editButton ? (
-				<button
-					onClick={() => setEditButton(true)}
-					className="ml-2 flex flex-row rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 float-right mt-1"
-				>
-					Edit <PencilIcon className="h-4 w-4 ml-2 mt-[2px]" />
-				</button>
-			) : (
-				<button
-					onClick={() => setEditButton(false)}
-					type="submit"
-					className="ml-2 flex flex-row rounded-md bg-rose-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600 float-right mt-1"
-				>
-					Cancel
-				</button>
-			)}
+			<EditButtonView
+				userProjectCount={userProjects?.length}
+				editButton={editButton}
+				setEditButton={setEditButton}
+			/>
 
 			<button
 				onClick={() => setAddButton(addButton === false ? true : false)}
@@ -102,14 +87,7 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 							{editButton && (
 								<>
 									<ProjectDeleteForm postId={post.id} />
-									<Form method="post" className="absolute top-4 right-14 z-10">
-										<button
-											onClick={() => handleClick(idx + 1)}
-											className="-mt-[.5px] rounded bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
-										>
-											<PencilIcon className="w-4 h-4" />
-										</button>
-									</Form>
+									<EditPostForm handleClick={handleClick} index={idx} />
 								</>
 							)}
 							<img

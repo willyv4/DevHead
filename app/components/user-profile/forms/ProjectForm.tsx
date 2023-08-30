@@ -2,56 +2,47 @@ import { PhotoIcon } from "@heroicons/react/20/solid";
 import { Form } from "@remix-run/react";
 import { useEffect, useState } from "react";
 
-const imageTypeRegex = /image\/(png|jpg|jpeg)/gm;
-
 const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 	const [imageFiles, setImageFiles]: any = useState([]);
-	const [images, setImages]: any = useState([]);
+	const [image, setImage] = useState<string | null | undefined>(null);
 
-	const image = images[0];
-
-	const handleChange = (e: any) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { files } = e.target;
-		const validImageFiles = [];
-		for (let i = 0; i < files.length; i++) {
-			const file = files[i];
-			if (file.type.match(imageTypeRegex)) {
-				validImageFiles.push(file);
-			}
-		}
-		if (validImageFiles.length) {
-			setImageFiles(validImageFiles);
-			return;
-		}
-		alert("Selected images are not of valid type!");
+
+		if (!files) return null;
+
+		const validFiles = Array.from(files).filter((f) =>
+			f.type.match(/image\/(png|jpg|jpeg)/gm)
+		);
+
+		validFiles.length
+			? setImageFiles(validFiles)
+			: alert("Selected images are not of valid type!");
 	};
 
 	useEffect(() => {
-		const images: any = [],
-			fileReaders: any = [];
-		let isCancel = false;
+		const images: string[] = [];
+		const fileReaders: FileReader[] = [];
+
 		if (imageFiles.length) {
-			imageFiles.forEach((file: any) => {
+			imageFiles.forEach((file: Blob) => {
 				const fileReader = new FileReader();
-				fileReaders.push(fileReader);
+
 				fileReader.onload = (e) => {
-					const { result }: any = e.target;
-					if (result) {
-						images.push(result);
-					}
-					if (images.length === imageFiles.length && !isCancel) {
-						setImages(images);
-					}
+					const result = e.target?.result as string | null;
+					if (result) images.push(result);
+
+					if (images.length === imageFiles.length) setImage(images[0]);
 				};
+
 				fileReader.readAsDataURL(file);
+				fileReaders.push(fileReader);
 			});
 		}
+
 		return () => {
-			isCancel = true;
-			fileReaders.forEach((fileReader: any) => {
-				if (fileReader.readyState === 1) {
-					fileReader.abort();
-				}
+			fileReaders.forEach((fileReader) => {
+				if (fileReader.readyState === FileReader.LOADING) fileReader.abort();
 			});
 		};
 	}, [imageFiles]);
@@ -59,48 +50,48 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 	return (
 		<Form method="post" encType="multipart/form-data">
 			<input defaultValue={userId} type="hidden" name="userId" />
-			<input defaultValue={image} type="hidden" name="projectImage" />
 
-			{images.length > 0 ? (
+			{image ? (
 				<div>
-					{images.map((image: any, idx: any) => {
-						return (
-							<p key={idx}>
-								{" "}
-								<img src={image} alt="" />{" "}
-							</p>
-						);
-					})}
+					<button
+						onClick={() => setImage(null)}
+						className="absolute z-10 right-8 top-8  rounded bg-rose-50 px-2 py-1 text-xs font-semibold text-rose-600 shadow-sm hover:bg-rose-100"
+					>
+						X
+					</button>
+					<img src={image} alt="preview" className="rounded" />
+					<input defaultValue={image} type="hidden" name="projectImage" />
 				</div>
-			) : null}
-			<div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-				<div className="text-center">
-					<PhotoIcon
-						className="mx-auto h-12 w-12 text-gray-300"
-						aria-hidden="true"
-					/>
-					<div className="mt-4 flex text-sm leading-6 text-gray-600">
-						<label
-							htmlFor="file-upload"
-							className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-						>
-							<span>Upload a Project Image</span>
-							<input
-								onChange={handleChange}
-								id="file-upload"
-								type="file"
-								className="sr-only"
-								accept="image/*"
-								value={""}
-							/>
-						</label>
-						<p className="pl-1">or drag and drop</p>
+			) : (
+				<div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+					<div className="text-center">
+						<PhotoIcon
+							className="mx-auto h-12 w-12 text-gray-300"
+							aria-hidden="true"
+						/>
+						<div className="mt-4 flex text-sm leading-6 text-gray-600">
+							<label
+								htmlFor="file-upload"
+								className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+							>
+								<span>Upload a Project Image</span>
+								<input
+									onChange={handleChange}
+									id="file-upload"
+									type="file"
+									className="sr-only"
+									accept="image/*"
+									value={""}
+								/>
+							</label>
+							<p className="pl-1">or drag and drop</p>
+						</div>
+						<p className="text-xs leading-5 text-gray-600">
+							PNG, JPG, GIF up to 10MB
+						</p>
 					</div>
-					<p className="text-xs leading-5 text-gray-600">
-						PNG, JPG, GIF up to 10MB
-					</p>
 				</div>
-			</div>
+			)}
 
 			<div className="relative mt-4 mb-4">
 				<label className="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">

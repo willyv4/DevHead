@@ -13,6 +13,8 @@ import BioSection from "~/components/user-profile/BioSection";
 import { json } from "react-router";
 import ProjectList from "~/components/ProjectList";
 import { Projects } from "~/models/projects";
+import SkillsSection from "~/components/SkillsSection";
+import { Skills } from "~/models/skills";
 
 type UserProfile = {
 	id: string;
@@ -32,6 +34,12 @@ type UserProfile = {
 	leetcode_username: string | null;
 };
 
+type UserSkills = {
+	id: number;
+	skill: string;
+	user_id: string;
+};
+
 type UserProjects = {
 	id: number;
 	image_url: string;
@@ -44,6 +52,7 @@ type UserProjects = {
 type LoaderData = {
 	userProfile: UserProfile;
 	userProjects: UserProjects[] | null | undefined;
+	userSkills: UserSkills[];
 };
 
 export const loader: LoaderFunction = async ({
@@ -54,10 +63,9 @@ export const loader: LoaderFunction = async ({
 	if (userId) {
 		let userProfile = await User.getUserProfileById(userId);
 		let userProjects = await Projects.getUserProjectsById(userId);
+		let userSkills = await Skills.getSkillsById(userId);
 
-		// console.log("PROJECTS FROM DB:", typeof userProjects[0].id);
-
-		return { userProfile, userProjects };
+		return { userProfile, userProjects, userSkills };
 	}
 
 	return null;
@@ -77,15 +85,33 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		projectLiveLink: string;
 		projectCodeLink: string;
 		projectId: number;
+		firstName: string;
+		lastName: string;
+		profileTitle: string;
+		userEmail: string;
+		userImage: string;
+		skill: string;
+		skillId: number;
 	};
 
+	console.log(data);
+
+	if (data._action === "PUT_USER") {
+		if (data.userId) {
+			const userData: any = {
+				id: data.userId,
+				firstName: data.firstName,
+				lastName: data.lastName,
+				email: data.userEmail,
+				imageUrl: data.userImage,
+				title: data.profileTitle,
+			};
+			return await User.updateUser(userData);
+		}
+	}
+
 	if (data._action === "PUT") {
-		if (
-			data.projectImage &&
-			data.projectTitle &&
-			data.projectCodeLink &&
-			data.projectLiveLink
-		) {
+		if (data.projectId) {
 			return await Projects.updateUserProject(
 				data.projectId,
 				data.userId,
@@ -101,19 +127,11 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		return await Projects.deleteProjectById(data.projectId);
 	}
 
-	if (data._action === "POST_PROJECTS") {
-		console.log(
-			"CALLED",
-			"User ID:",
-			data.userId,
-			"Project Title:",
-			data.projectTitle,
-			"Project Live Link:",
-			data.projectLiveLink,
-			"Project Code Link:",
-			data.projectCodeLink
-		);
+	if (data._action === "DELETE_SKILL") {
+		return await Skills.removeSkill(data.skillId);
+	}
 
+	if (data._action === "POST_PROJECTS") {
 		return await Projects.addUserProject(
 			data.userId,
 			data.projectImage,
@@ -135,6 +153,10 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		return await User.addUserBio(data.userId, data.userBio);
 	}
 
+	if (data.skill && data.userId) {
+		return await Skills.addSkill(data.userId, data.skill);
+	}
+
 	if (data.userTitle) {
 		return await User.addUserTitle(data.userId, data.userTitle);
 	}
@@ -146,16 +168,17 @@ export default function UserProfile() {
 	const loaderData = useLoaderData<LoaderData>();
 	const { userid } = useParams();
 
+	const userSkills: UserSkills[] = loaderData.userSkills;
 	const userProfile: UserProfile = loaderData.userProfile;
 	const userProjects: UserProjects[] | null | undefined =
 		loaderData.userProjects;
 
-	console.log("USERPROJECTS:", userProjects);
 	if (userProfile) {
 		return (
 			<div className="m-2 p-4 bg-white rounded-sm">
-				<ProfileHeader user={userProfile} />
+				<ProfileHeader userProfile={userProfile} />
 				<BioSection userId={userProfile.id} userBio={userProfile.about} />
+				<SkillsSection userId={userProfile.id} userSkills={userSkills} />
 				<GitHubStat
 					githubUsername={userProfile.github_username}
 					userId={userid}

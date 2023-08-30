@@ -9,7 +9,6 @@ CREATE TABLE users (
   email varchar(255) NOT NULL,
   title text,
   about text,
-  skills text,
   leetcode_username text,
   github_username text,
   followers text[],
@@ -28,6 +27,7 @@ CREATE TABLE portfolio_posts (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+
 CREATE TABLE portfolio_comments (
   id SERIAL PRIMARY KEY,
   user_id text NOT NULL,
@@ -38,12 +38,13 @@ CREATE TABLE portfolio_comments (
 );
 
 CREATE TABLE likes (
-  id int PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   post_id int,
   user_id text NOT NULL,
   FOREIGN KEY (post_id) REFERENCES portfolio_posts(id),
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
 
 CREATE TABLE follows (
   user_being_followed_id text,
@@ -51,6 +52,14 @@ CREATE TABLE follows (
   FOREIGN KEY (user_being_followed_id) REFERENCES users(id),
   FOREIGN KEY (user_following_id) REFERENCES users(id)
 );
+
+CREATE TABLE skills (
+  id SERIAL PRIMARY KEY,
+  skill text,
+  user_id text NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+)
+
 
 
 

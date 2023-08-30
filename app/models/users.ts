@@ -80,6 +80,23 @@ export class User {
 		return result.rows[0];
 	}
 
+	static async updateUser(userData: UserData): Promise<UserData> {
+		const { id, firstName, lastName, email, imageUrl, title } = userData;
+		const result = await db.query(
+			`UPDATE users
+     		SET first_name = $2, last_name = $3, email = $4, image_url = $5, title = $6
+     		WHERE id = $1
+     		RETURNING id, first_name AS "firstName", last_name AS "lastName", email, image_url AS "imageUrl"`,
+			[id, firstName, lastName, email, imageUrl, title]
+		);
+
+		if (result.rows.length === 0) {
+			throw new Error(`User with id ${id} not found`);
+		}
+
+		return result.rows[0];
+	}
+
 	static async connectLeetcode(id: string, leetcodeUsername: string | null) {
 		if (!leetcodeUsername) return json({ update: false });
 

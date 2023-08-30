@@ -1,13 +1,33 @@
-import { EnvelopeIcon } from "@heroicons/react/20/solid";
+import { EnvelopeIcon, UserCircleIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
+import Modal from "../Modal";
 import ProfilePostForm from "./forms/ProfilePostForm";
 import ProfileUpdateForm from "./forms/ProfileUpdateForm";
 
-const ProfileHeader = ({ user }: any) => {
+type UserProfile = {
+	id: string;
+	code_start: string | null;
+	first_name: string | null;
+	last_name: string | null;
+	place: string | null;
+	image_url: string;
+	username: string;
+	email: string;
+	title: string | null;
+	about: string | null;
+	skills: string | null;
+	followers: string[] | null;
+	following: string[] | null;
+	github_username: string | null;
+	leetcode_username: string | null;
+};
+
+const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 	const [buttonClicked, setButtonClicked] = useState(false);
+	const [updateFromView, setUpdateFormView] = useState(false);
 	const handleSubmit = () => setButtonClicked(false);
-	const handleClick = () =>
-		buttonClicked ? setButtonClicked(false) : setButtonClicked(true);
+	// const handleClick = () =>
+	// 	buttonClicked ? setButtonClicked(false) : setButtonClicked(true);
 
 	return (
 		<div>
@@ -23,47 +43,56 @@ const ProfileHeader = ({ user }: any) => {
 					<div className="flex">
 						<img
 							className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
-							src={user?.image_url}
+							src={userProfile?.image_url}
 							alt=""
 						/>
 					</div>
-					<div className="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
-						<div className="mt-6 min-w-0 flex-1 sm:hidden md:block">
-							<h1 className="truncate text-2xl font-bold text-gray-900">
-								{user?.first_name + " " + user?.last_name}
-							</h1>
+					<div className="sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
+						<div className="min-w-0 flex-1 sm:hidden md:block">
+							<div className="flex flex-row">
+								<h1 className="truncate text-2xl font-bold text-gray-900">
+									{userProfile?.first_name + " " + userProfile?.last_name}
+								</h1>
+								<button
+									onClick={() => setUpdateFormView(true)}
+									className="ml-2 flex flex-row mt-1 rounded bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+								>
+									<p className="mt-[1.5px]">Edit</p>
+									<UserCircleIcon className="w-5 h-5 ml-2" />
+								</button>
+							</div>
 
-							{user?.title ? (
-								<>
-									<div className="flex flex-row">
-										<h1 className="truncate text-sm font-bold text-gray-500 mt-[1px] mr-2">
-											{user?.title}
-										</h1>
-										<button
-											onClick={() => handleClick()}
-											className="mb-1 rounded bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-										>
-											Edit Title
-										</button>
-									</div>
-									{buttonClicked && (
-										<ProfileUpdateForm
-											handleSubmit={handleSubmit}
-											userId={user?.id}
-											userTitle={user?.title}
-										/>
-									)}
-								</>
+							<Modal
+								FormComponent={
+									<ProfileUpdateForm
+										handleSubmit={handleSubmit}
+										userProfile={userProfile}
+									/>
+								}
+								open={updateFromView}
+								setOpen={setUpdateFormView}
+							/>
+
+							{userProfile?.title ? (
+								<div className="flex flex-row">
+									<h1 className="truncate text-sm font-bold text-gray-500 mt-[1px] mr-2">
+										{userProfile?.title}
+									</h1>
+								</div>
 							) : (
 								<>
 									<small>Example Header: Web Developer</small>
-									<ProfilePostForm userId={user?.id} />
+									<Modal
+										FormComponent={<ProfilePostForm userId={userProfile?.id} />}
+										open={buttonClicked}
+										setOpen={setButtonClicked}
+									/>
 								</>
 							)}
 						</div>
 						<div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
 							<a
-								href={`mailto:${user?.email}`}
+								href={`mailto:${userProfile?.email}`}
 								className="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
 							>
 								<EnvelopeIcon
