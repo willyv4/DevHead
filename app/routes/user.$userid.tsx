@@ -166,13 +166,15 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 
 export default function UserProfile() {
 	const navigate = useNavigate();
-	const { user } = useUser();
+	const auth = useUser();
 	const loaderData = useLoaderData<LoaderData>();
 	const { userid } = useParams();
 
+	console.log(auth);
+
 	useEffect(() => {
-		if (user?.id !== userid) return navigate("/home");
-	}, [navigate, user?.id, userid]);
+		if (auth.user?.id !== userid || !auth.isSignedIn) return navigate("/home");
+	}, [navigate, auth.user?.id, auth.isSignedIn, userid]);
 
 	const userSkills: UserSkills[] = loaderData.userSkills;
 	const userProfile: UserProfile = loaderData.userProfile;

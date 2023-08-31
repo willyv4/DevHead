@@ -1,5 +1,10 @@
-import type { LoaderArgs, LoaderFunction } from "@remix-run/node";
-import { useLoaderData, useParams } from "@remix-run/react";
+import type {
+	ActionArgs,
+	ActionFunction,
+	LoaderArgs,
+	LoaderFunction,
+} from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { User } from "../models/users";
 import { Projects } from "~/models/projects";
 import { Skills } from "~/models/skills";
@@ -9,6 +14,9 @@ import BioView from "~/components/user-view/BioView";
 import GitHubView from "~/components/user-view/GitHubView";
 import LeetCodeView from "~/components/user-view/LeetCodeView";
 import ProjectListView from "~/components/user-view/ProjectListView";
+import { Likes } from "~/models/likes";
+import { useUser } from "@clerk/remix";
+import { Comments } from "~/models/comments";
 
 type UserProfile = {
 	id: string;
@@ -47,6 +55,7 @@ type LoaderData = {
 	userProfile: UserProfile;
 	userProjects: UserProjects[] | null | undefined;
 	userSkills: UserSkills[];
+	projectLikes: number[];
 };
 
 export const loader: LoaderFunction = async ({
@@ -55,26 +64,59 @@ export const loader: LoaderFunction = async ({
 	const userId: string | undefined = params.userid;
 
 	if (userId) {
-		let userProfile = await User.getUserProfileById(userId);
-		let userProjects = await Projects.getUserProjectsById(userId);
-		let userSkills = await Skills.getSkillsById(userId);
+		const userProfile = await User.getUserProfileById(userId);
+		const userProjects = await Projects.getUserProjectsById(userId);
+		const projectLikes = await Likes.getLikesById(userId);
+		const userSkills = await Skills.getSkillsById(userId);
 
-		return { userProfile, userProjects, userSkills };
+		console.log("project Likes:", projectLikes);
+
+		return { userProfile, userProjects, userSkills, projectLikes };
+	}
+
+	return null;
+};
+
+export const action: ActionFunction = async ({ request }: ActionArgs) => {
+	const formData = await request.formData();
+	const data = Object.fromEntries(formData) as unknown as {
+		_action: string;
+		userId: string;
+		projectId: number;
+		comment: string;
+		commentId: number;
+	};
+
+	if (data._action === "POST_LIKE") {
+		return await Likes.addLike(data.userId, data.projectId);
+	}
+
+	if (data._action === "POST_UNLIKE") {
+		return await Likes.removeLike(data.userId, data.projectId);
+	}
+
+	if (data._action === "POST_COMMENT") {
+		return await Comments.addComment(data.userId, data.projectId, data.comment);
+	}
+
+	if (data._action === "DELETE_COMMENT") {
+		return await Comments.deleteComment(data.commentId);
 	}
 
 	return null;
 };
 
 export default function UserProfile() {
+	const { user } = useUser();
+
 	const loaderData = useLoaderData<LoaderData>();
-	const { userid } = useParams();
 
-	const userSkills: UserSkills[] = loaderData.userSkills;
-	const userProfile: UserProfile = loaderData.userProfile;
-	const userProjects: UserProjects[] | null | undefined =
-		loaderData.userProjects;
+	const userSkills = loaderData.userSkills;
+	const userProfile = loaderData.userProfile;
+	const userProjects = loaderData.userProjects;
+	const projectLikes = loaderData.projectLikes;
 
-	console.log(userid, userSkills, userProjects);
+	console.log("ahh zay projects", userProjects);
 
 	if (userProfile) {
 		return (
@@ -84,7 +126,11 @@ export default function UserProfile() {
 				<SkillView userSkills={userSkills} />
 				<GitHubView githubUsername={userProfile.github_username} />
 				<LeetCodeView leetcodeUsername={userProfile.leetcode_username} />
-				<ProjectListView userId={userProfile.id} userProjects={userProjects} />
+				<ProjectListView
+					userId={user?.id && user?.id}
+					userProjects={userProjects}
+					projectLikes={projectLikes}
+				/>
 			</div>
 		);
 	}

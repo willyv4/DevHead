@@ -23,41 +23,41 @@ CREATE TABLE portfolio_posts (
   description text,
   code_link text,
   live_link text,
-  like_count int,
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  like_count int DEFAULT 0,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 
 CREATE TABLE portfolio_comments (
   id SERIAL PRIMARY KEY,
   user_id text NOT NULL,
-  post_id int,
+  post_id int NOT NULL,
   comment text,
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (post_id) REFERENCES portfolio_posts(id)
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (post_id) REFERENCES portfolio_posts(id) ON DELETE CASCADE
 );
 
 CREATE TABLE likes (
   id SERIAL PRIMARY KEY,
-  post_id int,
+  post_id int NOT NULL,
   user_id text NOT NULL,
-  FOREIGN KEY (post_id) REFERENCES portfolio_posts(id),
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  FOREIGN KEY (post_id) REFERENCES portfolio_posts(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 
 CREATE TABLE follows (
   user_being_followed_id text,
   user_following_id text,
-  FOREIGN KEY (user_being_followed_id) REFERENCES users(id),
-  FOREIGN KEY (user_following_id) REFERENCES users(id)
+  FOREIGN KEY (user_being_followed_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_following_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE skills (
   id SERIAL PRIMARY KEY,
   skill text,
   user_id text NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 )
 
 

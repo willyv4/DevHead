@@ -27,13 +27,13 @@ VALUES
   ('5', 5, 'Beautiful UI design.');
 
 -- Insert data into the likes table
-INSERT INTO likes (id, post_id, user_id)
+INSERT INTO likes (post_id, user_id)
 VALUES
-  (1, 3, '2'),
-  (2, 4, '3'),
-  (3, 5, '1'),
-  (4, 1, '4'),
-  (5, 2, '2');
+  (3, '2'),
+  (4, '3'),
+  (5, '1'),
+  (1, '4'),
+  (2, '2');
 
 
 INSERT INTO follows (user_being_followed_id, user_following_id)

@@ -4,7 +4,8 @@ import {
 	HeartIcon,
 } from "@heroicons/react/20/solid";
 import { Form } from "@remix-run/react";
-// import { useState } from "react";
+import { useState } from "react";
+import CommentSlider from "./CommentSlider";
 
 type UserProject = {
 	id: number;
@@ -17,18 +18,25 @@ type UserProject = {
 
 type Props = {
 	userProjects: UserProject[] | null | undefined;
-	userId: string;
+	userId: string | undefined;
+	projectLikes: number[];
 };
 
-const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
-	// const [projectId, setProjectId] = useState<UserProject | null>(null);
+const ProjectListView: React.FC<Props> = ({
+	userId,
+	userProjects,
+	projectLikes,
+}) => {
+	const [commentView, setCommentView] = useState<boolean>(false);
+	const [viewProject, setViewProject] = useState<UserProject | null>(null);
 
-	// const handleClick = (index: number | null) => {
-	// 	if (userProjects && index) {
-	// 		const projectToEdit = userProjects[index - 1];
-	// 		setProjectId(projectToEdit);
-	// 	}
-	// };
+	const handleClick = (idx: number) => {
+		if (userProjects) {
+			const pickedProject = userProjects[idx - 1];
+			setViewProject(pickedProject);
+			setCommentView(commentView ? false : true);
+		}
+	};
 
 	return (
 		<div className="flex-col justify-center mt-20">
@@ -39,6 +47,13 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 					</div>
 				</h3>
 			</div>
+
+			<CommentSlider
+				userId={userId}
+				open={commentView}
+				setOpen={setCommentView}
+				viewProject={viewProject}
+			/>
 
 			<div className="flex flex-row flex-wrap mt-10 justify-center">
 				{userProjects?.map((post, idx) => (
@@ -70,37 +85,85 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 								{post.title}
 							</h3>
 
-							<div className="flex flex-row justfiy-between">
-								<a
-									rel="noreferrer"
-									target="_blank"
-									href={`https://${post.live_link}`}
-									className="mr-2 flex items-center rounded-lg bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50/20"
-								>
-									Site
-									<ComputerDesktopIcon className="w-5 ml-2" />
-								</a>
-
-								<a
-									target="_blank"
-									href={`https://${post.code_link}`}
-									className="flex items-center rounded-lg bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50/20"
-									rel="noreferrer"
-								>
-									Code
-									<CodeBracketIcon className="w-5 ml-2" />
-								</a>
-
-								<Form method="post">
-									<input type="hidden" name="projectId" value={post.id} />
-									<input type="hidden" name="userId" value={userId} />
-									<button
-										type="submit"
-										className="flex items-center rounded-lg px-2 py-1 text-xs font-semibold text-white shadow-sm  hover:bg-gray-50/20"
+							<div className="-mb-6 -ml-7">
+								<div className="flex flex-row">
+									<a
+										rel="noreferrer"
+										target="_blank"
+										href={`https://${post.live_link}`}
+										className="ml-1 flex items-center px-2 py-1 rounded-lg bg-indigo-400 px-2 py-1 text-indigo-950 text-xs font-semibold text-white shadow-sm hover:bg-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
 									>
-										<HeartIcon className="w-5" />
+										Site
+										<ComputerDesktopIcon className="w-4 ml-1" />
+									</a>
+
+									<a
+										target="_blank"
+										href={`https://${post.code_link}`}
+										className="ml-2 flex items-center px-2 py-1 rounded-lg bg-indigo-400 px-2 py-1 text-indigo-950  text-xs font-semibold text-white shadow-sm hover:bg-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+										rel="noreferrer"
+									>
+										Code
+										<CodeBracketIcon className="w-4 ml-1" />
+									</a>
+
+									<button
+										onClick={() => handleClick(idx + 1)}
+										className="ml-2 flex items-center px-2 py-1 rounded-lg bg-indigo-400 px-2 py-1 text-indigo-950  text-xs font-semibold text-white shadow-sm hover:bg-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+									>
+										Comments
 									</button>
-								</Form>
+
+									{projectLikes.includes(post.id) ? (
+										<Form method="post" className="flex flex-row ml-2">
+											<input
+												type="hidden"
+												name="projectId"
+												defaultValue={post.id}
+											/>
+											<input
+												type="hidden"
+												name="userId"
+												defaultValue={userId}
+											/>
+											<button
+												type="submit"
+												className="flex items-center rounded-lg px-2 py-1 text-xs font-semibold text-white shadow-sm  hover:bg-gray-50/20"
+												name="_action"
+												value="POST_UNLIKE"
+											>
+												<HeartIcon className="w-5  text-rose-500" />
+											</button>
+											<span className="text-xs mt-[5px]">
+												{post.like_count}
+											</span>
+										</Form>
+									) : (
+										<Form method="post" className="flex flex-row">
+											<input
+												type="hidden"
+												name="projectId"
+												defaultValue={post.id}
+											/>
+											<input
+												type="hidden"
+												name="userId"
+												defaultValue={userId}
+											/>
+											<button
+												type="submit"
+												className="flex items-center rounded-lg px-2 py-1 text-xs font-semibold text-white shadow-sm  hover:bg-gray-50/20"
+												name="_action"
+												value="POST_LIKE"
+											>
+												<HeartIcon className="w-5" />
+											</button>
+											<span className="text-xs mt-[5px]">
+												{post.like_count}
+											</span>
+										</Form>
+									)}
+								</div>
 							</div>
 						</div>
 					</div>

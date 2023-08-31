@@ -1,4 +1,4 @@
-import { SignedIn, SignedOut, useUser } from "@clerk/remix";
+import { SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/remix";
 import { Link } from "@remix-run/react";
 import logo from "../../public/devheadlogo.png";
 import axios from "axios";
@@ -39,6 +39,7 @@ const NavBar = () => {
 				</SignedOut>
 
 				<SignedIn>
+					<SignOutButton />
 					<Link to={`/user/${CURR_USER?.id}`}>
 						<img
 							className="h-8 w-auto rounded-full"

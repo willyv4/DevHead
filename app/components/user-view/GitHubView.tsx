@@ -22,8 +22,6 @@ const GitHubView: React.FC<Props> = ({ githubUsername }) => {
 		if (githubUsername) getGithubData();
 	}, [githubUsername]);
 
-	console.log("LANGUAGES:", languages);
-
 	return (
 		<>
 			<div className="border-b border-gray-200 pb-5">
