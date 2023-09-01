@@ -5,6 +5,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { Form } from "@remix-run/react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import CommentSlider from "./CommentSlider";
 
 type UserProject = {
@@ -14,19 +15,15 @@ type UserProject = {
 	code_link: string;
 	live_link: string;
 	like_count: string[] | null;
+	comments: any;
 };
 
 type Props = {
-	userProjects: UserProject[] | null | undefined;
+	userProjects: UserProject[] | null | undefined | any;
 	userId: string | undefined;
-	projectLikes: number[];
 };
 
-const ProjectListView: React.FC<Props> = ({
-	userId,
-	userProjects,
-	projectLikes,
-}) => {
+const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 	const [commentView, setCommentView] = useState<boolean>(false);
 	const [viewProject, setViewProject] = useState<UserProject | null>(null);
 
@@ -34,7 +31,7 @@ const ProjectListView: React.FC<Props> = ({
 		if (userProjects) {
 			const pickedProject = userProjects[idx - 1];
 			setViewProject(pickedProject);
-			setCommentView(commentView ? false : true);
+			setCommentView(!commentView);
 		}
 	};
 
@@ -53,10 +50,11 @@ const ProjectListView: React.FC<Props> = ({
 				open={commentView}
 				setOpen={setCommentView}
 				viewProject={viewProject}
+				comments={viewProject?.comments}
 			/>
 
 			<div className="flex flex-row flex-wrap mt-10 justify-center">
-				{userProjects?.map((post, idx) => (
+				{userProjects?.map((post: any, idx: number) => (
 					<div
 						key={post.id + post.title}
 						className="w-[300px] mx-2 my-6 justify-center align-items"
@@ -107,14 +105,16 @@ const ProjectListView: React.FC<Props> = ({
 										<CodeBracketIcon className="w-4 ml-1" />
 									</a>
 
-									<button
-										onClick={() => handleClick(idx + 1)}
-										className="ml-2 flex items-center px-2 py-1 rounded-lg bg-indigo-400 px-2 py-1 text-indigo-950  text-xs font-semibold text-white shadow-sm hover:bg-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-									>
-										Comments
-									</button>
+									<Link to={`./comments/${post.id}`}>
+										<button
+											onClick={() => handleClick(idx + 1)}
+											className="ml-2 flex items-center px-2 py-1 rounded-lg bg-indigo-400 px-2 py-1 text-indigo-950  text-xs font-semibold text-white shadow-sm hover:bg-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+										>
+											Comments
+										</button>
+									</Link>
 
-									{projectLikes.includes(post.id) ? (
+									{post?.liked_user_ids?.includes(userId) ? (
 										<Form method="post" className="flex flex-row ml-2">
 											<input
 												type="hidden"
@@ -135,7 +135,7 @@ const ProjectListView: React.FC<Props> = ({
 												<HeartIcon className="w-5  text-rose-500" />
 											</button>
 											<span className="text-xs mt-[5px]">
-												{post.like_count}
+												{post?.liked_user_ids?.length}
 											</span>
 										</Form>
 									) : (
@@ -159,7 +159,7 @@ const ProjectListView: React.FC<Props> = ({
 												<HeartIcon className="w-5" />
 											</button>
 											<span className="text-xs mt-[5px]">
-												{post.like_count}
+												{post?.liked_user_ids?.length}
 											</span>
 										</Form>
 									)}

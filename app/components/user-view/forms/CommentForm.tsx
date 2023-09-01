@@ -8,9 +8,13 @@ const CommentForm = ({
 	userId: string | undefined;
 }) => {
 	return (
-		<Form method="post">
+		<Form
+			action={`./comments/${postId}`}
+			method="post"
+			className="sticky top-10 z-30 bg-white pb-8 -ml-2 -mr-2"
+		>
 			<input type="hidden" defaultValue={postId} name="projectId" />
-			{userId && <input type="hidden" defaultValue={userId} name="userId" />}
+			<input type="hidden" defaultValue={userId} name="userId" />
 			<div className="ring-1 ring-gray-200 rounded mt-2">
 				<textarea
 					rows={3}

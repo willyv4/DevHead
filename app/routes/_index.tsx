@@ -11,7 +11,9 @@ export const loader: LoaderFunction = async (args) => {
 	if (userId) {
 		const userWithId = await User.getUserById(userId);
 
-		if (userWithId[0]?.id) return redirect("/home");
+		if (userWithId[0]?.id) {
+			return redirect("/home");
+		}
 
 		const user = await createClerkClient({
 			secretKey: process.env.CLERK_SECRET_KEY,

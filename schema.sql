@@ -23,7 +23,6 @@ CREATE TABLE portfolio_posts (
   description text,
   code_link text,
   live_link text,
-  like_count int DEFAULT 0,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 

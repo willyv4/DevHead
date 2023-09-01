@@ -170,8 +170,6 @@ export default function UserProfile() {
 	const loaderData = useLoaderData<LoaderData>();
 	const { userid } = useParams();
 
-	console.log(auth);
-
 	useEffect(() => {
 		if (auth.user?.id !== userid || !auth.isSignedIn) return navigate("/home");
 	}, [navigate, auth.user?.id, auth.isSignedIn, userid]);

@@ -2,13 +2,14 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import CommentForm from "./forms/CommentForm";
-import CommentList from "./CommentList";
+import { Outlet } from "@remix-run/react";
 
 type props = {
 	userId: string | undefined;
 	open: any;
 	setOpen: any;
 	viewProject: any;
+	comments: any;
 };
 
 const CommentSLider: React.FC<props> = ({
@@ -16,8 +17,8 @@ const CommentSLider: React.FC<props> = ({
 	open,
 	setOpen,
 	viewProject,
+	comments,
 }) => {
-	console.log(viewProject);
 	return (
 		<Transition.Root show={open} as={Fragment}>
 			<Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -38,9 +39,9 @@ const CommentSLider: React.FC<props> = ({
 								<Dialog.Panel className="pointer-events-auto w-screen max-w-md">
 									<div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
 										<div className="px-4 sm:px-6">
-											<div className="flex items-start justify-between">
+											<div className="flex items-start justify-between fixed z-30 bg-white w-[400px] h-12 top-0 pt-4 -ml-2">
 												<Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-													{viewProject?.title} Comments
+													{viewProject?.title}
 												</Dialog.Title>
 												<div className="ml-3 flex h-7 items-center">
 													<button
@@ -62,7 +63,7 @@ const CommentSLider: React.FC<props> = ({
 												className="w-full h-[275px] inset-0 w-full bg-gray-50 object-cover rounded-lg"
 											/>
 											<CommentForm postId={viewProject?.id} userId={userId} />
-											<CommentList viewProject={viewProject} userId={userId} />
+											<Outlet />
 										</div>
 									</div>
 								</Dialog.Panel>

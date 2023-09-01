@@ -16,7 +16,6 @@ import LeetCodeView from "~/components/user-view/LeetCodeView";
 import ProjectListView from "~/components/user-view/ProjectListView";
 import { Likes } from "~/models/likes";
 import { useUser } from "@clerk/remix";
-import { Comments } from "~/models/comments";
 
 type UserProfile = {
 	id: string;
@@ -55,7 +54,7 @@ type LoaderData = {
 	userProfile: UserProfile;
 	userProjects: UserProjects[] | null | undefined;
 	userSkills: UserSkills[];
-	projectLikes: number[];
+	// projectLikes: number[];
 };
 
 export const loader: LoaderFunction = async ({
@@ -66,12 +65,10 @@ export const loader: LoaderFunction = async ({
 	if (userId) {
 		const userProfile = await User.getUserProfileById(userId);
 		const userProjects = await Projects.getUserProjectsById(userId);
-		const projectLikes = await Likes.getLikesById(userId);
+		// const projectLikes = await Likes.getLikesById(userId);
 		const userSkills = await Skills.getSkillsById(userId);
 
-		console.log("project Likes:", projectLikes);
-
-		return { userProfile, userProjects, userSkills, projectLikes };
+		return { userProfile, userProjects, userSkills };
 	}
 
 	return null;
@@ -95,30 +92,20 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		return await Likes.removeLike(data.userId, data.projectId);
 	}
 
-	if (data._action === "POST_COMMENT") {
-		return await Comments.addComment(data.userId, data.projectId, data.comment);
-	}
-
-	if (data._action === "DELETE_COMMENT") {
-		return await Comments.deleteComment(data.commentId);
-	}
-
 	return null;
 };
 
 export default function UserProfile() {
 	const { user } = useUser();
-
 	const loaderData = useLoaderData<LoaderData>();
 
 	const userSkills = loaderData.userSkills;
 	const userProfile = loaderData.userProfile;
 	const userProjects = loaderData.userProjects;
-	const projectLikes = loaderData.projectLikes;
 
-	console.log("ahh zay projects", userProjects);
+	console.log("USER PROJECTS", userProjects);
 
-	if (userProfile) {
+	if (userProfile && user?.id) {
 		return (
 			<div className="bg-white rounded-sm">
 				<Header userProfile={userProfile} />
@@ -126,11 +113,7 @@ export default function UserProfile() {
 				<SkillView userSkills={userSkills} />
 				<GitHubView githubUsername={userProfile.github_username} />
 				<LeetCodeView leetcodeUsername={userProfile.leetcode_username} />
-				<ProjectListView
-					userId={user?.id && user?.id}
-					userProjects={userProjects}
-					projectLikes={projectLikes}
-				/>
+				<ProjectListView userId={user?.id} userProjects={userProjects} />
 			</div>
 		);
 	}

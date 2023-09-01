@@ -6,23 +6,28 @@ export class Projects {
 		const result = await db.query(
 			`
     		SELECT
-  			pp.*,
-  				json_agg(
-					json_build_object(
-						'comment_id', pc.id,
-      					'author_first_name', u.first_name,
-    					'author_last_name', u.last_name,
-  						'author_image_url', u.image_url,
-					    'comment', pc.comment,
-						'user_id', pc.user_id
-    					)
-  					) AS comments
-			FROM portfolio_posts pp
-			LEFT JOIN portfolio_comments pc ON pp.id = pc.post_id
-			LEFT JOIN users u ON pc.user_id = u.id
-			WHERE pp.user_id = $1
-			GROUP BY pp.id
-			ORDER BY pp.id ASC;
+    pp.*,
+    json_agg(
+        json_build_object(
+            'comment_id', pc.id,
+            'author_first_name', u.first_name,
+            'author_last_name', u.last_name,
+            'author_image_url', u.image_url,
+            'comment', pc.comment,
+            'user_id', pc.user_id
+        )
+    ) AS comments,
+    ARRAY(
+        SELECT user_id
+        FROM likes
+        WHERE post_id = pp.id
+    ) AS liked_user_ids
+FROM portfolio_posts pp
+LEFT JOIN portfolio_comments pc ON pp.id = pc.post_id
+LEFT JOIN users u ON pc.user_id = u.id
+WHERE pp.user_id = $1
+GROUP BY pp.id
+ORDER BY pp.id ASC;
     		`,
 			[id]
 		);

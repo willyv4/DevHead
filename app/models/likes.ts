@@ -10,15 +10,6 @@ export class Likes {
 			[postId, userId]
 		);
 
-		await db.query(
-			`
-      	UPDATE portfolio_posts
-      	SET like_count = like_count + 1
-      	WHERE id = $1
-      	`,
-			[postId]
-		);
-
 		return { success: true };
 	}
 
@@ -28,15 +19,6 @@ export class Likes {
 			projectId,
 		]);
 
-		await db.query(
-			`
-    		UPDATE portfolio_posts
-    		SET like_count = like_count - 1
-    		WHERE id = $1
-    		`,
-			[projectId]
-		);
-
 		return { success: true };
 	}
 
@@ -45,7 +27,9 @@ export class Likes {
 			userId,
 		]);
 
+		console.log(res.rows);
 		const arr = res.rows.map((row: any) => row.post_id);
+		console.log(arr);
 
 		return arr;
 	}

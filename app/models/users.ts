@@ -25,6 +25,7 @@ export class User {
 			`SELECT username, id, image_url FROM users WHERE id = $1`,
 			[id]
 		);
+		console.log(id, "result:", result.rows);
 		return result.rows;
 	}
 

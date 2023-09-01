@@ -1,51 +1,10 @@
 import { PhotoIcon } from "@heroicons/react/20/solid";
 import { Form } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import useImageUploader from "~/hooks/UseImageUploader";
 
 const ProjectForm = ({ userId }: { userId: string | undefined }) => {
-	const [imageFiles, setImageFiles]: any = useState([]);
-	const [image, setImage] = useState<string | null | undefined>(null);
-
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { files } = e.target;
-
-		if (!files) return null;
-
-		const validFiles = Array.from(files).filter((f) =>
-			f.type.match(/image\/(png|jpg|jpeg)/gm)
-		);
-
-		validFiles.length
-			? setImageFiles(validFiles)
-			: alert("Selected images are not of valid type!");
-	};
-
-	useEffect(() => {
-		const images: string[] = [];
-		const fileReaders: FileReader[] = [];
-
-		if (imageFiles.length) {
-			imageFiles.forEach((file: Blob) => {
-				const fileReader = new FileReader();
-
-				fileReader.onload = (e) => {
-					const result = e.target?.result as string | null;
-					if (result) images.push(result);
-
-					if (images.length === imageFiles.length) setImage(images[0]);
-				};
-
-				fileReader.readAsDataURL(file);
-				fileReaders.push(fileReader);
-			});
-		}
-
-		return () => {
-			fileReaders.forEach((fileReader) => {
-				if (fileReader.readyState === FileReader.LOADING) fileReader.abort();
-			});
-		};
-	}, [imageFiles]);
+	const [image, setImage, getRootProps, getInputProps] =
+		useImageUploader() as any;
 
 	return (
 		<Form method="post" encType="multipart/form-data">
@@ -69,14 +28,17 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 							className="mx-auto h-12 w-12 text-gray-300"
 							aria-hidden="true"
 						/>
-						<div className="mt-4 flex text-sm leading-6 text-gray-600">
+						<div
+							{...getRootProps()}
+							className="mt-4 flex text-sm leading-6 text-gray-600"
+						>
 							<label
 								htmlFor="file-upload"
 								className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
 							>
 								<span>Upload a Project Image</span>
 								<input
-									onChange={handleChange}
+									{...getInputProps()}
 									id="file-upload"
 									type="file"
 									className="sr-only"

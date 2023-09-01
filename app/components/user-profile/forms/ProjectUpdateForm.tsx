@@ -2,6 +2,7 @@ import { PhotoIcon } from "@heroicons/react/20/solid";
 import { Form } from "@remix-run/react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
+import useImageUploader from "~/hooks/UseImageUploader";
 
 type Project = {
 	id: string | number;
@@ -16,7 +17,56 @@ type Props = {
 	project: Project | null;
 };
 
-const imageTypeRegex = /image\/(png|jpg|jpeg)/gm;
+// const imageTypeRegex = /image\/(png|jpg|jpeg)/gm;
+
+// const handleFileChange = (e: any) => {
+// 	const { files } = e.target;
+// 	const validImageFiles: any[] = [];
+// 	for (let i = 0; i < files.length; i++) {
+// 		const file = files[i];
+// 		if (file.type.match(imageTypeRegex)) {
+// 			validImageFiles.push(file);
+// 		}
+// 	}
+// 	if (validImageFiles.length) {
+// 		setImageFiles(validImageFiles);
+// 		return;
+// 	}
+// 	alert("Selected images are not of valid type!");
+// };
+
+// useEffect(() => {
+// 	const images: any = [],
+// 		fileReaders: any = [];
+// 	let isCancel = false;
+// 	if (imageFiles.length) {
+// 		imageFiles.forEach((file: any) => {
+// 			const fileReader = new FileReader();
+// 			fileReaders.push(fileReader);
+// 			fileReader.onload = (e) => {
+// 				const { result }: any = e.target;
+// 				if (result) {
+// 					images.push(result);
+// 				}
+// 				if (images.length === imageFiles.length && !isCancel) {
+// 					setFormData((prevData) => ({
+// 						...prevData,
+// 						imageUrl: images[0],
+// 					}));
+// 				}
+// 			};
+// 			fileReader.readAsDataURL(file);
+// 		});
+// 	}
+// 	return () => {
+// 		isCancel = true;
+// 		fileReaders.forEach((fileReader: any) => {
+// 			if (fileReader.readyState === 1) {
+// 				fileReader.abort();
+// 			}
+// 		});
+// 	};
+// }, [imageFiles]);
 
 const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 	const INITIAL_STATE = {
@@ -26,58 +76,19 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 		projectLiveLink: project?.live_link,
 		projectLikeCount: project?.like_count,
 	};
-
-	const [imageFiles, setImageFiles]: any = useState([]);
-	const [formData, setFormData] = useState(INITIAL_STATE);
-
-	const handleFileChange = (e: any) => {
-		const { files } = e.target;
-		const validImageFiles: any[] = [];
-		for (let i = 0; i < files.length; i++) {
-			const file = files[i];
-			if (file.type.match(imageTypeRegex)) {
-				validImageFiles.push(file);
-			}
-		}
-		if (validImageFiles.length) {
-			setImageFiles(validImageFiles);
-			return;
-		}
-		alert("Selected images are not of valid type!");
-	};
+	const [image, getRootProps, getInputProps] = useImageUploader() as any;
 
 	useEffect(() => {
-		const images: any = [],
-			fileReaders: any = [];
-		let isCancel = false;
-		if (imageFiles.length) {
-			imageFiles.forEach((file: any) => {
-				const fileReader = new FileReader();
-				fileReaders.push(fileReader);
-				fileReader.onload = (e) => {
-					const { result }: any = e.target;
-					if (result) {
-						images.push(result);
-					}
-					if (images.length === imageFiles.length && !isCancel) {
-						setFormData((prevData) => ({
-							...prevData,
-							imageUrl: images[0],
-						}));
-					}
-				};
-				fileReader.readAsDataURL(file);
-			});
+		if (image) {
+			setFormData((prevData) => ({
+				...prevData,
+				imageUrl: image,
+			}));
 		}
-		return () => {
-			isCancel = true;
-			fileReaders.forEach((fileReader: any) => {
-				if (fileReader.readyState === 1) {
-					fileReader.abort();
-				}
-			});
-		};
-	}, [imageFiles]);
+	}, [image]);
+
+	// const [imageFiles, setImageFiles]: any = useState([]);
+	const [formData, setFormData] = useState(INITIAL_STATE);
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -93,6 +104,8 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 			imageUrl: "",
 		}));
 	};
+
+	console.log(formData.imageUrl);
 
 	return (
 		<Form method="post" encType="multipart/form-data">
@@ -110,12 +123,11 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 							>
 								<span>Upload a Project Image</span>
 								<input
-									onChange={handleFileChange}
+									{...getInputProps()}
 									id="file-upload"
 									type="file"
 									className="sr-only"
 									accept="image/*"
-									value={""}
 								/>
 							</label>
 							<p className="pl-1">or drag and drop</p>
@@ -129,7 +141,7 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 				<div>
 					<button
 						onClick={handleImageUrlClick}
-						className="absolute z-10 right-8 top-8  rounded bg-rose-50 px-2 py-1 text-xs font-semibold text-rose-600 shadow-sm hover:bg-rose-100"
+						className="absolute z-10 right-8 top-8 rounded bg-rose-50 px-2 py-1 text-xs font-semibold text-rose-600 shadow-sm hover:bg-rose-100"
 					>
 						X
 					</button>
