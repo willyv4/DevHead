@@ -37,8 +37,8 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 
 	return (
 		<div className="flex-col justify-center mt-20">
-			<div className="border-b border-gray-200 pb-5">
-				<h3 className="text-base font-semibold leading-6 text-gray-900">
+			<div className="border-b border-gray-950 pb-5">
+				<h3 className="text-xl font-bold leading-6 text-gray-300">
 					<div className="flex flex-row ml-5">
 						<p className="ml-2">Projects</p>
 					</div>
@@ -53,13 +53,13 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 				comments={viewProject?.comments}
 			/>
 
-			<div className="flex flex-row flex-wrap mt-10 justify-center">
+			<div className="carousel rounded-box flex flex-row ml-4">
 				{userProjects?.map((post: any, idx: number) => (
 					<div
 						key={post.id + post.title}
-						className="w-[300px] mx-2 my-6 justify-center align-items"
+						className="carousel-item w-[350px] mx-2 my-6 justify-center align-items rounded-xl"
 					>
-						<div className="relative isolate flex flex-col justify-end overflow-hidden rounded-lg bg-gray-900 px-8 pb-8 pt-80">
+						<div className="ring-2 ring-gray-700 relative isolate flex flex-col justify-end overflow-hidden rounded-lg bg-gray-900 px-8 pb-8 pt-80">
 							<img
 								src={post.image_url}
 								alt=""
@@ -89,7 +89,7 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 										rel="noreferrer"
 										target="_blank"
 										href={`https://${post.live_link}`}
-										className="ml-1 flex items-center px-2 py-1 rounded-lg bg-indigo-400 px-2 py-1 text-indigo-950 text-xs font-semibold text-white shadow-sm hover:bg-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+										className="ml-1 flex items-center px-2 py-1 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
 									>
 										Site
 										<ComputerDesktopIcon className="w-4 ml-1" />
@@ -98,17 +98,17 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 									<a
 										target="_blank"
 										href={`https://${post.code_link}`}
-										className="ml-2 flex items-center px-2 py-1 rounded-lg bg-indigo-400 px-2 py-1 text-indigo-950  text-xs font-semibold text-white shadow-sm hover:bg-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+										className="ml-2 flex items-center px-2 py-1 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
 										rel="noreferrer"
 									>
 										Code
 										<CodeBracketIcon className="w-4 ml-1" />
 									</a>
 
-									<Link to={`./comments/${post.id}`}>
+									<Link preventScrollReset={true} to={`./comments/${post.id}`}>
 										<button
 											onClick={() => handleClick(idx + 1)}
-											className="ml-2 flex items-center px-2 py-1 rounded-lg bg-indigo-400 px-2 py-1 text-indigo-950  text-xs font-semibold text-white shadow-sm hover:bg-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+											className="ml-2 flex items-center px-2 py-2 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
 										>
 											Comments
 										</button>
@@ -132,7 +132,7 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 												name="_action"
 												value="POST_UNLIKE"
 											>
-												<HeartIcon className="w-5  text-rose-500" />
+												<HeartIcon className="w-5 text-rose-500" />
 											</button>
 											<span className="text-xs mt-[5px]">
 												{post?.liked_user_ids?.length}

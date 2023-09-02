@@ -1,4 +1,5 @@
 import { EnvelopeIcon } from "@heroicons/react/20/solid";
+import { Form } from "@remix-run/react";
 
 type UserProfile = {
 	id: string;
@@ -18,13 +19,19 @@ type UserProfile = {
 	leetcode_username: string | null;
 };
 
-const Header = ({ userProfile }: { userProfile: UserProfile }) => {
+const Header = ({
+	userProfile,
+	userId,
+}: {
+	userProfile: UserProfile;
+	userId: string;
+}) => {
 	return (
 		<div>
-			<div className="border-b-2 border-gray-100">
+			<div className="border-b border-gray-950">
 				<img
-					className="h-32 w-full object-cover lg:h-48"
-					src="https://tailwindcss.com/_next/static/media/docs@tinypng.d9e4dcdc.png"
+					className="w-full object-cover h-48 rounded-tl-lg rounded-tr-lg"
+					src="https://tailwindui.com/img/beams-template-header.png"
 					alt="background"
 				/>
 			</div>
@@ -32,17 +39,47 @@ const Header = ({ userProfile }: { userProfile: UserProfile }) => {
 				<div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
 					<div className="flex">
 						<img
-							className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
+							className="h-24 w-24 rounded-full ring-4 ring-gray-900 sm:h-32 sm:w-32"
 							src={userProfile?.image_url}
 							alt=""
 						/>
 					</div>
-					<div className="sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
-						<div className="min-w-0 flex-1 sm:hidden md:block">
+
+					<div className="mt-10 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
+						<div className="min-w-0 flex-1 -mb-10  md:block">
 							<div className="flex flex-row">
-								<h1 className="truncate text-2xl font-bold text-gray-900">
+								<h1 className="text-2xl font-bold text-gray-200">
 									{userProfile?.first_name + " " + userProfile?.last_name}
 								</h1>
+								{userId !== userProfile.id && (
+									<Form method="post">
+										<input type="hidden" defaultValue={userId} name="userId" />
+										<input
+											type="hidden"
+											defaultValue={userProfile.id}
+											name="userBeingFollowed"
+										/>
+										{userProfile.following?.includes(userId) ? (
+											<button
+												name="_action"
+												value="DELETE_FOLLOW"
+												type="submit"
+												className="mt-[6px] ml-2 rounded bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+											>
+												Unfollow
+											</button>
+										) : (
+											<button
+												name="_action"
+												value="POST_FOLLOW"
+												type="submit"
+												className="mt-[6px] ml-2 rounded bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+											>
+												Follow
+											</button>
+										)}
+									</Form>
+								)}
 							</div>
 
 							{userProfile?.title && (
@@ -52,8 +89,17 @@ const Header = ({ userProfile }: { userProfile: UserProfile }) => {
 									</h1>
 								</div>
 							)}
+
+							<div className="flex flex-row mt-2">
+								<span className="mr-2 inline-flex items-center rounded-md bg-emerald-300/10 px-2 py-1 text-xs font-medium text-emerald-300 ring-1 ring-inset ring-emerald-300/30">
+									Followers: {userProfile.followers?.length}
+								</span>
+								<span className="inline-flex items-center rounded-md bg-emerald-300/10 px-2 py-1 text-xs font-medium text-emerald-300 ring-1 ring-inset ring-emerald-300/30">
+									Following: {userProfile.following?.length}
+								</span>
+							</div>
 						</div>
-						<div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
+						<div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0 mt-[80px]">
 							<a
 								href={`mailto:${userProfile?.email}`}
 								className="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"

@@ -5,14 +5,14 @@ type Props = {
 const BioView: React.FC<Props> = ({ userBio }) => {
 	return (
 		<>
-			<div className="border-b border-gray-200 pb-5">
-				<h3 className="ml-5 mt-5 text-base font-semibold leading-6 text-gray-700">
+			<div className="mt-20 border-b border-gray-950 pb-5">
+				<h3 className="ml-5 mt-5 text-xl font-bold leading-6 text-gray-200">
 					Bio
 				</h3>
 			</div>
-			<div className="story-container p-5">
+			<div className="story-container m-10 p-4">
 				{userBio?.split("\n")?.map((paragraph, index) => (
-					<p key={index + "paragraph"} className="my-2 text-gray-500">
+					<p key={index + "paragraph"} className="my-2 text-gray-300 ">
 						{paragraph}
 					</p>
 				))}

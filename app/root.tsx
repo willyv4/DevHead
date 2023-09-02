@@ -1,19 +1,28 @@
 import { ClerkApp, useUser, V2_ClerkErrorBoundary } from "@clerk/remix";
-import type { LinksFunction, LoaderFunction } from "@vercel/remix";
-import { Links, LiveReload, Meta, Outlet, Scripts } from "@remix-run/react";
+import type {
+	LinksFunction,
+	LoaderFunction,
+	V2_MetaFunction,
+} from "@vercel/remix";
+import {
+	Links,
+	LiveReload,
+	Meta,
+	Outlet,
+	Scripts,
+	ScrollRestoration,
+} from "@remix-run/react";
 import { Analytics } from "@vercel/analytics/react";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import stylesheet from "./tailwind.css";
 import NavBar from "./components/NavBar";
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: stylesheet },
 ];
-
+export const meta: V2_MetaFunction = () => [{ title: "DevHead" }];
 export const loader: LoaderFunction = (args) => rootAuthLoader(args);
-
 export const ErrorBoundary = V2_ClerkErrorBoundary();
 
 function App() {
@@ -42,7 +51,7 @@ function App() {
 	console.log("Stored user:", CURR_USER);
 
 	return (
-		<html lang="en" data-theme="night">
+		<html lang="en" className="bg-gray-900">
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -52,6 +61,7 @@ function App() {
 			<body>
 				<NavBar currUser={CURR_USER} />
 				<Outlet />
+				<ScrollRestoration />
 				<Scripts />
 				<LiveReload />
 				<Analytics />

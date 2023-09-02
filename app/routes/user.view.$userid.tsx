@@ -16,6 +16,7 @@ import LeetCodeView from "~/components/user-view/LeetCodeView";
 import ProjectListView from "~/components/user-view/ProjectListView";
 import { Likes } from "~/models/likes";
 import { useUser } from "@clerk/remix";
+import { Follows } from "~/models/follows";
 
 type UserProfile = {
 	id: string;
@@ -82,6 +83,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		projectId: number;
 		comment: string;
 		commentId: number;
+		userBeingFollowed: string;
 	};
 
 	if (data._action === "POST_LIKE") {
@@ -90,6 +92,14 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 
 	if (data._action === "POST_UNLIKE") {
 		return await Likes.removeLike(data.userId, data.projectId);
+	}
+
+	if (data._action === "POST_FOLLOW") {
+		return await Follows.addFollow(data.userId, data.userBeingFollowed);
+	}
+
+	if (data._action === "DELETE_FOLLOW") {
+		return await Follows.removeFollow(data.userId, data.userBeingFollowed);
 	}
 
 	return null;
@@ -103,17 +113,20 @@ export default function UserProfile() {
 	const userProfile = loaderData.userProfile;
 	const userProjects = loaderData.userProjects;
 
-	console.log("USER PROJECTS", userProjects);
+	console.log("Users", userProfile.id, user?.id);
+	console.log("USER Profile", userProfile);
 
 	if (userProfile && user?.id) {
 		return (
-			<div className="bg-white rounded-sm">
-				<Header userProfile={userProfile} />
-				<BioView userBio={userProfile.about} />
-				<SkillView userSkills={userSkills} />
-				<GitHubView githubUsername={userProfile.github_username} />
-				<LeetCodeView leetcodeUsername={userProfile.leetcode_username} />
-				<ProjectListView userId={user?.id} userProjects={userProjects} />
+			<div className="bg-gray-900 pt-10 sm:px-10 px-4">
+				<div className="rounded-2xl shadow-gray-950 shadow-lg mt-10">
+					<Header userProfile={userProfile} userId={user?.id} />
+					<BioView userBio={userProfile.about} />
+					<SkillView userSkills={userSkills} />
+					<GitHubView githubUsername={userProfile.github_username} />
+					<LeetCodeView leetcodeUsername={userProfile.leetcode_username} />
+					<ProjectListView userId={user?.id} userProjects={userProjects} />
+				</div>
 			</div>
 		);
 	}

@@ -179,6 +179,8 @@ export default function UserProfile() {
 	const userProjects: UserProjects[] | null | undefined =
 		loaderData.userProjects;
 
+	console.log(userProfile);
+
 	if (userProfile) {
 		return (
 			<div className="m-2 p-4 bg-white rounded-sm">

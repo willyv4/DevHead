@@ -1,11 +1,11 @@
 import { useState } from "react";
+import type { Accept } from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 
 function useImageUploader() {
 	const [image, setImage] = useState<string | null | undefined>(null);
 
 	const onDrop = (acceptedFiles: File[]) => {
-		console.log(acceptedFiles);
 		const validFiles = acceptedFiles.filter((file) =>
 			file.type.match(/image\/(png|jpg|jpeg)/)
 		);
@@ -26,7 +26,7 @@ function useImageUploader() {
 
 	const { getRootProps, getInputProps } = useDropzone({
 		onDrop,
-		accept: "image/jpeg, image/png" as unknown as undefined,
+		accept: "image/jpeg, image/png" as unknown as Accept | undefined,
 	});
 
 	return [image, setImage, getRootProps, getInputProps];

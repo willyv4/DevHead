@@ -30,8 +30,24 @@ export class User {
 	}
 
 	static async getUserProfileById(id: string) {
-		const result = await db.query(`SELECT * FROM users WHERE id = $1`, [id]);
-		return result.rows[0];
+		const result = await db.query(
+			`
+        SELECT 
+            u.*,
+            array_agg(DISTINCT f1.user_following_id) AS following,
+            array_agg(DISTINCT f2.user_being_followed_id) AS followers
+        FROM users u
+        LEFT JOIN follows f1 ON u.id = f1.user_being_followed_id
+        LEFT JOIN follows f2 ON u.id = f2.user_following_id
+        WHERE u.id = $1
+        GROUP BY u.id
+    `,
+			[id]
+		);
+
+		const user = result.rows[0];
+
+		return user;
 	}
 
 	static async findAll() {
@@ -39,10 +55,27 @@ export class User {
 		return result.rows;
 	}
 
+	// static async getUserOverviews() {
+	// 	const result = await db.query(
+	// 		`SELECT id, image_url, first_name, last_name, title, code_start, place, email FROM users ORDER BY first_name`
+	// 	);
+	// 	return result.rows;
+	// }
+
 	static async getUserOverviews() {
 		const result = await db.query(
-			`SELECT id, image_url, first_name, last_name, title, code_start, place, email FROM users ORDER BY first_name`
+			`
+        SELECT 
+            u.*,
+            ARRAY_AGG(DISTINCT f1.user_following_id) AS following,
+            ARRAY_AGG(DISTINCT f2.user_being_followed_id) AS followers
+        FROM users u
+        LEFT JOIN follows f1 ON u.id = f1.user_being_followed_id
+        LEFT JOIN follows f2 ON u.id = f2.user_following_id
+        GROUP BY u.id
+        `
 		);
+
 		return result.rows;
 	}
 

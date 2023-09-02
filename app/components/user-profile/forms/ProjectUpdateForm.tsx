@@ -17,57 +17,6 @@ type Props = {
 	project: Project | null;
 };
 
-// const imageTypeRegex = /image\/(png|jpg|jpeg)/gm;
-
-// const handleFileChange = (e: any) => {
-// 	const { files } = e.target;
-// 	const validImageFiles: any[] = [];
-// 	for (let i = 0; i < files.length; i++) {
-// 		const file = files[i];
-// 		if (file.type.match(imageTypeRegex)) {
-// 			validImageFiles.push(file);
-// 		}
-// 	}
-// 	if (validImageFiles.length) {
-// 		setImageFiles(validImageFiles);
-// 		return;
-// 	}
-// 	alert("Selected images are not of valid type!");
-// };
-
-// useEffect(() => {
-// 	const images: any = [],
-// 		fileReaders: any = [];
-// 	let isCancel = false;
-// 	if (imageFiles.length) {
-// 		imageFiles.forEach((file: any) => {
-// 			const fileReader = new FileReader();
-// 			fileReaders.push(fileReader);
-// 			fileReader.onload = (e) => {
-// 				const { result }: any = e.target;
-// 				if (result) {
-// 					images.push(result);
-// 				}
-// 				if (images.length === imageFiles.length && !isCancel) {
-// 					setFormData((prevData) => ({
-// 						...prevData,
-// 						imageUrl: images[0],
-// 					}));
-// 				}
-// 			};
-// 			fileReader.readAsDataURL(file);
-// 		});
-// 	}
-// 	return () => {
-// 		isCancel = true;
-// 		fileReaders.forEach((fileReader: any) => {
-// 			if (fileReader.readyState === 1) {
-// 				fileReader.abort();
-// 			}
-// 		});
-// 	};
-// }, [imageFiles]);
-
 const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 	const INITIAL_STATE = {
 		imageUrl: project?.image_url,
@@ -77,6 +26,7 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 		projectLikeCount: project?.like_count,
 	};
 	const [image, getRootProps, getInputProps] = useImageUploader() as any;
+	const [formData, setFormData] = useState(INITIAL_STATE);
 
 	useEffect(() => {
 		if (image) {
@@ -86,9 +36,6 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 			}));
 		}
 	}, [image]);
-
-	// const [imageFiles, setImageFiles]: any = useState([]);
-	const [formData, setFormData] = useState(INITIAL_STATE);
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -105,8 +52,6 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 		}));
 	};
 
-	console.log(formData.imageUrl);
-
 	return (
 		<Form method="post" encType="multipart/form-data">
 			{!formData.imageUrl ? (
@@ -116,7 +61,10 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 							className="mx-auto h-12 w-12 text-gray-300"
 							aria-hidden="true"
 						/>
-						<div className="mt-4 flex text-sm leading-6 text-gray-600">
+						<div
+							{...getRootProps}
+							className="mt-4 flex text-sm leading-6 text-gray-600"
+						>
 							<label
 								htmlFor="file-upload"
 								className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
@@ -127,13 +75,13 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 									id="file-upload"
 									type="file"
 									className="sr-only"
-									accept="image/*"
+									accept="image/jpeg, image/jpg, image/png"
 								/>
 							</label>
 							<p className="pl-1">or drag and drop</p>
 						</div>
 						<p className="text-xs leading-5 text-gray-600">
-							PNG, JPG, GIF up to 10MB
+							PNG, JPG up to 10MB
 						</p>
 					</div>
 				</div>
@@ -145,7 +93,11 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 					>
 						X
 					</button>
-					<img src={formData.imageUrl} alt="preview" className="rounded" />
+					<img
+						src={formData.imageUrl || image}
+						alt="preview"
+						className="rounded"
+					/>
 				</div>
 			)}
 
