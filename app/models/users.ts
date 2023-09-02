@@ -55,13 +55,6 @@ export class User {
 		return result.rows;
 	}
 
-	// static async getUserOverviews() {
-	// 	const result = await db.query(
-	// 		`SELECT id, image_url, first_name, last_name, title, code_start, place, email FROM users ORDER BY first_name`
-	// 	);
-	// 	return result.rows;
-	// }
-
 	static async getUserOverviews() {
 		const result = await db.query(
 			`

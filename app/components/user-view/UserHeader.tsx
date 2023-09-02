@@ -26,6 +26,13 @@ const Header = ({
 	userProfile: UserProfile;
 	userId: string;
 }) => {
+	// console.log("FOLLOWERS", userProfile.followers);
+	// console.log("FOLLOWING", userProfile.following);
+	const followerCount = userProfile.followers?.filter((f) => f !== null).length;
+	const followingCount = userProfile.following?.filter(
+		(f) => f !== null
+	).length;
+
 	return (
 		<div>
 			<div className="border-b border-gray-950">
@@ -59,7 +66,7 @@ const Header = ({
 											defaultValue={userProfile.id}
 											name="userBeingFollowed"
 										/>
-										{userProfile.following?.includes(userId) ? (
+										{userProfile.followers?.includes(userId) ? (
 											<button
 												name="_action"
 												value="DELETE_FOLLOW"
@@ -92,10 +99,10 @@ const Header = ({
 
 							<div className="flex flex-row mt-2">
 								<span className="mr-2 inline-flex items-center rounded-md bg-emerald-300/10 px-2 py-1 text-xs font-medium text-emerald-300 ring-1 ring-inset ring-emerald-300/30">
-									Followers: {userProfile.followers?.length}
+									Followers: {followerCount}
 								</span>
 								<span className="inline-flex items-center rounded-md bg-emerald-300/10 px-2 py-1 text-xs font-medium text-emerald-300 ring-1 ring-inset ring-emerald-300/30">
-									Following: {userProfile.following?.length}
+									Following: {followingCount}
 								</span>
 							</div>
 						</div>

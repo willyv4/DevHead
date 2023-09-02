@@ -66,7 +66,6 @@ export const loader: LoaderFunction = async ({
 	if (userId) {
 		const userProfile = await User.getUserProfileById(userId);
 		const userProjects = await Projects.getUserProjectsById(userId);
-		// const projectLikes = await Likes.getLikesById(userId);
 		const userSkills = await Skills.getSkillsById(userId);
 
 		return { userProfile, userProjects, userSkills };
