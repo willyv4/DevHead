@@ -37,7 +37,7 @@ const Header = ({
 		<div>
 			<div className="border-b border-gray-950">
 				<img
-					className="w-full object-cover h-48 rounded-tl-lg rounded-tr-lg"
+					className="w-full object-cover h-48 rounded-tl-lg rounded-tr-lg opacity-20"
 					src="https://tailwindui.com/img/beams-template-header.png"
 					alt="background"
 				/>
@@ -71,7 +71,7 @@ const Header = ({
 												name="_action"
 												value="DELETE_FOLLOW"
 												type="submit"
-												className="mt-[6px] ml-2 rounded bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+												className="mt-[6px] ml-2 px-2 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
 											>
 												Unfollow
 											</button>
@@ -80,7 +80,7 @@ const Header = ({
 												name="_action"
 												value="POST_FOLLOW"
 												type="submit"
-												className="mt-[6px] ml-2 rounded bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+												className="mt-[6px] ml-2 px-2 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
 											>
 												Follow
 											</button>
@@ -109,7 +109,7 @@ const Header = ({
 						<div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0 mt-[80px]">
 							<a
 								href={`mailto:${userProfile?.email}`}
-								className="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+								className="inline-flex justify-center rounded-md bg-white px-3 py-2 rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
 							>
 								<EnvelopeIcon
 									className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400"

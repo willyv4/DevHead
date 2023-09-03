@@ -6,7 +6,7 @@ import type {
 } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { User } from "../models/users";
-import { Projects } from "~/models/projects";
+import Projects from "~/models/projects";
 import { Skills } from "~/models/skills";
 import Header from "~/components/user-view/UserHeader";
 import SkillView from "~/components/user-view/SkillView";

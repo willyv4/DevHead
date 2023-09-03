@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node";
 import db from "~/db.server";
 
-export class Projects {
+export default class Posts {
 	static async getUserProjectsById(id: string | null) {
 		const result = await db.query(
 			`
@@ -90,5 +90,11 @@ ORDER BY pp.id ASC;
 		);
 
 		return json({ deleted: true });
+	}
+
+	static async getAllProjects() {
+		const res = await db.query(`SELECT * FROM portfolio_posts;`);
+
+		return res.rows;
 	}
 }
