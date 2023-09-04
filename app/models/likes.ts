@@ -26,10 +26,7 @@ export class Likes {
 		const res = await db.query(`SELECT post_id FROM likes WHERE user_id = $1`, [
 			userId,
 		]);
-
-		console.log(res.rows);
 		const arr = res.rows.map((row: any) => row.post_id);
-		console.log(arr);
 
 		return arr;
 	}

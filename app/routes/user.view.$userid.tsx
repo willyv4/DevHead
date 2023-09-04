@@ -6,7 +6,7 @@ import type {
 } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { User } from "../models/users";
-import Projects from "~/models/projects";
+import Posts from "~/models/posts";
 import { Skills } from "~/models/skills";
 import Header from "~/components/user-view/UserHeader";
 import SkillView from "~/components/user-view/SkillView";
@@ -65,7 +65,7 @@ export const loader: LoaderFunction = async ({
 
 	if (userId) {
 		const userProfile = await User.getUserProfileById(userId);
-		const userProjects = await Projects.getUserProjectsById(userId);
+		const userProjects = await Posts.getUserProjectsById(userId);
 		const userSkills = await Skills.getSkillsById(userId);
 
 		return { userProfile, userProjects, userSkills };
@@ -106,14 +106,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 
 export default function UserProfile() {
 	const { user } = useUser();
-	const loaderData = useLoaderData<LoaderData>();
-
-	const userSkills = loaderData.userSkills;
-	const userProfile = loaderData.userProfile;
-	const userProjects = loaderData.userProjects;
-
-	console.log("Users", userProfile.id, user?.id);
-	console.log("USER Profile", userProfile);
+	const { userSkills, userProfile, userProjects } = useLoaderData<LoaderData>();
 
 	if (userProfile && user?.id) {
 		return (

@@ -3,13 +3,16 @@ import { Form } from "@remix-run/react";
 const CommentForm = ({
 	postId,
 	userId,
+	action,
 }: {
 	postId: number;
 	userId: string | undefined;
+	action: string;
 }) => {
+	console.log("This is the route connection", `${action}${postId}`);
 	return (
 		<Form
-			action={`./comments/${postId}`}
+			action={`${action}${postId}`}
 			method="post"
 			className="sticky top-10 z-30 bg-white pb-8 -ml-2 -mr-2"
 		>

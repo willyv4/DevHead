@@ -12,7 +12,7 @@ import ProfileHeader from "~/components/user-profile/ProfileHeader";
 import BioSection from "~/components/user-profile/BioSection";
 import { json, useNavigate } from "react-router";
 import ProjectList from "~/components/user-profile/ProjectList";
-import Projects from "~/models/projects";
+import Projects from "~/models/posts";
 import SkillsSection from "~/components/user-profile/SkillsSection";
 import { Skills } from "~/models/skills";
 import { useUser } from "@clerk/remix";

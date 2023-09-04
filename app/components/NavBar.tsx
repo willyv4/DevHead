@@ -11,7 +11,10 @@ function classNames(...classes: any) {
 
 const NavBar = ({ currUser }: any) => {
 	return (
-		<Disclosure as="nav" className="bg-gray-900 absolute top-0 z-50 w-full">
+		<Disclosure
+			as="nav"
+			className="bg-gradient-to-b from-black/40 absolute top-0 z-10 w-full pb-16"
+		>
 			{({ open }) => (
 				<>
 					<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">

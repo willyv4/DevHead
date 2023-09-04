@@ -6,6 +6,7 @@ import type {
 	LoaderFunction,
 } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { useEffect, useState } from "react";
 import CommentList from "~/components/user-view/CommentList";
 import { Comments } from "../models/comments";
 
@@ -21,9 +22,8 @@ export const loader: LoaderFunction = async ({
 		: undefined;
 
 	if (postId) {
-		const data = await Comments.getCommentsByPostId(postId);
-
-		return data[0]?.comments;
+		const comments = await Comments.getCommentsByPostId(postId);
+		return comments;
 	}
 
 	return null;
@@ -52,8 +52,17 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 
 export default function ProjectComments() {
 	const { user } = useUser();
-	const comments = useLoaderData<LoaderData>();
 
+	const loaderData: any = useLoaderData<LoaderData>();
+	const [comments, setComments] = useState<any>(loaderData[0]?.comments);
+
+	console.log("LOADER DATA", loaderData);
+
+	useEffect(() => {
+		setComments(loaderData[0]?.comments);
+	}, [loaderData]);
+
+	console.log(comments);
 	return (
 		<>{user?.id && <CommentList comments={comments} userId={user?.id} />} </>
 	);

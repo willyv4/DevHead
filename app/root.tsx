@@ -18,6 +18,7 @@ import stylesheet from "./tailwind.css";
 import NavBar from "./components/NavBar";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Footer from "./components/Footer";
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: stylesheet },
 ];
@@ -61,6 +62,7 @@ function App() {
 			<body>
 				<NavBar currUser={CURR_USER} />
 				<Outlet />
+				<Footer />
 				<ScrollRestoration />
 				<Scripts />
 				<LiveReload />

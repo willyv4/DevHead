@@ -50,7 +50,7 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 				open={commentView}
 				setOpen={setCommentView}
 				viewProject={viewProject}
-				comments={viewProject?.comments}
+				action="./comments/"
 			/>
 
 			<div className="carousel rounded-box flex flex-row ml-4">
@@ -110,7 +110,7 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 											onClick={() => handleClick(idx + 1)}
 											className="ml-2 flex items-center px-2 py-2 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
 										>
-											Comments
+											Comments {post.comment_count}
 										</button>
 									</Link>
 
