@@ -1,11 +1,13 @@
 import { Tab } from "@headlessui/react";
 import { Form } from "@remix-run/react";
+import { UseFormClear } from "~/hooks/useFormClear";
 
 const BioPostForm = ({ userId }: { userId: string | undefined }) => {
+	const { ref: setFormRef, isAdding } = UseFormClear("POST_BIO");
 	return (
 		<>
 			<p className="text-xl font-bold">Bio</p>
-			<Form method="post" className="mt-6">
+			<Form ref={setFormRef} method="post" className="mt-6">
 				<Tab.Group>
 					<Tab.Panels className="mt-2">
 						<Tab.Panel className="-m-0.5 rounded-lg p-0.5">
@@ -30,9 +32,11 @@ const BioPostForm = ({ userId }: { userId: string | undefined }) => {
 				<div className="mt-2 flex justify-end">
 					<button
 						type="submit"
+						name="_action"
+						value="POST_BIO"
 						className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 					>
-						Add Bio
+						{isAdding ? "Processing...." : "Add Bio"}
 					</button>
 				</div>
 			</Form>

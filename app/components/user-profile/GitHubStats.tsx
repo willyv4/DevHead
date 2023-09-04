@@ -14,7 +14,7 @@ type Props = {
 const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 	const [data, setData] = useState<any | undefined>();
 	const [languages, setLanguages] = useState<any | undefined>();
-	const [gitHubOpen, setGitHubOpen] = useState(false);
+	const [gitHubOpen, setGitHubOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		async function getGithubData() {
@@ -41,7 +41,7 @@ const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 		return (
 			<>
 				<Modal
-					FormComponent={<GitHubForm userId={userId} />}
+					FormComponent={<GitHubForm userId={userId} setOpen={setGitHubOpen} />}
 					open={gitHubOpen}
 					setOpen={setGitHubOpen}
 				/>
@@ -52,11 +52,13 @@ const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 			</>
 		);
 
+	if (!data) return <div>Loading...</div>;
+
 	return (
 		<>
 			{gitHubOpen && (
 				<Modal
-					FormComponent={<GitHubForm userId={userId} />}
+					FormComponent={<GitHubForm userId={userId} setOpen={setGitHubOpen} />}
 					open={gitHubOpen}
 					setOpen={setGitHubOpen}
 				/>

@@ -167,17 +167,19 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 export default function UserProfile() {
 	const navigate = useNavigate();
 	const auth = useUser();
-	const loaderData = useLoaderData<LoaderData>();
+	const { userProfile, userProjects, userSkills } = useLoaderData<LoaderData>();
 	const { userid } = useParams();
 
 	useEffect(() => {
 		if (auth.user?.id !== userid || !auth.isSignedIn) return navigate("/home");
 	}, [navigate, auth.user?.id, auth.isSignedIn, userid]);
 
-	const userSkills: UserSkills[] = loaderData.userSkills;
-	const userProfile: UserProfile = loaderData.userProfile;
-	const userProjects: UserProjects[] | null | undefined =
-		loaderData.userProjects;
+	const userBio: string | null = userProfile.about;
+
+	// const userSkills: UserSkills[] = loaderData.userSkills;
+	// const userProfile: UserProfile = loaderData.userProfile;
+	// const userProjects: UserProjects[] | null | undefined =
+	// 	loaderData.userProjects;
 
 	console.log(userProfile);
 
@@ -185,7 +187,7 @@ export default function UserProfile() {
 		return (
 			<div className="m-2 p-4 bg-white rounded-sm">
 				<ProfileHeader userProfile={userProfile} />
-				<BioSection userId={userProfile.id} userBio={userProfile.about} />
+				<BioSection userId={userProfile.id} userBio={userBio} />
 				<SkillsSection userId={userProfile.id} userSkills={userSkills} />
 				<GitHubStat
 					githubUsername={userProfile.github_username}

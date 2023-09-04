@@ -10,12 +10,14 @@ type Props = {
 
 const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 	const [buttonClicked, setButtonClicked] = useState(false);
-	const [data, setData] = useState(userBio || "");
+	const [bio, setBio] = useState(userBio);
 
-	const handleChange = (evt: any) => setData(evt.target.value);
+	console.log("bio", bio);
+
+	const handleChange = (evt: any) => setBio(evt.target.value);
 
 	const handleSubmit = () => {
-		setData(data);
+		setBio(bio);
 		setButtonClicked(false);
 	};
 
@@ -66,7 +68,7 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 				handleSubmit={handleSubmit}
 				handleChange={handleChange}
 				userId={userId}
-				data={data}
+				bio={bio}
 			/>
 		</>
 	);

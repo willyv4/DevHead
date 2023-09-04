@@ -1,8 +1,17 @@
 import { Form } from "@remix-run/react";
+import { UseFormClear } from "~/hooks/useFormClear";
 
-const GitHubForm = ({ userId }: { userId: string | undefined }) => {
+const GitHubForm = ({
+	userId,
+	setOpen,
+}: {
+	userId: string | undefined;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+	const { ref: setFormRef, isAdding } = UseFormClear("POST_GITHUB");
+
 	return (
-		<Form method="post">
+		<Form ref={setFormRef} method="post" onSubmit={() => setOpen(false)}>
 			<div className="relative mt-2 mb-4">
 				<input
 					defaultValue={userId}
@@ -22,8 +31,10 @@ const GitHubForm = ({ userId }: { userId: string | undefined }) => {
 			<button
 				className="w-full rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 				type="submit"
+				name="_action"
+				value="POST_GITHUB"
 			>
-				Submit
+				{isAdding ? "Processing..." : "Submit"}
 			</button>
 		</Form>
 	);

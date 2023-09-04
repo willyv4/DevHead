@@ -98,7 +98,7 @@ export default function Example() {
 
 			{/* features */}
 
-			<div className="-mt-24">
+			<div className="-mt-10 sm:-mt-24">
 				<div className="mx-auto max-w-7xl px-6 lg:px-8">
 					<div className="mx-auto max-w-2xl lg:mx-0">
 						<h2 className="text-3xl font-bold tracking-tight text-gray-300 sm:text-4xl">

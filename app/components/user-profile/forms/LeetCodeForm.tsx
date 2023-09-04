@@ -1,8 +1,22 @@
 import { Form } from "@remix-run/react";
+import { useEffect } from "react";
+import { UseFormClear } from "~/hooks/useFormClear";
 
-const LeetCodeForm = ({ userId }: { userId: string | undefined }) => {
+const LeetCodeForm = ({
+	userId,
+	setOpen,
+}: {
+	userId: string | undefined;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+	const { ref: setFormRef, isAdding } = UseFormClear("POST_LEETCODE");
+
+	useEffect(() => {
+		if (isAdding) setOpen(false);
+	}, [isAdding, setOpen]);
+
 	return (
-		<Form method="post">
+		<Form ref={setFormRef} method="post">
 			<input
 				defaultValue={userId}
 				type="hidden"
@@ -23,8 +37,10 @@ const LeetCodeForm = ({ userId }: { userId: string | undefined }) => {
 			<button
 				className="w-full rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 				type="submit"
+				name="_action"
+				value="POST_LEETCODE"
 			>
-				Submit
+				{isAdding ? "Processing..." : "Submit"}
 			</button>
 		</Form>
 	);

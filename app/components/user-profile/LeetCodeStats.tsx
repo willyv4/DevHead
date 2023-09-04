@@ -37,7 +37,7 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 	userId,
 }) => {
 	const [data, setData] = useState<LeetCodeData | undefined>();
-	const [leetCodeOpen, setLeetCodeOpen] = useState(false);
+	const [leetCodeOpen, setLeetCodeOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		async function getLeetcodeData() {
@@ -68,11 +68,15 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 		</button>
 	);
 
+	if (!data && leetcodeUsername) return <div>Loading...</div>;
+
 	if (!leetcodeUsername)
 		return (
 			<>
 				<Modal
-					FormComponent={<LeetCodeForm userId={userId} />}
+					FormComponent={
+						<LeetCodeForm userId={userId} setOpen={setLeetCodeOpen} />
+					}
 					open={leetCodeOpen}
 					setOpen={setLeetCodeOpen}
 				/>
@@ -87,7 +91,9 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 		<>
 			{leetCodeOpen && (
 				<Modal
-					FormComponent={<LeetCodeForm userId={userId} />}
+					FormComponent={
+						<LeetCodeForm userId={userId} setOpen={setLeetCodeOpen} />
+					}
 					open={leetCodeOpen}
 					setOpen={setLeetCodeOpen}
 				/>

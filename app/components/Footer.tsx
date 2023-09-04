@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 const Footer = () => {
 	return (
 		<footer className="footer footer-center pt-40 p-10 bg-gradient-to-t from-black/40 text-gray-400 rounded">
