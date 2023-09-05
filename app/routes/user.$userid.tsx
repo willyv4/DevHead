@@ -176,11 +176,6 @@ export default function UserProfile() {
 
 	const userBio: string | null = userProfile.about;
 
-	// const userSkills: UserSkills[] = loaderData.userSkills;
-	// const userProfile: UserProfile = loaderData.userProfile;
-	// const userProjects: UserProjects[] | null | undefined =
-	// 	loaderData.userProjects;
-
 	console.log(userProfile);
 
 	if (userProfile) {

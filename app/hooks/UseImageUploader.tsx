@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import type { Accept } from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 
 function useImageUploader() {
@@ -10,7 +9,6 @@ function useImageUploader() {
 			file.type.match(/image\/(png|jpg|jpeg)/)
 		);
 
-		console.log(validFiles);
 		if (validFiles.length) {
 			const fileReader = new FileReader();
 			fileReader.onload = () => setImage(fileReader.result as string);
@@ -20,7 +18,13 @@ function useImageUploader() {
 		}
 	};
 
-	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+	const { getRootProps, getInputProps, isDragActive } = useDropzone({
+		onDrop,
+		accept: {
+			"image/*": [],
+		},
+		maxSize: 1024 * 1000,
+	});
 
 	return [image, getRootProps, getInputProps, isDragActive, setImage];
 }

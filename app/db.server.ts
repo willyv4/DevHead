@@ -5,7 +5,7 @@ let db: any;
 const getDatabaseUri = () => {
 	return process.env.NODE_ENV === "test"
 		? "devhead_test"
-		: "postgres://@localhost:5432/devhead";
+		: process.env.LIVE_DATABASE_URL || "postgres://@localhost:5432/devhead";
 };
 
 if (process.env.NODE_ENV === "production") {
