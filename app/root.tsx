@@ -19,7 +19,6 @@ import stylesheet from "./tailwind.css";
 import NavBar from "./components/NavBar";
 import { useState } from "react";
 import Footer from "./components/Footer";
-import { getEnv } from "./env.starter";
 import { User } from "./models/users";
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: stylesheet },
@@ -34,7 +33,7 @@ export const loader: LoaderFunction = (args) => {
 			const currUser = await User.getUserById(userId);
 
 			console.log("Root loader auth:", { userId, sessionId, getToken });
-			return { ENV: getEnv(), currUser: currUser };
+			return { currUser: currUser };
 		},
 		{
 			loadUser: true,
@@ -45,10 +44,8 @@ export const loader: LoaderFunction = (args) => {
 export const ErrorBoundary = V2_ClerkErrorBoundary();
 
 function App() {
-	const { ENV, currUser } = useLoaderData();
+	const { currUser } = useLoaderData();
 	const [CURR_USER] = useState<any>(currUser[0]);
-
-	console.log("ENV", ENV);
 
 	return (
 		<html lang="en" className="bg-gray-900">
@@ -64,11 +61,6 @@ function App() {
 				<Footer />
 				<ScrollRestoration />
 				<Scripts />
-				<script
-					dangerouslySetInnerHTML={{
-						__html: `window.ENV = ${JSON.stringify(ENV)}`,
-					}}
-				/>
 				<LiveReload />
 				<Analytics />
 			</body>
