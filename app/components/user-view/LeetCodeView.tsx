@@ -69,7 +69,7 @@ const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 								{item.name} Problems
 							</dt>
 							<dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-								<div className="flex items-baseline text-2xl font-semibold text-indigo-300">
+								<div className="flex items-baseline text-xl font-semibold text-indigo-300 truncate">
 									{item.solved} / {item.total}
 								</div>
 

@@ -25,9 +25,6 @@ type UserProfile = {
 const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 	const [buttonClicked, setButtonClicked] = useState(false);
 	const [updateFromView, setUpdateFormView] = useState(false);
-	const handleSubmit = () => setButtonClicked(false);
-	// const handleClick = () =>
-	// 	buttonClicked ? setButtonClicked(false) : setButtonClicked(true);
 
 	return (
 		<div>
@@ -65,8 +62,8 @@ const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 							<Modal
 								FormComponent={
 									<ProfileUpdateForm
-										handleSubmit={handleSubmit}
 										userProfile={userProfile}
+										setOpen={setUpdateFormView}
 									/>
 								}
 								open={updateFromView}

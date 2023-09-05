@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Accept } from "react-dropzone";
+// import type { Accept } from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 
 function useImageUploader() {
@@ -13,23 +13,16 @@ function useImageUploader() {
 		console.log(validFiles);
 		if (validFiles.length) {
 			const fileReader = new FileReader();
-
-			fileReader.onload = () => {
-				setImage(fileReader.result as string);
-			};
-
+			fileReader.onload = () => setImage(fileReader.result as string);
 			fileReader.readAsDataURL(validFiles[0]);
 		} else {
 			alert("Selected images are not of a valid type!");
 		}
 	};
 
-	const { getRootProps, getInputProps } = useDropzone({
-		onDrop,
-		accept: "image/jpeg, image/png" as unknown as Accept | undefined,
-	});
+	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-	return [image, setImage, getRootProps, getInputProps];
+	return [image, getRootProps, getInputProps, isDragActive, setImage];
 }
 
 export default useImageUploader;

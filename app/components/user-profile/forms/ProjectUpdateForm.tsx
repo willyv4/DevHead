@@ -15,9 +15,10 @@ type Project = {
 type Props = {
 	userId: string | undefined;
 	project: Project | null;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
+const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
 	const INITIAL_STATE = {
 		imageUrl: project?.image_url,
 		projectTitle: project?.title,
@@ -25,7 +26,17 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 		projectLiveLink: project?.live_link,
 		projectLikeCount: project?.like_count,
 	};
-	const [image, getRootProps, getInputProps] = useImageUploader() as any;
+
+	const AFTER_SUBMISSION: any = {
+		imageUrl: "",
+		projectTitle: "",
+		projectCodeLink: "",
+		projectLiveLink: "",
+		projectLikeCount: "",
+	};
+
+	const [image, getRootProps, getInputProps, isDragActive] =
+		useImageUploader() as any;
 	const [formData, setFormData] = useState(INITIAL_STATE);
 
 	useEffect(() => {
@@ -52,8 +63,13 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 		}));
 	};
 
+	const handleSubmit = () => {
+		setFormData(AFTER_SUBMISSION);
+		setOpen(false);
+	};
+
 	return (
-		<Form method="post" encType="multipart/form-data">
+		<Form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
 			{!formData.imageUrl ? (
 				<div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
 					<div className="text-center">
@@ -61,28 +77,15 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 							className="mx-auto h-12 w-12 text-gray-300"
 							aria-hidden="true"
 						/>
-						<div
-							{...getRootProps}
-							className="mt-4 flex text-sm leading-6 text-gray-600"
-						>
-							<label
-								htmlFor="file-upload"
-								className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-							>
-								<span>Upload a Project Image</span>
-								<input
-									{...getInputProps()}
-									id="file-upload"
-									type="file"
-									className="sr-only"
-									accept="image/jpeg, image/jpg, image/png"
-								/>
-							</label>
-							<p className="pl-1">or drag and drop</p>
+						<div {...getRootProps()}>
+							<span>Upload a Project Image</span>
+							<input {...getInputProps()} />
+
+							<p className="pl-1">
+								{isDragActive ? "Drop file here..." : "or drag and drop"}
+							</p>
+							<p className="text-sm">PNG, JPG, GIF up to 10MB</p>
 						</div>
-						<p className="text-xs leading-5 text-gray-600">
-							PNG, JPG up to 10MB
-						</p>
 					</div>
 				</div>
 			) : (
@@ -93,11 +96,7 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project }) => {
 					>
 						X
 					</button>
-					<img
-						src={formData.imageUrl || image}
-						alt="preview"
-						className="rounded"
-					/>
+					<img src={formData.imageUrl} alt="preview" className="rounded" />
 				</div>
 			)}
 

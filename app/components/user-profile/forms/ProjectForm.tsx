@@ -1,13 +1,26 @@
 import { PhotoIcon } from "@heroicons/react/20/solid";
 import { Form } from "@remix-run/react";
+import { UseFormClear } from "~/hooks/useFormClear";
 import useImageUploader from "~/hooks/UseImageUploader";
 
-const ProjectForm = ({ userId }: { userId: string | undefined }) => {
-	const [image, setImage, getRootProps, getInputProps] =
+const ProjectForm = ({
+	userId,
+	setOpen,
+}: {
+	userId: string | undefined;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+	const [image, getRootProps, getInputProps, isDragActive, setImage] =
 		useImageUploader() as any;
+	const { ref: setFormRef, isAdding } = UseFormClear("POST_PROJECTS");
 
 	return (
-		<Form method="post" encType="multipart/form-data">
+		<Form
+			ref={setFormRef}
+			method="post"
+			encType="multipart/form-data"
+			onSubmit={() => setOpen(false)}
+		>
 			<input defaultValue={userId} type="hidden" name="userId" />
 
 			{image ? (
@@ -28,29 +41,15 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 							className="mx-auto h-12 w-12 text-gray-300"
 							aria-hidden="true"
 						/>
-						<div
-							{...getRootProps()}
-							className="mt-4 flex text-sm leading-6 text-gray-600"
-						>
-							<label
-								htmlFor="file-upload"
-								className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-							>
-								<span>Upload a Project Image</span>
-								<input
-									{...getInputProps()}
-									id="file-upload"
-									type="file"
-									className="sr-only"
-									accept="image/*"
-									value={""}
-								/>
-							</label>
-							<p className="pl-1">or drag and drop</p>
+						<div {...getRootProps()}>
+							<span>Upload a Project Image</span>
+							<input {...getInputProps()} />
+
+							<p className="pl-1">
+								{isDragActive ? "Drop file here..." : "or drag and drop"}
+							</p>
+							<p className="text-sm">PNG, JPG, GIF up to 10MB</p>
 						</div>
-						<p className="text-xs leading-5 text-gray-600">
-							PNG, JPG, GIF up to 10MB
-						</p>
 					</div>
 				</div>
 			)}
@@ -95,7 +94,7 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 				name="_action"
 				value="POST_PROJECTS"
 			>
-				Submit
+				{isAdding ? "Processing..." : "Submit"}
 			</button>
 		</Form>
 	);

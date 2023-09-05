@@ -13,7 +13,7 @@ const SkillView = ({ userSkills }: { userSkills: UserSkills[] }) => {
 				</h3>
 			</div>
 			{userSkills.length && (
-				<div className="flex flex-row flex-wrap justify-center pt-10 px-10">
+				<div className="flex flex-row flex-wrap justify-center p-10">
 					{userSkills.map((skillObj) => (
 						<span
 							key={skillObj.id}

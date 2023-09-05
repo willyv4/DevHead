@@ -2,6 +2,7 @@ import { PhotoIcon } from "@heroicons/react/20/solid";
 import { Form } from "@remix-run/react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
+import useImageUploader from "~/hooks/UseImageUploader";
 
 type UserProfile = {
 	id: string;
@@ -22,13 +23,11 @@ type UserProfile = {
 };
 
 type Props = {
-	handleSubmit: () => void;
 	userProfile: UserProfile;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const imageTypeRegex = /image\/(png|jpg|jpeg)/gm;
-
-const ProfileUpdateForm: React.FC<Props> = ({ handleSubmit, userProfile }) => {
+const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 	const INITIAL_STATE = {
 		userImage: userProfile?.image_url,
 		profileTitle: userProfile?.title,
@@ -37,57 +36,27 @@ const ProfileUpdateForm: React.FC<Props> = ({ handleSubmit, userProfile }) => {
 		userEmail: userProfile?.email,
 	};
 
-	const [imageFiles, setImageFiles]: any = useState([]);
-	const [formData, setFormData] = useState(INITIAL_STATE);
-
-	const handleFileChange = (e: any) => {
-		const { files } = e.target;
-		const validImageFiles: any[] = [];
-		for (let i = 0; i < files.length; i++) {
-			const file = files[i];
-			if (file.type.match(imageTypeRegex)) {
-				validImageFiles.push(file);
-			}
-		}
-		if (validImageFiles.length) {
-			setImageFiles(validImageFiles);
-			return;
-		}
-		alert("Selected images are not of valid type!");
+	const AFTER_SUBMISSION = {
+		userImage: "",
+		profileTitle: "",
+		firstName: "",
+		lastName: "",
+		userEmail: "",
 	};
 
+	const [image, getRootProps, getInputProps, isDragActive] =
+		useImageUploader() as any;
+
+	const [formData, setFormData] = useState(INITIAL_STATE);
+
 	useEffect(() => {
-		const images: any = [],
-			fileReaders: any = [];
-		let isCancel = false;
-		if (imageFiles.length) {
-			imageFiles.forEach((file: any) => {
-				const fileReader = new FileReader();
-				fileReaders.push(fileReader);
-				fileReader.onload = (e) => {
-					const { result }: any = e.target;
-					if (result) {
-						images.push(result);
-					}
-					if (images.length === imageFiles.length && !isCancel) {
-						setFormData((prevData) => ({
-							...prevData,
-							userImage: images[0],
-						}));
-					}
-				};
-				fileReader.readAsDataURL(file);
-			});
+		if (image) {
+			setFormData((prevData) => ({
+				...prevData,
+				userImage: image,
+			}));
 		}
-		return () => {
-			isCancel = true;
-			fileReaders.forEach((fileReader: any) => {
-				if (fileReader.readyState === 1) {
-					fileReader.abort();
-				}
-			});
-		};
-	}, [imageFiles]);
+	}, [image]);
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -104,8 +73,13 @@ const ProfileUpdateForm: React.FC<Props> = ({ handleSubmit, userProfile }) => {
 		}));
 	};
 
+	const handleSubmit = () => {
+		setFormData(AFTER_SUBMISSION);
+		setOpen(false);
+	};
+
 	return (
-		<Form method="post">
+		<Form method="post" onSubmit={handleSubmit}>
 			{!formData.userImage ? (
 				<div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
 					<div className="text-center">
@@ -113,26 +87,15 @@ const ProfileUpdateForm: React.FC<Props> = ({ handleSubmit, userProfile }) => {
 							className="mx-auto h-12 w-12 text-gray-300"
 							aria-hidden="true"
 						/>
-						<div className="mt-4 flex text-sm leading-6 text-gray-600">
-							<label
-								htmlFor="file-upload"
-								className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-							>
-								<span>Upload a New Image</span>
-								<input
-									onChange={handleFileChange}
-									id="file-upload"
-									type="file"
-									className="sr-only"
-									accept="image/*"
-									value={""}
-								/>
-							</label>
-							<p className="pl-1">or drag and drop</p>
+						<div {...getRootProps()}>
+							<span>Upload a Project Image</span>
+							<input {...getInputProps()} />
+
+							<p className="pl-1">
+								{isDragActive ? "Drop file here..." : "or drag and drop"}
+							</p>
+							<p className="text-sm">PNG, JPG, GIF up to 10MB</p>
 						</div>
-						<p className="text-xs leading-5 text-gray-600">
-							PNG, JPG, GIF up to 10MB
-						</p>
 					</div>
 				</div>
 			) : (
@@ -147,7 +110,7 @@ const ProfileUpdateForm: React.FC<Props> = ({ handleSubmit, userProfile }) => {
 				</div>
 			)}
 
-			<input value={formData.userImage} type="hidden" name="userImage" />
+			<input defaultValue={formData.userImage} type="hidden" name="userImage" />
 			<input defaultValue={userProfile.id} type="hidden" name="userId" />
 			<div className="relative mt-4 mb-4">
 				<label className="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">

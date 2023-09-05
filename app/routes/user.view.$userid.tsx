@@ -110,8 +110,8 @@ export default function UserProfile() {
 
 	if (userProfile && user?.id) {
 		return (
-			<div className="bg-gray-900 pt-10 sm:px-10 px-4">
-				<div className="rounded-2xl shadow-gray-950 shadow-lg mt-10">
+			<div className="bg-gray-900 pt-28 sm:px-10 px-4">
+				<div className="rounded-2xl ring-1 ring-gray-950 mt-10">
 					<Header userProfile={userProfile} userId={user?.id} />
 					<BioView userBio={userProfile.about} />
 					<SkillView userSkills={userSkills} />

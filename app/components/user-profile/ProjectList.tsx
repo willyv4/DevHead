@@ -47,7 +47,7 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 
 			{(!userProjects || userProjects.length < 1 || addButton) && (
 				<Modal
-					FormComponent={<ProjectForm userId={userId} />}
+					FormComponent={<ProjectForm userId={userId} setOpen={setAddButton} />}
 					open={addButton}
 					setOpen={setAddButton}
 				/>
@@ -56,7 +56,11 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 			{editFormView && (
 				<Modal
 					FormComponent={
-						<ProjectUpdateForm userId={userId} project={project} />
+						<ProjectUpdateForm
+							userId={userId}
+							project={project}
+							setOpen={setEditFormView}
+						/>
 					}
 					open={editFormView}
 					setOpen={setEditFormView}
