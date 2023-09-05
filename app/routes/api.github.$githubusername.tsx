@@ -1,5 +1,4 @@
 import type { LoaderFunction } from "@remix-run/node";
-import axios from "axios";
 
 export const loader: LoaderFunction = async ({ params }) => {
 	const username = params["githubusername"];
@@ -55,18 +54,22 @@ async function getMostCommonLanguages(token: string, username: string) {
     }
   `;
 
-	const headers = {
-		Authorization: `Bearer ${token}`,
+	const requestOptions = {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify({ query }),
 	};
 
 	try {
-		const response = await axios.post(
+		const response = await fetch(
 			"https://api.github.com/graphql",
-			{ query },
-			{ headers }
+			requestOptions
 		);
-
-		const repositories = response.data.data.user.repositories.nodes;
+		const result = await response.json();
+		const repositories = result.data.user.repositories.nodes;
 		const languageCounts: { [key: string]: number } = {};
 
 		repositories.forEach((repo: any) => {
@@ -96,9 +99,6 @@ async function getMostCommonLanguages(token: string, username: string) {
 }
 
 async function getContributions(token: string, username: string) {
-	const headers = {
-		Authorization: `bearer ${token}`,
-	};
 	const body = {
 		query: `query {
       user(login: "${username}") {
@@ -125,10 +125,21 @@ async function getContributions(token: string, username: string) {
     }`,
 	};
 
+	const requestOptions = {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `bearer ${token}`,
+		},
+		body: JSON.stringify(body),
+	};
+
 	try {
-		const { data } = await axios.post("https://api.github.com/graphql", body, {
-			headers,
-		});
+		const response = await fetch(
+			"https://api.github.com/graphql",
+			requestOptions
+		);
+		const data = await response.json();
 
 		return data;
 	} catch (error) {

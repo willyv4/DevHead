@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import LeetCodeIcon from "../icon-components/LeetCodeIcon";
 import TagList from "../TagList";
@@ -32,10 +31,11 @@ const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 
 	useEffect(() => {
 		async function getLeetcodeData() {
-			const { data } = await axios.get(
+			const response = await fetch(
 				`http://localhost:3000/api/leetcodedata/${leetcodeUsername}`
 			);
 
+			const data = await response.json();
 			setData(data);
 		}
 		if (leetcodeUsername) getLeetcodeData();
@@ -49,6 +49,8 @@ const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 			fundamentalTags = [],
 		} = {},
 	} = data || {};
+
+	console.log("DATA", data);
 
 	return (
 		<div className="mt-16">

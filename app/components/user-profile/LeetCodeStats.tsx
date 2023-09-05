@@ -1,5 +1,5 @@
 import { PencilIcon } from "@heroicons/react/20/solid";
-import axios from "axios";
+
 import { useEffect, useState } from "react";
 import LeetCodeIcon from "../icon-components/LeetCodeIcon";
 import Modal from "../Modal";
@@ -41,10 +41,11 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 
 	useEffect(() => {
 		async function getLeetcodeData() {
-			const { data } = await axios.get(
+			const response = await fetch(
 				`http://localhost:3000/api/leetcodedata/${leetcodeUsername}`
 			);
 
+			const data = await response.json();
 			setData(data);
 		}
 		if (leetcodeUsername) getLeetcodeData();

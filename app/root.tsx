@@ -17,7 +17,6 @@ import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import stylesheet from "./tailwind.css";
 import NavBar from "./components/NavBar";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Footer from "./components/Footer";
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: stylesheet },
@@ -34,11 +33,14 @@ function App() {
 	useEffect(() => {
 		async function getUser() {
 			try {
-				const req = await axios.post("http://localhost:3000/api/getuser", {
-					userId: user?.id,
+				const req = await fetch("http://localhost:3000/api/getuser", {
+					method: "POST",
+					body: JSON.stringify({ userId: user?.id }),
 				});
 
-				SET_CURR_USER(req.data[0]);
+				const response = await req.json();
+
+				SET_CURR_USER(response[0]);
 			} catch (error) {
 				console.error("Error fetching user:", error);
 			}

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import GitHubIcon from "../icon-components/GitHubIcon";
 
@@ -12,12 +11,13 @@ const GitHubView: React.FC<Props> = ({ githubUsername }) => {
 
 	useEffect(() => {
 		async function getGithubData() {
-			const { data } = await axios.get(
+			const response = await fetch(
 				`http://localhost:3000/api/github/${githubUsername}`
 			);
 
-			setData(data.stats);
-			setLanguages(data.language);
+			const { stats, language } = await response.json();
+			setData(stats);
+			setLanguages(language);
 		}
 		if (githubUsername) getGithubData();
 	}, [githubUsername]);
