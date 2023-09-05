@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useFetcher } from "@remix-run/react";
+import { useEffect } from "react";
 import GitHubIcon from "../icon-components/GitHubIcon";
 
 type Props = {
@@ -6,21 +7,16 @@ type Props = {
 };
 
 const GitHubView: React.FC<Props> = ({ githubUsername }) => {
-	const [data, setData] = useState<any | undefined>();
-	const [languages, setLanguages] = useState<any | undefined>();
+	const gitHubFetcher = useFetcher();
+	const languages = gitHubFetcher.data?.language;
+	const data = gitHubFetcher.data?.stats;
 
 	useEffect(() => {
-		async function getGithubData() {
-			const response = await fetch(
-				`http://localhost:3000/api/github/${githubUsername}`
-			);
-
-			const { stats, language } = await response.json();
-			setData(stats);
-			setLanguages(language);
-		}
-		if (githubUsername) getGithubData();
+		if (githubUsername) gitHubFetcher.load(`/api/github/${githubUsername}`);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [githubUsername]);
+
+	if (gitHubFetcher.state === "loading") return <div> Loading...</div>;
 
 	return (
 		<>

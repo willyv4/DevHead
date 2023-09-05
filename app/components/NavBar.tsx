@@ -33,17 +33,19 @@ const NavBar = ({ currUser }: any) => {
 							<div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
 								<div className="hidden sm:ml-6 sm:block">
 									<div className="flex space-x-4">
-										<Link to="/">
+										<Link to="/" prefetch="render">
 											<img src={logo} width="32" height="32" alt="Logo" />
 										</Link>
 										<Link
 											to="/users"
+											prefetch="render"
 											className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
 										>
 											Devs
 										</Link>
 										<Link
 											to="/posts"
+											prefetch="render"
 											className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
 										>
 											Posts
@@ -79,6 +81,7 @@ const NavBar = ({ currUser }: any) => {
 													{({ active }) => (
 														<Link
 															to={`/user/${currUser?.id}`}
+															prefetch="render"
 															className={classNames(
 																active ? "bg-gray-100" : "",
 																"block px-4 py-2 text-sm text-gray-700"

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useFetcher } from "@remix-run/react";
+import { useEffect } from "react";
 import LeetCodeIcon from "../icon-components/LeetCodeIcon";
 import TagList from "../TagList";
 
@@ -27,20 +28,8 @@ interface LeetCodeStatProps {
 }
 
 const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
-	const [data, setData] = useState<LeetCodeData | undefined>();
-
-	useEffect(() => {
-		async function getLeetcodeData() {
-			const response = await fetch(
-				`http://localhost:3000/api/leetcodedata/${leetcodeUsername}`
-			);
-
-			const data = await response.json();
-			setData(data);
-		}
-		if (leetcodeUsername) getLeetcodeData();
-	}, [leetcodeUsername]);
-
+	const leetFetcher = useFetcher<LeetCodeData>();
+	const data = leetFetcher.data;
 	const {
 		leetCodeSummary: overView = [],
 		tags: {
@@ -50,7 +39,12 @@ const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 		} = {},
 	} = data || {};
 
-	console.log("DATA", data);
+	useEffect(() => {
+		if (leetcodeUsername) {
+			leetFetcher.load(`/api/leetcodedata/${leetcodeUsername}`);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [leetcodeUsername]);
 
 	return (
 		<div className="mt-16">

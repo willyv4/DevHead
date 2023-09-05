@@ -1,4 +1,5 @@
 import { PencilIcon } from "@heroicons/react/20/solid";
+import { useFetcher } from "@remix-run/react";
 
 import { useEffect, useState } from "react";
 import LeetCodeIcon from "../icon-components/LeetCodeIcon";
@@ -36,21 +37,9 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 	leetcodeUsername,
 	userId,
 }) => {
-	const [data, setData] = useState<LeetCodeData | undefined>();
+	const leetFetcher = useFetcher<LeetCodeData>();
 	const [leetCodeOpen, setLeetCodeOpen] = useState<boolean>(false);
-
-	useEffect(() => {
-		async function getLeetcodeData() {
-			const response = await fetch(
-				`http://localhost:3000/api/leetcodedata/${leetcodeUsername}`
-			);
-
-			const data = await response.json();
-			setData(data);
-		}
-		if (leetcodeUsername) getLeetcodeData();
-	}, [leetcodeUsername]);
-
+	const data = leetFetcher.data;
 	const {
 		leetCodeSummary: overView = [],
 		tags: {
@@ -59,6 +48,13 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 			fundamentalTags = [],
 		} = {},
 	} = data || {};
+
+	useEffect(() => {
+		if (leetcodeUsername) {
+			leetFetcher.load(`/api/leetcodedata/${leetcodeUsername}`);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [leetcodeUsername]);
 
 	const LeetCodeModal = (
 		<button
@@ -69,7 +65,8 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 		</button>
 	);
 
-	if (!data && leetcodeUsername) return <div>Loading...</div>;
+	if (leetFetcher.state === "loading" || !leetcodeUsername)
+		return <div>Loading...</div>;
 
 	if (!leetcodeUsername)
 		return (

@@ -2,6 +2,7 @@ import { PhotoIcon } from "@heroicons/react/20/solid";
 import { Form } from "@remix-run/react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
+
 import useImageUploader from "~/hooks/UseImageUploader";
 
 type Project = {
@@ -19,6 +20,8 @@ type Props = {
 };
 
 const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
+	// const projectFetcher = useFetcher();
+	// const formRef = useRef<HTMLFormElement>(null);
 	const INITIAL_STATE = {
 		imageUrl: project?.image_url,
 		projectTitle: project?.title,
@@ -62,13 +65,27 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
 			imageUrl: "",
 		}));
 	};
-
+	// projectFetcher.data returned from action method on server
+	// projectFetcher.state //  "idle" | "loading" | "submitting"
+	// projectFetcher.load // (href: /api/getuser) => void  this method hits the loader
+	// projectFetcher.submit({})
+	// const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	// 	setFormData(AFTER_SUBMISSION);
+	// 	setOpen(false);
+	// 	if (formRef.current) {
+	// 		const formData = new FormData(formRef.current);
+	// 		// const formData = new FormData(e.currentTarget);
+	// 		const projectId = "";
+	// 		projectFetcher.submit(formData,{"action":`user/${userId}/${projectId}`,"method":"PUT"})
+	// 	}
+	// };
 	const handleSubmit = () => {
 		setFormData(AFTER_SUBMISSION);
 		setOpen(false);
 	};
 
 	return (
+		// <projectFetcher.Form ref={formRef} onSubmit={handleSubmit}>
 		<Form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
 			{!formData.imageUrl ? (
 				<div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
@@ -156,6 +173,7 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
 				Submit
 			</button>
 		</Form>
+		// </projectFetcher.Form>
 	);
 };
 

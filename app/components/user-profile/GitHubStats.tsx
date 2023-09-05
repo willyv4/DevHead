@@ -1,4 +1,5 @@
 import { PencilIcon } from "@heroicons/react/20/solid";
+import { useFetcher } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import GitHubIcon from "../icon-components/GitHubIcon";
 import Modal from "../Modal";
@@ -11,21 +12,14 @@ type Props = {
 };
 
 const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
-	const [data, setData] = useState<any | undefined>();
-	const [languages, setLanguages] = useState<any | undefined>();
+	const gitHubFetcher = useFetcher();
+	const languages = gitHubFetcher.data?.language;
+	const stats = gitHubFetcher.data?.stats;
 	const [gitHubOpen, setGitHubOpen] = useState<boolean>(false);
 
 	useEffect(() => {
-		async function getGithubData() {
-			const response = await fetch(
-				`http://localhost:3000/api/github/${githubUsername}`
-			);
-
-			const { stats, language } = await response.json();
-			setData(stats);
-			setLanguages(language);
-		}
-		if (githubUsername) getGithubData();
+		if (githubUsername) gitHubFetcher.load(`/api/github/${githubUsername}`);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [githubUsername]);
 
 	const GitHubModal = (
@@ -52,7 +46,7 @@ const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 			</>
 		);
 
-	if (!data) return <div>Loading...</div>;
+	if (gitHubFetcher.state === "loading" || !stats) return <div>Loading...</div>;
 
 	return (
 		<>
@@ -81,7 +75,7 @@ const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 							</div>
 
 							<dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4">
-								{data?.map((stat: any) => (
+								{stats?.map((stat: any) => (
 									<div
 										key={stat.name}
 										className="flex flex-col bg-gray-400/5 p-8"

@@ -96,6 +96,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		skillId: number;
 	};
 
+	// api.$userId.
 	if (data._action === "PUT_USER") {
 		if (data.userId) {
 			const userData: any = {
@@ -110,6 +111,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		}
 	}
 
+	// api.$userId.$projectId
 	if (data._action === "PUT") {
 		if (data.projectId) {
 			return await Projects.updateUserProject(
@@ -174,7 +176,7 @@ export default function UserProfile() {
 		if (auth.user?.id !== userid || !auth.isSignedIn) return navigate("/home");
 	}, [navigate, auth.user?.id, auth.isSignedIn, userid]);
 
-	const userBio: string | null = userProfile.about;
+	const userBio: string | null = userProfile?.about ?? "";
 
 	console.log(userProfile);
 

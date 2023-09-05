@@ -1,4 +1,4 @@
-import { ClerkApp, useUser, V2_ClerkErrorBoundary } from "@clerk/remix";
+import { ClerkApp, V2_ClerkErrorBoundary } from "@clerk/remix";
 import type {
 	LinksFunction,
 	LoaderFunction,
@@ -11,47 +11,44 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
+	useLoaderData,
 } from "@remix-run/react";
 import { Analytics } from "@vercel/analytics/react";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import stylesheet from "./tailwind.css";
 import NavBar from "./components/NavBar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Footer from "./components/Footer";
+import { getEnv } from "./env.starter";
+import { User } from "./models/users";
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: stylesheet },
 ];
 export const meta: V2_MetaFunction = () => [{ title: "DevHead" }];
-export const loader: LoaderFunction = (args) => rootAuthLoader(args);
+export const loader: LoaderFunction = (args) => {
+	return rootAuthLoader(
+		args,
+		async ({ request }) => {
+			const { userId, sessionId, getToken }: any = request.auth;
+
+			const currUser = await User.getUserById(userId);
+
+			console.log("Root loader auth:", { userId, sessionId, getToken });
+			return { ENV: getEnv(), currUser: currUser };
+		},
+		{
+			loadUser: true,
+		}
+	);
+};
+
 export const ErrorBoundary = V2_ClerkErrorBoundary();
 
 function App() {
-	const [CURR_USER, SET_CURR_USER] = useState<any>(null);
+	const { ENV, currUser } = useLoaderData();
+	const [CURR_USER] = useState<any>(currUser[0]);
 
-	const { user } = useUser();
-
-	useEffect(() => {
-		async function getUser() {
-			try {
-				const req = await fetch("http://localhost:3000/api/getuser", {
-					method: "POST",
-					body: JSON.stringify({ userId: user?.id }),
-				});
-
-				const response = await req.json();
-
-				SET_CURR_USER(response[0]);
-			} catch (error) {
-				console.error("Error fetching user:", error);
-			}
-		}
-
-		if (user?.id && CURR_USER === null) {
-			getUser();
-		}
-	}, [CURR_USER, user]);
-
-	console.log("Stored user:", CURR_USER);
+	console.log("ENV", ENV);
 
 	return (
 		<html lang="en" className="bg-gray-900">
@@ -67,6 +64,11 @@ function App() {
 				<Footer />
 				<ScrollRestoration />
 				<Scripts />
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `window.ENV = ${JSON.stringify(ENV)}`,
+					}}
+				/>
 				<LiveReload />
 				<Analytics />
 			</body>

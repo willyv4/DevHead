@@ -4,6 +4,7 @@ import type {
 	LoaderArgs,
 	LoaderFunction,
 } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { User } from "../models/users";
 import Posts from "~/models/posts";
@@ -55,7 +56,6 @@ type LoaderData = {
 	userProfile: UserProfile;
 	userProjects: UserProjects[] | null | undefined;
 	userSkills: UserSkills[];
-	// projectLikes: number[];
 };
 
 export const loader: LoaderFunction = async ({
@@ -74,7 +74,12 @@ export const loader: LoaderFunction = async ({
 	return null;
 };
 
-export const action: ActionFunction = async ({ request }: ActionArgs) => {
+// interface ActionRequest {
+
+// 	request:Request
+// }
+
+const userViewPost: ActionFunction = async ({ request, params }) => {
 	const formData = await request.formData();
 	const data = Object.fromEntries(formData) as unknown as {
 		_action: string;
@@ -101,7 +106,56 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		return await Follows.removeFollow(data.userId, data.userBeingFollowed);
 	}
 
-	return null;
+	return json({ status: "success" });
+};
+const actionMethodMap = {
+	POST: userViewPost,
+	PUT: userViewPost,
+	DELETE: userViewPost, // DELETE_FOLLOW
+};
+
+function isActionMethod(s: string): s is keyof typeof actionMethodMap {
+	return Object.keys(actionMethodMap).includes(s);
+}
+
+export const action: ActionFunction = async (args: ActionArgs) => {
+	// const formData = await request.formData();
+	// const data = Object.fromEntries(formData) as unknown as {
+	// 	_action: string;
+	// 	userId: string;
+	// 	projectId: number;
+	// 	comment: string;
+	// 	commentId: number;
+	// 	userBeingFollowed: string;
+	// };
+
+	// LIKES RESOURCE
+	// if (data._action === "POST_LIKE") {
+	// 	return await Likes.addLike(data.userId, data.projectId);
+	// }
+
+	// if (data._action === "POST_UNLIKE") {
+	// 	return await Likes.removeLike(data.userId, data.projectId);
+	// }
+
+	// FOLLOWS RESOURCE
+	// if (data._action === "POST_FOLLOW") {
+	// 	return await Follows.addFollow(data.userId, data.userBeingFollowed);
+	// }
+
+	// if (data._action === "DELETE_FOLLOW") {
+	// 	return await Follows.removeFollow(data.userId, data.userBeingFollowed);
+	// }
+
+	// return null;
+	// const customerId = req.cookies['customer'];
+	const method = args.request.method;
+	if (!isActionMethod(method)) {
+		return json({ status: "unsuported method" }, 400);
+	}
+	const func = actionMethodMap[method];
+
+	return await func(args);
 };
 
 export default function UserProfile() {
