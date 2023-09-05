@@ -1,13 +1,15 @@
 import type { V2_MetaFunction } from "@vercel/remix";
 
-export const config = { runtime: "edge" };
+// export const config = { runtime: "edge" };
 
-export const meta: V2_MetaFunction = () => [{ title: "Remix@Edge | New Remix App" }];
+export const meta: V2_MetaFunction = () => [
+	{ title: "Remix@Edge | New Remix App" },
+];
 
-export default function Edge() {
-  return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <h1>Welcome to Remix@Edge</h1>
-    </div>
-  );
+export default function SSR() {
+	return (
+		<div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
+			<h1>Welcome to Remix@Edge</h1>
+		</div>
+	);
 }
