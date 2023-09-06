@@ -7,7 +7,7 @@ const connectionString =
 
 const config: PoolConfig = {
 	connectionString,
-	max: 5,
+	max: 10,
 	connectionTimeoutMillis: 0,
 	idleTimeoutMillis: 0,
 };
