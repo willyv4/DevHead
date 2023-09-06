@@ -1,4 +1,4 @@
-import { Pool, PoolConfig, QueryArrayResult } from "pg";
+import { Pool, PoolConfig } from "pg";
 
 const connectionString =
 	process.env.NODE_ENV === "test"
@@ -7,9 +7,7 @@ const connectionString =
 
 const config: PoolConfig = {
 	connectionString,
-	max: 10,
-	connectionTimeoutMillis: 0,
-	idleTimeoutMillis: 0,
+	max: 30,
 };
 
 if (process.env.NODE_ENV === "production") {
@@ -17,21 +15,21 @@ if (process.env.NODE_ENV === "production") {
 		rejectUnauthorized: false,
 	};
 }
-const pool = new Pool(config);
+const db = new Pool(config);
 
-const db = {
-	query: async (q: any, args?: any) => {
-		try {
-			const value = await pool.query(q, args);
-			// pool.end();
-			// const value = await db.query(q, args);
-			// db.end();
-			return value as QueryArrayResult<any[]>;
-		} catch (error) {
-			console.error(error);
-			return [] as unknown as QueryArrayResult<any[]>;
-		}
-	},
-};
+// const db = {
+// 	query: async (q: any, args?: any) => {
+// 		try {
+// 			const value = await pool.query(q, args);
+// 			// pool.end();
+// 			// const value = await db.query(q, args);
+// 			// db.end();
+// 			return value as QueryArrayResult<any[]>;
+// 		} catch (error) {
+// 			console.error(error);
+// 			return [] as unknown as QueryArrayResult<any[]>;
+// 		}
+// 	},
+// };
 
 export { db };
