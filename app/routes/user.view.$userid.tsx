@@ -65,8 +65,12 @@ export const loader: LoaderFunction = async ({
 
 	if (userId) {
 		const userProfile = await User.getUserProfileById(userId);
-		const userProjects = await Posts.getUserProjectsById(userId);
-		const userSkills = await Skills.getSkillsById(userId);
+		const userProjects = (await Posts.getUserProjectsById(
+			userId
+		)) as unknown as UserProjects[];
+		const userSkills = (await Skills.getSkillsById(
+			userId
+		)) as unknown as UserSkills[];
 
 		return { userProfile, userProjects, userSkills };
 	}
