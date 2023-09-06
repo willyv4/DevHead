@@ -32,7 +32,14 @@ export const loader: LoaderFunction = (args) => {
 			const { userId, sessionId, getToken } = request.auth;
 
 			const user = await User.getUserById(userId ?? "");
-			const currUser = user ? user[0] : null;
+
+			let currUser = {};
+			// @ts-ignore
+			if (user && user?.[0]) {
+				// @ts-ignore
+				currUser = user?.[0];
+			}
+			// const currUser = user ? user?.[0] : null;
 
 			console.log("Root loader auth:", { userId, sessionId, getToken });
 			return { currUser: currUser, userId: userId };
