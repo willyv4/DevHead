@@ -1,4 +1,4 @@
-import { Pool, PoolConfig } from "pg";
+import { Pool, PoolConfig, QueryArrayResult } from "pg";
 
 const connectionString =
 	process.env.NODE_ENV === "test"
@@ -20,12 +20,14 @@ if (process.env.NODE_ENV === "production") {
 const pool = new Pool(config);
 
 const db = {
-	query: async (args: any) => {
+	query: async (q: any, args?: any) => {
 		try {
 			const db = await pool.connect();
-			await db.query(args);
+			const value = await db.query(q, args);
 			db.release();
+			return value as QueryArrayResult<any[]>;
 		} catch (error) {
+			return [] as unknown as QueryArrayResult<any[]>;
 			console.error(error);
 		}
 	},
