@@ -22,13 +22,14 @@ const pool = new Pool(config);
 const db = {
 	query: async (q: any, args?: any) => {
 		try {
-			const db = await pool.connect();
-			const value = await db.query(q, args);
-			db.release();
+			const value = await pool.query(q, args);
+			pool.end();
+			// const value = await db.query(q, args);
+			// db.end();
 			return value as QueryArrayResult<any[]>;
 		} catch (error) {
-			return [] as unknown as QueryArrayResult<any[]>;
 			console.error(error);
+			return [] as unknown as QueryArrayResult<any[]>;
 		}
 	},
 };
