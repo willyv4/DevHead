@@ -1,4 +1,4 @@
-import { Client } from "pg";
+import { Pool } from "pg";
 
 let db: any;
 
@@ -9,18 +9,18 @@ const getDatabaseUri = () => {
 };
 
 if (process.env.NODE_ENV === "production") {
-	db = new Client({
+	db = new Pool({
 		connectionString: getDatabaseUri(),
 		ssl: {
 			rejectUnauthorized: false,
 		},
 	});
 } else {
-	db = new Client({
+	db = new Pool({
 		connectionString: getDatabaseUri(),
 	});
 }
 
 db.connect();
 
-export default db;
+export { db };

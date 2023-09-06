@@ -1,4 +1,4 @@
-import db from "~/db.server";
+import { db } from "~/db.server";
 
 export class Comments {
 	static async addComment(userId: string, postId: number, comment: string) {

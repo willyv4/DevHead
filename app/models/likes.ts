@@ -1,4 +1,4 @@
-import db from "~/db.server";
+import {db} from "~/db.server";
 
 export class Likes {
 	static async addLike(userId: string, postId: number) {

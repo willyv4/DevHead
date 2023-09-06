@@ -65,8 +65,7 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 		</button>
 	);
 
-	if (leetFetcher.state === "loading" || !leetcodeUsername)
-		return <div>Loading...</div>;
+	if (leetFetcher.state === "loading") return <div>Loading...</div>;
 
 	if (!leetcodeUsername)
 		return (

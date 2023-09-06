@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import db from "~/db.server";
+import { db } from "~/db.server";
 
 export default class Posts {
 	static async getUserProjectsById(id: string | null) {

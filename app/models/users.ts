@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import db from "../db.server";
+import { db } from "../db.server";
 
 type UserData = {
 	id: string;

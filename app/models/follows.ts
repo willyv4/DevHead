@@ -1,4 +1,4 @@
-import db from "~/db.server";
+import { db } from "~/db.server";
 
 export class Follows {
 	static async addFollow(userId: string, followedUser: string) {

@@ -1,4 +1,4 @@
-import db from "~/db.server";
+import { db } from "~/db.server";
 
 export class Skills {
 	static async addSkill(userId: string, skill: string) {
