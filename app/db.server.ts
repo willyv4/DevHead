@@ -15,21 +15,19 @@ if (process.env.NODE_ENV === "production") {
 		rejectUnauthorized: false,
 	};
 }
-const db = new Pool(config);
 
-// const db = {
-// 	query: async (q: any, args?: any) => {
-// 		try {
-// 			const value = await pool.query(q, args);
-// 			// pool.end();
-// 			// const value = await db.query(q, args);
-// 			// db.end();
-// 			return value as QueryArrayResult<any[]>;
-// 		} catch (error) {
-// 			console.error(error);
-// 			return [] as unknown as QueryArrayResult<any[]>;
-// 		}
-// 	},
-// };
+const query = async (text: string, params: (string | number)[]) => {
+	const db = new Pool(config);
+	const start = Date.now();
+	const res = await db.query(text, params);
+	const duration = Date.now() - start;
+	console.log("executed query", { text, duration, rows: res.rowCount });
+	db.end();
+	return res;
+};
 
-export { db };
+const db = {
+	query,
+};
+
+export { db, query };

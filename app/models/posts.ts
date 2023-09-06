@@ -38,6 +38,9 @@ export default class Posts {
 		projectLiveLink: string,
 		projectCodeLink: string
 	) {
+		// const resp = {
+		// 	user_id, image_url, title, code_link, live_link
+		// };
 		try {
 			await db.query(
 				`INSERT INTO portfolio_posts
@@ -45,10 +48,15 @@ export default class Posts {
      			VALUES ($1, $2, $3, $4, $5)`,
 				[userId, projectImage, projectTitle, projectLiveLink, projectCodeLink]
 			);
-
-			return json({ success: true });
+			// resp.user_id = queryResp[0].userId
+			return json({ success: true, message: "succes", data: resp });
 		} catch (error) {
-			return json({ message: `Error adding projects - error: ${error}` });
+			return json({
+				success: false,
+				data: resp,
+				message: `Error adding projects - error: ${error}`,
+			});
+			// return json({ message: `Error adding projects - error: ${error}` });
 		}
 	}
 
