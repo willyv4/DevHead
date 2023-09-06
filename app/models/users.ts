@@ -123,7 +123,7 @@ export class User {
 			[id, username, firstName, lastName, email, imageUrl]
 		);
 
-		return result.rows[0];
+		return result.rows[0] as unknown as UserData;
 	}
 
 	static async updateUser(userData: UserData): Promise<UserData> {
@@ -140,7 +140,7 @@ export class User {
 			throw new Error(`User with id ${id} not found`);
 		}
 
-		return result.rows[0];
+		return result.rows[0] as unknown as UserData;
 	}
 
 	static async connectLeetcode(id: string, leetcodeUsername: string | null) {
