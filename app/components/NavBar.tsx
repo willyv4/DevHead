@@ -9,7 +9,7 @@ function classNames(...classes: any) {
 	return classes.filter(Boolean).join(" ");
 }
 
-const NavBar = ({ currUser }: any) => {
+const NavBar = ({ currUser, userId }: any) => {
 	return (
 		<Disclosure
 			as="nav"
@@ -62,7 +62,11 @@ const NavBar = ({ currUser }: any) => {
 												<span className="sr-only">Open user menu</span>
 												<img
 													className="h-10 w-10 rounded-full"
-													src={currUser?.image_url}
+													src={
+														currUser?.image_url
+															? currUser?.image_url
+															: "https://kansai-resilience-forum.jp/wp-content/uploads/2019/02/IAFOR-Blank-Avatar-Image-1.jpg"
+													}
 													alt="profile"
 												/>
 											</Menu.Button>
@@ -80,7 +84,7 @@ const NavBar = ({ currUser }: any) => {
 												<Menu.Item>
 													{({ active }) => (
 														<Link
-															to={`/user/${currUser?.id}`}
+															to={`/user/${userId}`}
 															prefetch="render"
 															className={classNames(
 																active ? "bg-gray-100" : "",

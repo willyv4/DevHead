@@ -1,4 +1,4 @@
-import { ClerkApp, V2_ClerkErrorBoundary } from "@clerk/remix";
+import { ClerkApp, useUser, V2_ClerkErrorBoundary } from "@clerk/remix";
 import type {
 	LinksFunction,
 	LoaderFunction,
@@ -17,9 +17,10 @@ import { Analytics } from "@vercel/analytics/react";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import stylesheet from "./tailwind.css";
 import NavBar from "./components/NavBar";
-import { useState } from "react";
 import Footer from "./components/Footer";
 import { User } from "./models/users";
+
+export const ErrorBoundary = V2_ClerkErrorBoundary();
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: stylesheet },
 ];
@@ -30,10 +31,11 @@ export const loader: LoaderFunction = (args) => {
 		async ({ request }) => {
 			const { userId, sessionId, getToken }: any = request.auth;
 
-			const currUser = await User.getUserById(userId);
+			const user = await User.getUserById(userId);
+			const currUser = user ? user[0] : null;
 
 			console.log("Root loader auth:", { userId, sessionId, getToken });
-			return { currUser: currUser };
+			return { currUser: currUser, userId: userId };
 		},
 		{
 			loadUser: true,
@@ -41,11 +43,9 @@ export const loader: LoaderFunction = (args) => {
 	);
 };
 
-export const ErrorBoundary = V2_ClerkErrorBoundary();
-
 function App() {
+	const { user } = useUser();
 	const { currUser } = useLoaderData();
-	const [CURR_USER] = useState<any>(currUser[0]);
 
 	return (
 		<html lang="en" className="bg-gray-900">
@@ -56,7 +56,7 @@ function App() {
 				<Links />
 			</head>
 			<body>
-				<NavBar currUser={CURR_USER} />
+				<NavBar currUser={currUser} userId={user?.id} />
 				<Outlet />
 				<Footer />
 				<ScrollRestoration />

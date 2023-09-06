@@ -21,6 +21,8 @@ type UserData = {
 
 export class User {
 	static async getUserById(id: string) {
+		if (!id) return null;
+
 		const result = await db.query(
 			`SELECT username, id, image_url FROM users WHERE id = $1`,
 			[id]
