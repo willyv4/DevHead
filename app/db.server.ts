@@ -8,8 +8,8 @@ const connectionString =
 const config: PoolConfig = {
 	connectionString,
 	max: 5,
-	idleTimeoutMillis: 3000,
-	connectionTimeoutMillis: 2000,
+	connectionTimeoutMillis: 0,
+	idleTimeoutMillis: 0,
 };
 
 if (process.env.NODE_ENV === "production") {
