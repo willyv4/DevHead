@@ -23,7 +23,7 @@ const db = {
 	query: async (q: any, args?: any) => {
 		try {
 			const value = await pool.query(q, args);
-			pool.end();
+			// pool.end();
 			// const value = await db.query(q, args);
 			// db.end();
 			return value as QueryArrayResult<any[]>;
