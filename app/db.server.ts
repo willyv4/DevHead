@@ -1,63 +1,38 @@
-import { Client } from "pg";
+import { Pool, PoolConfig, PoolClient } from "pg";
 
-// let db: Client | undefined;
-
-// const getDatabaseUri = () => {
-// 	return process.env.NODE_ENV === "test"
-// 		? "devhead_test"
-// 		: process.env.LIVE_DATABASE_URL;
-// };
-
-// class DB {
-// 	db: Client;
-// 	constructor() {
-// 		if (process.env.NODE_ENV === "production") {
-// 			this.db = new Client({
-// 				connectionString: getDatabaseUri(),
-// 				ssl: {
-// 					rejectUnauthorized: false,
-// 				},
-// 			});
-// 		} else {
-// 			this.db = new Client({
-// 				connectionString: getDatabaseUri(),
-// 			});
-// 		}
-// 		this.db.connect()
-// 	}
-
-// 	[Symbol.dispose]() {
-// 		// Close the file and delete it.
-// 		this.db.end();
-// 	}
-// }
-
-// using dbClient = new DB();
-// const db = dbClient.db
-
-// db.connect();
-// db.end()
 const connectionString =
 	process.env.NODE_ENV === "test"
 		? "devhead_test"
 		: process.env.LIVE_DATABASE_URL;
 
-const prodConfig = {
+const config: PoolConfig = {
 	connectionString,
-	ssl: {
-		rejectUnauthorized: false,
-	},
+	max: 5,
+	idleTimeoutMillis: 3000,
+	connectionTimeoutMillis: 2000,
 };
-const devConfig = {
-	connectionString,
-};
-const config = process.env.NODE_ENV === "production" ? prodConfig : devConfig;
 
-const db = new Client(config);
-db.connect();
+if (process.env.NODE_ENV === "production") {
+	config["ssl"] = {
+		rejectUnauthorized: false,
+	};
+}
+const pool = new Pool(config);
+
+let db: PoolClient | undefined = undefined;
+const initDB = async (): Promise<PoolClient> => {
+	if (db) {
+		return db;
+	}
+	const newDb = await pool.connect();
+	db = newDb;
+	return db;
+};
+
+initDB();
 process.on("SIGTERM", () => {
 	console.info("SIGTERM signal received.");
 	console.log("Shutting down server and closing db.");
-	db.end();
+	db?.release();
 });
 export { db };
