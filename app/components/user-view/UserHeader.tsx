@@ -26,8 +26,6 @@ const Header = ({
 	userProfile: UserProfile;
 	userId: string;
 }) => {
-	// console.log("FOLLOWERS", userProfile.followers);
-	// console.log("FOLLOWING", userProfile.following);
 	const followerCount = userProfile.followers?.filter((f) => f !== null).length;
 	const followingCount = userProfile.following?.filter(
 		(f) => f !== null

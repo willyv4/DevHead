@@ -20,11 +20,9 @@ const CommentSLider: React.FC<props> = ({
 	action,
 }) => {
 	return (
-		<div className="absolute z-50">
+		<div className="absolute z-50 shadow-2xl">
 			<Transition.Root show={open} as={Fragment}>
 				<Dialog as="div" className="relative z-10" onClose={setOpen}>
-					<div className="fixed  inset-0" />
-
 					<div className="fixed inset-0 overflow-hidden">
 						<div className="absolute inset-0 overflow-hidden">
 							<div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
@@ -38,16 +36,16 @@ const CommentSLider: React.FC<props> = ({
 									leaveTo="translate-x-full"
 								>
 									<Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-										<div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
+										<div className="flex h-full flex-col overflow-y-scroll bg-gray-800 py-6 shadow-xl">
 											<div className="px-4 sm:px-6">
-												<div className="flex items-start justify-between fixed z-30 bg-white w-[400px] h-12 top-0 pt-4 -ml-2">
-													<Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
+												<div className="flex w-[430px] items-start justify-between fixed z-30 bg-gray-800 w-[400px] h-12 top-0 pt-4 -ml-6">
+													<Dialog.Title className="pl-6 text-base font-semibold leading-6 text-emerald-500">
 														{viewProject?.title}
 													</Dialog.Title>
 													<div className="ml-3 flex h-7 items-center">
 														<button
 															type="button"
-															className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+															className="relative rounded-md bg-gray-800 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 															onClick={() => setOpen(false)}
 														>
 															<span className="absolute -inset-2.5" />
@@ -64,13 +62,15 @@ const CommentSLider: React.FC<props> = ({
 												<img
 													src={viewProject?.image_url}
 													alt="header"
-													className="w-full h-[275px] inset-0 w-full bg-gray-50 object-cover rounded-lg"
+													className="w-full h-[250px] inset-0 w-full bg-gray-50 object-cover rounded-tl-xl rounded-tr-xl mt-4"
 												/>
+
 												<CommentForm
 													postId={viewProject?.id}
 													userId={userId}
 													action={action}
 												/>
+
 												<Outlet />
 											</div>
 										</div>

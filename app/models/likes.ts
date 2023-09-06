@@ -1,33 +1,53 @@
-import {db} from "~/db.server";
+import { json } from "react-router";
+import { db } from "~/db.server";
 
 export class Likes {
 	static async addLike(userId: string, postId: number) {
-		await db.query(
-			`
-      	INSERT INTO likes (post_id, user_id)
-      	VALUES ($1, $2)
-      	`,
-			[postId, userId]
-		);
+		try {
+			await db.query(
+				`
+      			INSERT INTO likes (post_id, user_id)
+      			VALUES ($1, $2)`,
+				[postId, userId]
+			);
 
-		return { success: true };
+			return json({ success: true });
+		} catch (error) {
+			return json({
+				message: `Error adding like with userid: ${userId} and postId: ${postId} ERROR: ${error}`,
+			});
+		}
 	}
 
 	static async removeLike(userId: string, projectId: number) {
-		await db.query(`DELETE FROM likes WHERE user_id = $1 AND post_id = $2`, [
-			userId,
-			projectId,
-		]);
+		try {
+			await db.query(`DELETE FROM likes WHERE user_id = $1 AND post_id = $2`, [
+				userId,
+				projectId,
+			]);
 
-		return { success: true };
+			return { success: true };
+		} catch (error) {
+			return json({
+				message: `Error removing like with userid: ${userId} and postId: ${projectId} ERROR: ${error}`,
+			});
+		}
 	}
 
 	static async getLikesById(userId: string) {
-		const res = await db.query(`SELECT post_id FROM likes WHERE user_id = $1`, [
-			userId,
-		]);
-		const arr = res.rows.map((row: any) => row.post_id);
+		try {
+			const res = await db.query(
+				`SELECT post_id FROM likes WHERE user_id = $1`,
+				[userId]
+			);
 
-		return arr;
+			const arr = res.rows.map((row: any) => row.post_id);
+
+			return arr;
+		} catch (error) {
+			return json({
+				message: `Error getting likes with userid: ${userId} ERROR: ${error}`,
+			});
+		}
 	}
 }

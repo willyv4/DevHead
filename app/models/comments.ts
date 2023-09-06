@@ -1,32 +1,29 @@
+import { json } from "react-router";
 import { db } from "~/db.server";
 
 export class Comments {
 	static async addComment(userId: string, postId: number, comment: string) {
-		await db.query(
-			`
-      	INSERT INTO portfolio_comments (post_id, user_id, comment)
-      	VALUES ($1, $2, $3)
-      	`,
-			[postId, userId, comment]
-		);
+		try {
+			await db.query(
+				`
+      			INSERT INTO portfolio_comments (post_id, user_id, comment)
+      			VALUES ($1, $2, $3)
+      			`,
+				[postId, userId, comment]
+			);
 
-		return { success: true };
-	}
-
-	static async getCommentByPost(postId: number) {
-		await db.query(
-			`
-      		SELECT * FROM portfolio_comments WHERE post_id = $1
-			`,
-			[postId]
-		);
-
-		return { success: true };
+			return json({ success: true });
+		} catch (error) {
+			return json({
+				message: `Unable to add comment with userId: ${userId} postId: ${postId} Error: ${error}`,
+			});
+		}
 	}
 
 	static async getCommentsByPostId(postId: number) {
-		const res = await db.query(
-			`SELECT json_agg(
+		try {
+			const res = await db.query(
+				`SELECT json_agg(
     			json_build_object(
         			'comment_id', pc.id,
         			'author_first_name', u.first_name,
@@ -39,20 +36,27 @@ export class Comments {
 					FROM portfolio_comments pc
 					JOIN users u ON pc.user_id = u.id
 					WHERE pc.post_id = $1;`,
-			[postId]
-		);
-
-		return res.rows;
+				[postId]
+			);
+			return res.rows;
+		} catch (error) {
+			return json({
+				message: `Error getting comments with postId: ${postId} Error: ${error}`,
+			});
+		}
 	}
 
 	static async deleteComment(commentId: number) {
-		await db.query(
-			`
-        DELETE FROM portfolio_comments WHERE id = $1
-        `,
-			[commentId]
-		);
+		try {
+			await db.query(`DELETE FROM portfolio_comments WHERE id = $1`, [
+				commentId,
+			]);
 
-		return { success: true };
+			return { success: true };
+		} catch (error) {
+			return json({
+				message: `Error deleting comment with commentId: ${commentId} Error: ${error}`,
+			});
+		}
 	}
 }

@@ -182,7 +182,7 @@ export default function UserProfile() {
 
 	if (userProfile) {
 		return (
-			<div className="m-2 p-4 bg-white rounded-sm">
+			<div className="bg-gray-900 pt-28 sm:px-10 px-4">
 				<ProfileHeader userProfile={userProfile} />
 				<BioSection userId={userProfile.id} userBio={userBio} />
 				<SkillsSection userId={userProfile.id} userSkills={userSkills} />

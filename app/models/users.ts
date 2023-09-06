@@ -23,55 +23,74 @@ export class User {
 	static async getUserById(id: string) {
 		if (!id) return null;
 
-		const result = await db.query(
-			`SELECT username, id, image_url FROM users WHERE id = $1`,
-			[id]
-		);
-		console.log(id, "result:", result.rows);
-		return result.rows;
+		try {
+			const result = await db.query(
+				`SELECT username, id, image_url FROM users WHERE id = $1`,
+				[id]
+			);
+
+			return result.rows;
+		} catch (error) {
+			return json({
+				message: `Error getting user with id: ${id}, ERROR: ${error}`,
+			});
+		}
 	}
 
 	static async getUserProfileById(id: string) {
-		const result = await db.query(
-			`
-        SELECT 
-            u.*,
-            array_agg(DISTINCT f1.user_following_id) AS following,
-            array_agg(DISTINCT f2.user_being_followed_id) AS followers
-        FROM users u
-        LEFT JOIN follows f1 ON u.id = f1.user_being_followed_id
-        LEFT JOIN follows f2 ON u.id = f2.user_following_id
-        WHERE u.id = $1
-        GROUP BY u.id
-    `,
-			[id]
-		);
+		try {
+			const result = await db.query(
+				`
+        		SELECT 
+           			u.*,
+            		array_agg(DISTINCT f1.user_following_id) AS following,
+            		array_agg(DISTINCT f2.user_being_followed_id) AS followers
+        		FROM users u
+        		LEFT JOIN follows f1 ON u.id = f1.user_being_followed_id
+        		LEFT JOIN follows f2 ON u.id = f2.user_following_id
+        		WHERE u.id = $1
+        		GROUP BY u.id`,
+				[id]
+			);
 
-		const user = result.rows[0];
-
-		return user;
+			const user = result.rows[0];
+			return user;
+		} catch (error) {
+			return json({
+				message: `Error getting user Profile with id: ${id}, ERROR: ${error}`,
+			});
+		}
 	}
 
 	static async findAll() {
-		const result = await db.query(`SELECT * FROM users ORDER BY username`);
-		return result.rows;
+		try {
+			const result = await db.query(`SELECT * FROM users ORDER BY username`);
+			return result.rows;
+		} catch (error) {
+			return json({
+				message: `Error getting users ERROR: ${error}`,
+			});
+		}
 	}
 
 	static async getUserOverviews() {
-		const result = await db.query(
-			`
-        SELECT 
-            u.*,
-            ARRAY_AGG(DISTINCT f1.user_following_id) AS following,
-            ARRAY_AGG(DISTINCT f2.user_being_followed_id) AS followers
-        FROM users u
-        LEFT JOIN follows f1 ON u.id = f1.user_being_followed_id
-        LEFT JOIN follows f2 ON u.id = f2.user_following_id
-        GROUP BY u.id
-        `
-		);
+		try {
+			const result = await db.query(`
+        		SELECT 
+            		u.*,
+            		ARRAY_AGG(DISTINCT f1.user_following_id) AS following,
+            		ARRAY_AGG(DISTINCT f2.user_being_followed_id) AS followers
+        		FROM users u
+        		LEFT JOIN follows f1 ON u.id = f1.user_being_followed_id
+        		LEFT JOIN follows f2 ON u.id = f2.user_following_id
+        		GROUP BY u.id`);
 
-		return result.rows;
+			return result.rows;
+		} catch (error) {
+			return json({
+				message: `Error getting users overview ERROR: ${error}`,
+			});
+		}
 	}
 
 	static async addUser({
@@ -83,9 +102,7 @@ export class User {
 		imageUrl,
 	}: UserData): Promise<UserData> {
 		const duplicateCheck = await db.query(
-			`SELECT username
-           FROM users
-           WHERE username = $1`,
+			`SELECT username FROM users WHERE username = $1`,
 			[username]
 		);
 
@@ -95,14 +112,14 @@ export class User {
 
 		const result = await db.query(
 			`INSERT INTO users
-           (id,
-			username,
-            first_name,
-            last_name,
-            email,
-            image_url)
-           VALUES ($1, $2, $3, $4, $5, $6)
-           RETURNING id, username, first_name AS "firstName", last_name AS "lastName", email, image_url AS "imageUrl"`,
+           		(id,
+				username,
+            	first_name,
+            	last_name,
+            	email,
+            	image_url)
+           		VALUES ($1, $2, $3, $4, $5, $6)
+           		RETURNING id, username, first_name AS "firstName", last_name AS "lastName", email, image_url AS "imageUrl"`,
 			[id, username, firstName, lastName, email, imageUrl]
 		);
 
@@ -131,9 +148,9 @@ export class User {
 
 		await db.query(
 			`
-        UPDATE users
-        SET leetcode_username = $2
-        WHERE id = $1`,
+       		UPDATE users
+        	SET leetcode_username = $2
+        	WHERE id = $1`,
 			[id, leetcodeUsername]
 		);
 
@@ -145,9 +162,9 @@ export class User {
 
 		await db.query(
 			`
-        UPDATE users
-        SET github_username = $2
-        WHERE id = $1`,
+        	UPDATE users
+        	SET github_username = $2
+        	WHERE id = $1`,
 			[id, githubUsername]
 		);
 
@@ -159,9 +176,9 @@ export class User {
 
 		await db.query(
 			`
-        UPDATE users
-        SET title = $2
-        WHERE id = $1`,
+        	UPDATE users
+        	SET title = $2
+        	WHERE id = $1`,
 			[id, userTitle]
 		);
 
@@ -173,9 +190,9 @@ export class User {
 
 		await db.query(
 			`
-        UPDATE users
-        SET about = $2
-        WHERE id = $1`,
+        	UPDATE users
+        	SET about = $2
+    		WHERE id = $1`,
 			[id, userBio]
 		);
 
@@ -184,14 +201,11 @@ export class User {
 
 	static async remove(id: string | null) {
 		let result = await db.query(
-			`DELETE
-           FROM users
-           WHERE id = $1
-           RETURNING id, username`,
+			`DELETE FROM users WHERE id = $1 RETURNING id, username`,
 			[id]
 		);
-		const user = result.rows[0];
 
+		const user = result.rows[0];
 		if (!user) throw new Error(`No user with id: ${id}`);
 
 		return json({ deleted: true });

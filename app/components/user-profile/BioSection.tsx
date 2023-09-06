@@ -28,7 +28,7 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 	if (!userBio) return <BioPostForm userId={userId} />;
 
 	return !buttonClicked ? (
-		<div className="border-t-2 border-gray-200 mt-12">
+		<div className="mt-20 border-b border-gray-950 pb-5">
 			<div className="flex flex-row justify-between mb-4">
 				<p className="text-xl font-bold mt-4">Bio</p>
 				<div className="mt-2 flex justify-end">
