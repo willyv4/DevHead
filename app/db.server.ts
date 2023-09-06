@@ -1,4 +1,4 @@
-import { Pool, PoolConfig, PoolClient } from "pg";
+import { Pool, PoolConfig } from "pg";
 
 const connectionString =
 	process.env.NODE_ENV === "test"
@@ -19,20 +19,16 @@ if (process.env.NODE_ENV === "production") {
 }
 const pool = new Pool(config);
 
-let db: PoolClient | undefined = undefined;
-const initDB = async (): Promise<PoolClient> => {
-	if (db) {
-		return db;
-	}
-	const newDb = await pool.connect();
-	db = newDb;
-	return db;
+const db = {
+	query: async (args: any) => {
+		try {
+			const db = await pool.connect();
+			await db.query(args);
+			db.release();
+		} catch (error) {
+			console.error(error);
+		}
+	},
 };
 
-initDB();
-process.on("SIGTERM", () => {
-	console.info("SIGTERM signal received.");
-	console.log("Shutting down server and closing db.");
-	db?.release();
-});
 export { db };

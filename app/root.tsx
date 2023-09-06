@@ -29,9 +29,9 @@ export const loader: LoaderFunction = (args) => {
 	return rootAuthLoader(
 		args,
 		async ({ request }) => {
-			const { userId, sessionId, getToken }: any = request.auth;
+			const { userId, sessionId, getToken } = request.auth;
 
-			const user = await User.getUserById(userId);
+			const user = await User.getUserById(userId ?? "");
 			const currUser = user ? user[0] : null;
 
 			console.log("Root loader auth:", { userId, sessionId, getToken });
