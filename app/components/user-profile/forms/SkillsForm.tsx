@@ -1,9 +1,17 @@
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 import type { SetStateAction } from "react";
 import { useState } from "react";
 
 const SkillsForm = ({ userId }: { userId: string }) => {
 	const [skill, setSkill] = useState<string>("");
+	const navigation = useNavigation();
+
+	const text =
+		navigation.state === "submitting"
+			? "Saving..."
+			: navigation.state === "loading"
+			? "Saved!"
+			: "Add Skill";
 
 	const handleChange = (e: { target: { value: SetStateAction<string> } }) =>
 		setSkill(e.target.value);
@@ -30,7 +38,7 @@ const SkillsForm = ({ userId }: { userId: string }) => {
 				name="_action"
 				value="POST_SKILL"
 			>
-				Submit
+				{text}
 			</button>
 		</Form>
 	);

@@ -4,15 +4,15 @@ import { db } from "../db.server";
 type UserData = {
 	id: string;
 	code_start: string | null;
-	firstName: string | null;
-	lastName: string | null;
+	firstName: string | number;
+	lastName: string | number;
 	place: string | null;
 	imageUrl: string;
 	username: string;
 	githubUsername: string | null;
 	leetcodeUsername: string | null;
 	email: string;
-	title: string | null;
+	title: string | number | null;
 	about: string | null;
 	skills: string | null;
 	followers: string[] | null;
@@ -62,16 +62,16 @@ export class User {
 		}
 	}
 
-	static async findAll() {
-		try {
-			const result = await db.query(`SELECT * FROM users ORDER BY username`);
-			return result.rows;
-		} catch (error) {
-			return json({
-				message: `Error getting users ERROR: ${error}`,
-			});
-		}
-	}
+	// static async findAll() {
+	// 	try {
+	// 		const result = await db.query(`SELECT * FROM users ORDER BY username`);
+	// 		return result.rows;
+	// 	} catch (error) {
+	// 		return json({
+	// 			message: `Error getting users ERROR: ${error}`,
+	// 		});
+	// 	}
+	// }
 
 	static async getUserOverviews() {
 		try {
@@ -199,7 +199,7 @@ export class User {
 		return json({ success: true });
 	}
 
-	static async remove(id: string | null) {
+	static async remove(id: string) {
 		let result = await db.query(
 			`DELETE FROM users WHERE id = $1 RETURNING id, username`,
 			[id]

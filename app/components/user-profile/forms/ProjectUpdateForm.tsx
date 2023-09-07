@@ -38,8 +38,16 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
 		projectLikeCount: "",
 	};
 
-	const [image, getRootProps, getInputProps, isDragActive] =
-		useImageUploader() as any;
+	const [
+		image,
+		getRootProps,
+		getInputProps,
+		isDragActive,
+		setImage,
+		setValidFile,
+		setIsSubmitted,
+		isLoading,
+	] = useImageUploader() as any;
 	const [formData, setFormData] = useState(INITIAL_STATE);
 
 	useEffect(() => {
@@ -64,6 +72,9 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
 			...prevData,
 			imageUrl: "",
 		}));
+		setImage(null);
+		setValidFile(null);
+		setIsSubmitted(false);
 	};
 	// projectFetcher.data returned from action method on server
 	// projectFetcher.state //  "idle" | "loading" | "submitting"
@@ -98,10 +109,16 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
 							<span>Upload a Project Image</span>
 							<input {...getInputProps()} />
 
-							<p className="pl-1">
-								{isDragActive ? "Drop file here..." : "or drag and drop"}
-							</p>
-							<p className="text-sm">PNG, JPG, GIF up to 10MB</p>
+							{isLoading ? (
+								<p className="py-4">UPLOADING ...</p>
+							) : (
+								<>
+									<p className="pl-1">
+										{isDragActive ? "Drop file here..." : "or drag and drop"}
+									</p>
+									<p className="text-sm">PNG, JPG, GIF up to 10MB</p>
+								</>
+							)}
 						</div>
 					</div>
 				</div>

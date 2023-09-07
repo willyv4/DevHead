@@ -39,7 +39,6 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 		}
 	};
 
-	console.log({userProjects})
 	return (
 		<div className="flex-col justify-center">
 			<h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl text-center">

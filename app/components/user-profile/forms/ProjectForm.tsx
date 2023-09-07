@@ -10,9 +10,23 @@ const ProjectForm = ({
 	userId: string | undefined;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-	const [image, getRootProps, getInputProps, isDragActive, setImage] =
-		useImageUploader() as any;
+	const [
+		image,
+		getRootProps,
+		getInputProps,
+		isDragActive,
+		setImage,
+		setValidFile,
+		setIsSubmitted,
+		isLoading,
+	] = useImageUploader() as any;
 	const { ref: setFormRef, isAdding } = UseFormClear("POST_PROJECTS");
+
+	const handleClick = () => {
+		setImage(null);
+		setValidFile(null);
+		setIsSubmitted(false);
+	};
 
 	return (
 		<Form
@@ -26,7 +40,7 @@ const ProjectForm = ({
 			{image ? (
 				<div>
 					<button
-						onClick={() => setImage(null)}
+						onClick={() => handleClick()}
 						className="absolute z-10 right-8 top-8  rounded bg-rose-50 px-2 py-1 text-xs font-semibold text-rose-600 shadow-sm hover:bg-rose-100"
 					>
 						X
@@ -45,10 +59,16 @@ const ProjectForm = ({
 							<span>Upload a Project Image</span>
 							<input {...getInputProps()} />
 
-							<p className="pl-1">
-								{isDragActive ? "Drop file here..." : "or drag and drop"}
-							</p>
-							<p className="text-sm">PNG, JPG, GIF up to 10MB</p>
+							{isLoading ? (
+								<p className="py-4">UPLOADING ...</p>
+							) : (
+								<>
+									<p className="pl-1">
+										{isDragActive ? "Drop file here..." : "or drag and drop"}
+									</p>
+									<p className="text-sm">PNG, JPG, GIF up to 10MB</p>
+								</>
+							)}
 						</div>
 					</div>
 				</div>

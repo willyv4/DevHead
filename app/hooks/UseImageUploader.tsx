@@ -1,32 +1,70 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 function useImageUploader() {
 	const [image, setImage] = useState<string | null | undefined>(null);
+	const [validFile, setValidFile] = useState<File | null>(null);
+	const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	const onDrop = (acceptedFiles: File[]) => {
-		const validFiles = acceptedFiles.filter((file) =>
-			file.type.match(/image\/(png|jpg|jpeg)/)
+	async function uploadFileToServer(file: File | null) {
+		if (file !== null) {
+			try {
+				console.log("Valid File:", file);
+				const formData = new FormData();
+				formData.append("file", file);
+
+				const response = await fetch("http://localhost:3000/api/uploadimage", {
+					method: "POST",
+					body: formData,
+				});
+
+				if (response.ok) {
+					const { data } = await response.json();
+					setImage(data);
+					setIsLoading(false);
+					console.log("File uploaded to Cloudinary:", data);
+				} else {
+					console.error("File upload to Cloudinary failed");
+				}
+			} catch (error) {
+				console.error("Error uploading file:", error);
+			}
+		}
+	}
+
+	useEffect(() => {
+		if (validFile && !isSubmitted) {
+			uploadFileToServer(validFile);
+			setIsLoading(true);
+			setIsSubmitted(true);
+		}
+	}, [validFile, isSubmitted]);
+
+	const onDrop = (files: File[]) => {
+		const validFiles = files.filter((f) =>
+			f.type.match(/image\/(png|jpg|jpeg)/)
 		);
 
-		if (validFiles.length) {
-			const fileReader = new FileReader();
-			fileReader.onload = () => setImage(fileReader.result as string);
-			fileReader.readAsDataURL(validFiles[0]);
-		} else {
-			alert("Selected images are not of a valid type!");
-		}
+		if (validFiles.length) setValidFile(validFiles[0]);
 	};
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		onDrop,
-		accept: {
-			"image/*": [],
-		},
+		accept: { "image/*": [] },
 		maxSize: 1024 * 1000,
 	});
 
-	return [image, getRootProps, getInputProps, isDragActive, setImage];
+	return [
+		image,
+		getRootProps,
+		getInputProps,
+		isDragActive,
+		setImage,
+		setValidFile,
+		setIsSubmitted,
+		isLoading,
+	];
 }
 
 export default useImageUploader;

@@ -2,7 +2,7 @@ import { json } from "@remix-run/node";
 import { db } from "~/db.server";
 
 export default class Posts {
-	static async getUserProjectsById(id: string | null) {
+	static async getUserProjectsById(id: string | number) {
 		try {
 			const result = await db.query(
 				`
@@ -25,9 +25,7 @@ export default class Posts {
 
 			return result.rows;
 		} catch (error) {
-			return json({
-				message: `Error getting user projects with id: ${id} error: ${error}`,
-			});
+			return [];
 		}
 	}
 
@@ -49,13 +47,9 @@ export default class Posts {
 				[userId, projectImage, projectTitle, projectLiveLink, projectCodeLink]
 			);
 			// resp.user_id = queryResp[0].userId
-			return json({ success: true, message: "succes", data: resp });
+			return json({ success: true });
 		} catch (error) {
-			return json({
-				success: false,
-				data: resp,
-				message: `Error adding projects - error: ${error}`,
-			});
+			return json({ success: false });
 			// return json({ message: `Error adding projects - error: ${error}` });
 		}
 	}

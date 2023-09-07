@@ -1,8 +1,12 @@
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 
 const CommentList = ({ comments, userId }: any) => {
+	const navigation = useNavigation();
+
+	const isLoading = navigation.state === "submitting";
+
 	return (
-		<div className="pl-4 py-2 shadow-2xl rounded-lg">
+		<div className="pl-4 py-2">
 			<div className="mt-10">
 				{comments?.map((comment: any, idx: number) => (
 					<div key={idx + comment?.author_first_name} className="m-2">
@@ -30,7 +34,7 @@ const CommentList = ({ comments, userId }: any) => {
 										value="DELETE_COMMENT"
 										className="inline-flex items-center gap-x-0.5 rounded-md bg-rose-50 px-2 py-1 text-[9px] font-medium text-rose-600 ring-1 ring-inset ring-rose-500/10"
 									>
-										X
+										{isLoading ? "..." : "X"}
 									</button>
 								</Form>
 							)}

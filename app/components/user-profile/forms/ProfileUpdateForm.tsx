@@ -44,8 +44,16 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 		userEmail: "",
 	};
 
-	const [image, getRootProps, getInputProps, isDragActive] =
-		useImageUploader() as any;
+	const [
+		image,
+		getRootProps,
+		getInputProps,
+		isDragActive,
+		setImage,
+		setValidFile,
+		setIsSubmitted,
+		isLoading,
+	] = useImageUploader() as any;
 
 	const [formData, setFormData] = useState(INITIAL_STATE);
 
@@ -71,6 +79,9 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 			...prevData,
 			userImage: "",
 		}));
+		setImage(null);
+		setValidFile(null);
+		setIsSubmitted(false);
 	};
 
 	const handleSubmit = () => {
@@ -91,10 +102,16 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 							<span>Upload a Project Image</span>
 							<input {...getInputProps()} />
 
-							<p className="pl-1">
-								{isDragActive ? "Drop file here..." : "or drag and drop"}
-							</p>
-							<p className="text-sm">PNG, JPG, GIF up to 10MB</p>
+							{isLoading ? (
+								<p className="py-4">UPLOADING ...</p>
+							) : (
+								<>
+									<p className="pl-1">
+										{isDragActive ? "Drop file here..." : "or drag and drop"}
+									</p>
+									<p className="text-sm">PNG, JPG, GIF up to 10MB</p>
+								</>
+							)}
 						</div>
 					</div>
 				</div>

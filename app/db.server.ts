@@ -1,4 +1,5 @@
-import { Pool, PoolConfig } from "pg";
+import type { PoolConfig } from "pg";
+import { Pool } from "pg";
 
 const connectionString =
 	process.env.NODE_ENV === "test"
@@ -16,7 +17,7 @@ if (process.env.NODE_ENV === "production") {
 	};
 }
 
-const query = async (text: string, params: (string | number)[]) => {
+const query = async (text: string, params?: (string | number | null)[]) => {
 	const db = new Pool(config);
 	const start = Date.now();
 	const res = await db.query(text, params);

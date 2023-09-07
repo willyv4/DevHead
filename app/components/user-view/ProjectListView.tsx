@@ -79,9 +79,9 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 								</div>
 							</div>
 
-							<h3 className="absolute top-0 left-0 text-lg font-semibold leading-6 text-white bg-gradient-to-b from-gray-900 to-transparent w-full h-28 pl-6 pt-4">
+							<div className="absolute top-0 left-0 text-lg font-semibold leading-6 text-white bg-gradient-to-b from-gray-900 to-transparent w-full h-28 pl-6 pt-4">
 								{post.title}
-							</h3>
+							</div>
 
 							<div className="-mb-6 -ml-7">
 								<div className="flex flex-row">

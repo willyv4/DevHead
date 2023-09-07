@@ -53,7 +53,7 @@ type UserProjects = {
 
 type LoaderData = {
 	userProfile: UserProfile;
-	userProjects: UserProjects[] | null | undefined;
+	userProjects: UserProjects[];
 	userSkills: UserSkills[];
 };
 
@@ -63,9 +63,9 @@ export const loader: LoaderFunction = async ({
 	const userId: string | undefined = params.userid;
 
 	if (userId) {
-		let userProfile = await User.getUserProfileById(userId);
-		let userProjects = await Projects.getUserProjectsById(userId);
-		let userSkills = await Skills.getSkillsById(userId);
+		const userProfile = await User.getUserProfileById(userId);
+		const userProjects = await Projects.getUserProjectsById(userId);
+		const userSkills = await Skills.getSkillsById(userId);
 
 		return { userProfile, userProjects, userSkills };
 	}

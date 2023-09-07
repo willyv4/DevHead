@@ -30,9 +30,7 @@ export class Skills {
 
 			return result.rows;
 		} catch (error) {
-			return json({
-				message: `Error gettings skills for user with id ${userId} Error: ${error}`,
-			});
+			return [];
 		}
 	}
 

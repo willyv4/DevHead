@@ -22,7 +22,7 @@ export const loader: LoaderFunction = async ({
 		: undefined;
 
 	if (postId) {
-		const comments = await Comments.getCommentsByPostId(postId);
+		const comments: any = await Comments.getCommentsByPostId(postId);
 		return comments;
 	}
 

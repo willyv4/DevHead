@@ -95,18 +95,20 @@ const NavBar = ({ currUser, userId }: any) => {
 														</Link>
 													)}
 												</Menu.Item>
-												<Menu.Item>
-													{({ active }) => (
-														<div
-															className={classNames(
-																active ? "bg-gray-100" : "",
-																"block px-4 py-2 text-sm text-gray-700"
-															)}
-														>
-															<SignOutButton>Sign out</SignOutButton>
-														</div>
-													)}
-												</Menu.Item>
+												<SignOutButton>
+													<Menu.Item>
+														{({ active }) => (
+															<div
+																className={classNames(
+																	active ? "bg-gray-100" : "",
+																	"block px-4 py-2 text-sm text-gray-700"
+																)}
+															>
+																Sign out
+															</div>
+														)}
+													</Menu.Item>
+												</SignOutButton>
 											</Menu.Items>
 										</Transition>
 									</Menu>

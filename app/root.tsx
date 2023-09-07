@@ -39,7 +39,6 @@ export const loader: LoaderFunction = (args) => {
 				// @ts-ignore
 				currUser = user?.[0];
 			}
-			// const currUser = user ? user?.[0] : null;
 
 			console.log("Root loader auth:", { userId, sessionId, getToken });
 			return { currUser: currUser, userId: userId };

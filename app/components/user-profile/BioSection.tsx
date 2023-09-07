@@ -12,8 +12,6 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 	const [buttonClicked, setButtonClicked] = useState(false);
 	const [bio, setBio] = useState(userBio);
 
-	console.log("bio", bio);
-
 	const handleChange = (evt: any) => setBio(evt.target.value);
 
 	const handleSubmit = () => {

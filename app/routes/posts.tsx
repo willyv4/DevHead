@@ -3,7 +3,7 @@ import {
 	CodeBracketIcon,
 	ComputerDesktopIcon,
 	HeartIcon,
-} from "@heroicons/react/24/outline";
+} from "@heroicons/react/24/solid";
 import type {
 	ActionArgs,
 	ActionFunction,
@@ -25,6 +25,8 @@ type UserProject = {
 	comments: any;
 	comment_count: string;
 	liked_user_ids: string[];
+	author_first_name: string;
+	author_last_name: string;
 };
 
 type Projects = {
@@ -96,9 +98,9 @@ export default function Projects() {
 					{projects?.map((post: UserProject, idx: number) => (
 						<div
 							key={post.id + post.title}
-							className=" w-[350px] mx-2 my-6 justify-center align-items rounded-xl"
+							className="w-[300px] flex flex-row mx-2 my-4 align-items rounded-xl"
 						>
-							<div className="ring-2 ring-gray-700 relative isolate flex flex-col justify-end overflow-hidden rounded-lg bg-gray-900 px-8 pb-8 pt-80">
+							<div className="ring-2 ring-gray-700 relative isolate flex flex-col justify-between overflow-hidden rounded-lg bg-gray-900 px-8 pb-8 pt-80">
 								<img
 									src={post.image_url}
 									alt=""
@@ -107,28 +109,25 @@ export default function Projects() {
 								<div className="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/60" />
 								<div className="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
 
-								<div className="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
-									<div className="-ml-4 flex items-center gap-x-4">
-										<svg
-											viewBox="0 0 2 2"
-											className="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50"
-										>
-											<circle cx={1} cy={1} r={1} />
-										</svg>
-									</div>
+								<div className="absolute -ml-8 flex-col top-0 left-0leading-6 text-gray-100 bg-gradient-to-b from-gray-900 to-transparent w-full h-28 pl-6 pt-4">
+									<h3 className="text-xl font-bold -mt-2 -ml-4">
+										{post.title}
+									</h3>
 								</div>
 
-								<h3 className="absolute top-0 left-0 text-lg font-semibold leading-6 text-white bg-gradient-to-b from-gray-900 to-transparent w-full h-28 pl-6 pt-4">
-									{post.title}
-								</h3>
+								<div className="absolute flex-col bottom-11 left-0 leading-6 text-gray-100 w-full h-10 pl-6 pt-4">
+									<span className="-ml-5 inline-flex items-center rounded-md bg-gray-500/10 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-inset ring-gray-500/20">
+										By: {post.author_first_name} {post.author_last_name}
+									</span>
+								</div>
 
-								<div className="-mb-6 -ml-7">
-									<div className="flex flex-row">
+								<div className="-mb-6 bg-gray-800/30 w-[300px] -ml-8 -mb-8">
+									<div className="grid grid-flow-col justify-stretch">
 										<a
 											rel="noreferrer"
 											target="_blank"
 											href={`https://${post.live_link}`}
-											className="ml-1 flex items-center px-2 py-1 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
+											className="mr-[1px] flex items-center px-2 py-1 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 										>
 											Site
 											<ComputerDesktopIcon className="w-4 ml-1" />
@@ -137,7 +136,7 @@ export default function Projects() {
 										<a
 											target="_blank"
 											href={`https://${post.code_link}`}
-											className="ml-2 flex items-center px-2 py-1 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
+											className="mr-[1px] flex items-center bg-white/20 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 											rel="noreferrer"
 										>
 											Code
@@ -146,18 +145,19 @@ export default function Projects() {
 
 										<Link
 											preventScrollReset={true}
+											onClick={() => handleClick(idx + 1)}
 											to={`./comments/${post.id}`}
+											className=" mr-[1px] flex items-center px-2 py-2 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 										>
-											<button
-												onClick={() => handleClick(idx + 1)}
-												className="ml-2 flex items-center px-2 py-2 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
-											>
-												Comments {post.comment_count}
-											</button>
+											Comments{" "}
+											<span className="text-xs ml-2">{post.comment_count}</span>
 										</Link>
 
 										{user?.id && post?.liked_user_ids?.includes(user?.id) ? (
-											<Form method="post" className="flex flex-row ml-2">
+											<Form
+												method="post"
+												className="flex flex-row flex items-center px-2 py-2 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
+											>
 												<input
 													type="hidden"
 													name="projectId"
@@ -170,18 +170,21 @@ export default function Projects() {
 												/>
 												<button
 													type="submit"
-													className="flex items-center rounded-lg px-2 py-1 text-xs font-semibold text-white shadow-sm  hover:bg-gray-50/20"
+													className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 													name="_action"
 													value="POST_UNLIKE"
 												>
 													<HeartIcon className="w-5 text-rose-500" />
 												</button>
-												<span className="text-xs mt-[5px]">
+												<span className="text-xs ml-2">
 													{post?.liked_user_ids?.length}
 												</span>
 											</Form>
 										) : (
-											<Form method="post" className="flex flex-row">
+											<Form
+												method="post"
+												className="flex flex-row flex items-center px-2 py-2 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray/30"
+											>
 												<input
 													type="hidden"
 													name="projectId"
@@ -194,13 +197,13 @@ export default function Projects() {
 												/>
 												<button
 													type="submit"
-													className="flex items-center rounded-lg px-2 py-1 text-xs font-semibold text-white shadow-sm  hover:bg-gray-50/20"
+													className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 													name="_action"
 													value="POST_LIKE"
 												>
 													<HeartIcon className="w-5" />
 												</button>
-												<span className="text-xs mt-[5px]">
+												<span className="text-xs ml-2">
 													{post?.liked_user_ids?.length}
 												</span>
 											</Form>

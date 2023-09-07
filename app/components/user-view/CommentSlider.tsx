@@ -39,7 +39,7 @@ const CommentSLider: React.FC<props> = ({
 										<div className="flex h-full flex-col overflow-y-scroll bg-gray-800 py-6 shadow-xl">
 											<div className="px-4 sm:px-6">
 												<div className="flex w-[430px] items-start justify-between fixed z-30 bg-gray-800 w-[400px] h-12 top-0 pt-4 -ml-6">
-													<Dialog.Title className="pl-6 text-base font-semibold leading-6 text-emerald-500">
+													<Dialog.Title className="pl-6 text-xl font-bold leading-6 text-gray-300">
 														{viewProject?.title}
 													</Dialog.Title>
 													<div className="ml-3 flex h-7 items-center">
@@ -62,7 +62,7 @@ const CommentSLider: React.FC<props> = ({
 												<img
 													src={viewProject?.image_url}
 													alt="header"
-													className="w-full h-[250px] inset-0 w-full bg-gray-50 object-cover rounded-tl-xl rounded-tr-xl mt-4"
+													className="w-full h-[250px] inset-0 w-full bg-gray-50 object-cover rounded-tl-xl rounded-tr-xl mt-4 border-2 border-gray-950"
 												/>
 
 												<CommentForm

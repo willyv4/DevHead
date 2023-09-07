@@ -40,9 +40,7 @@ export class Comments {
 			);
 			return res.rows;
 		} catch (error) {
-			return json({
-				message: `Error getting comments with postId: ${postId} Error: ${error}`,
-			});
+			return [];
 		}
 	}
 
