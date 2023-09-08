@@ -1,11 +1,9 @@
 CREATE TABLE users (
   id text PRIMARY KEY NOT NULL,
-  code_start text,
   first_name text,
   last_name text,
   place text,
   image_url text DEFAULT 'https://kansai-resilience-forum.jp/wp-content/uploads/2019/02/IAFOR-Blank-Avatar-Image-1.jpg',
-  username varchar(255) UNIQUE NOT NULL,
   email varchar(255) NOT NULL,
   title text,
   about text,

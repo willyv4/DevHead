@@ -1,29 +1,29 @@
-import { InboxIcon, TrashIcon, UsersIcon } from "@heroicons/react/24/outline";
+import { SignedIn } from "@clerk/remix";
+import { ComputerDesktopIcon } from "@heroicons/react/24/solid";
 import { Link } from "@remix-run/react";
 import screenshot from "../../public/screen_shot.png";
+import GitHubIcon from "./icon-components/GitHubIcon";
+import LeetCodeIcon from "./icon-components/LeetCodeIcon";
 
 const Home = () => {
 	const features = [
 		{
-			name: "Stream line a portfolio",
+			name: "Share Projects/Contributions",
 			description:
-				"Non quo aperiam repellendus quas est est. Eos aut dolore aut ut sit nesciunt. Ex tempora quia. Sit nobis consequatur dolores incidunt.",
-			href: "#",
-			icon: InboxIcon,
-		},
-		{
-			name: "Connect GitHub",
-			description:
-				"Vero eum voluptatem aliquid nostrum voluptatem. Vitae esse natus. Earum nihil deserunt eos quasi cupiditate. A inventore et molestiae natus.",
-			href: "#",
-			icon: UsersIcon,
+				"Join the DevHeads community and proudly share your coding achievements. Post your projects, share code links, and showcase live websites. Be inspired as you explore and contribute to others' projects!",
+			icon: ComputerDesktopIcon,
 		},
 		{
 			name: "Connect LeetCode",
 			description:
-				"Et quod quaerat dolorem quaerat architecto aliquam accusantium. Ex adipisci et doloremque autem quia quam. Quis eos molestiae at iure impedit.",
-			href: "#",
-			icon: TrashIcon,
+				"Why say you have coding skills when you can show it? Link your LeetCode profile and showcase your problem-solving abilities with an overview of your LeetCode stats.",
+			icon: LeetCodeIcon,
+		},
+		{
+			name: "Connect GitHub",
+			description:
+				"Link your GitHub account and showcase your programming expertise with an overview of your GitHub statistics and contributions.",
+			icon: GitHubIcon,
 		},
 	];
 	return (
@@ -55,22 +55,24 @@ const Home = () => {
 								to share your coding journey, DevHead has you covered.
 							</p>
 
-							<div className="mt-10 flex items-center justify-center gap-x-6">
-								<div className="mt-10 flex items-center gap-x-6">
-									<Link
-										to="/posts"
-										className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-									>
-										Explore Projects
-									</Link>
-									<Link
-										to="/users"
-										className="text-sm font-semibold leading-6 text-white"
-									>
-										Connect with people <span aria-hidden="true">→</span>
-									</Link>
+							<SignedIn>
+								<div className="mt-10 flex items-center justify-center gap-x-6">
+									<div className="mt-10 flex items-center gap-x-6">
+										<Link
+											to="/posts"
+											className="rounded-md ring-1 ring-purple-400 bg-purple-400/30 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-purple-300/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-300/20"
+										>
+											Explore Projects
+										</Link>
+										<Link
+											to="/users"
+											className="text-sm font-semibold text-white"
+										>
+											Connect with people <span aria-hidden="true">→</span>
+										</Link>
+									</div>
 								</div>
-							</div>
+							</SignedIn>
 						</div>
 						<img
 							src={screenshot}
@@ -97,7 +99,7 @@ const Home = () => {
 
 			{/* features */}
 
-			<div className="-mt-10 sm:-mt-24">
+			<div className="-mt-6 sm:-mt-20">
 				<div className="mx-auto max-w-7xl px-6 lg:px-8">
 					<div className="mx-auto max-w-2xl lg:mx-0">
 						<h2 className="text-3xl font-bold tracking-tight text-gray-300 sm:text-4xl">
@@ -112,14 +114,11 @@ const Home = () => {
 						<dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
 							{features.map((feature) => (
 								<div key={feature.name} className="flex flex-col">
-									<dt className="text-base font-semibold leading-7 text-gray-900">
-										<div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-											<feature.icon
-												className="h-6 w-6 text-white"
-												aria-hidden="true"
-											/>
+									<dt className="flex flex-row align-base text-base font-bold leading-7 text-gray-100">
+										<div className="inline-flex items-center rounded-md bg-emerald-500/10 px-3 py-2 text-xs font-medium text-emerald-400 ring-1 ring-inset ring-emerald-500/20">
+											<feature.icon height="1rem" width="1rem" />
 										</div>
-										{feature.name}
+										<p className="ml-5 mt-[.5px]">{feature.name}</p>
 									</dt>
 									<dd className="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-400">
 										<p className="flex-auto">{feature.description}</p>

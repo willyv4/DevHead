@@ -33,12 +33,8 @@ const Header = ({
 
 	return (
 		<div>
-			<div className="border-b border-gray-950">
-				<img
-					className="w-full object-cover h-48 rounded-tl-lg rounded-tr-lg opacity-20"
-					src="https://tailwindui.com/img/beams-template-header.png"
-					alt="background"
-				/>
+			<div className="border-b border-gray-400/5">
+				<div className="w-full h-48 bg-gradient-to-tr from-[#ff80b5]/5 to-[#9089fc]/5 rounded-tr-2xl rounded-tl-2xl" />
 			</div>
 			<div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
 				<div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">

@@ -5,13 +5,12 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 	try {
 		const api_key: string = process.env.CLOUDINARY_API_KEY || "";
 		const formData = await request.formData();
-		const file: any = formData.get("file");
+		const file = formData.get("file") as unknown as string | Blob;
 
-		const upload_preset = "ovbvlega"; // Replace with your upload preset
+		const upload_preset = "ovbvlega";
 		const cloudinaryUrl =
 			"https://api.cloudinary.com/v1_1/dpozfwlj4/image/upload";
 
-		// Create a new FormData object for Cloudinary
 		const cloudinaryFormData = new FormData();
 		cloudinaryFormData.append("file", file);
 		cloudinaryFormData.append("upload_preset", upload_preset);
@@ -25,8 +24,6 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		if (cloudinaryResponse.ok) {
 			const cloudinaryData = await cloudinaryResponse.json();
 			console.log("Cloudinary response:", cloudinaryData);
-
-			// Process the Cloudinary response as needed
 
 			return json({ message: "success", data: cloudinaryData.secure_url });
 		} else {

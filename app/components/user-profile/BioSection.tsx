@@ -1,4 +1,5 @@
 import { PencilIcon } from "@heroicons/react/20/solid";
+import { useNavigation } from "@remix-run/react";
 import { useState } from "react";
 import BioPostForm from "./forms/BioPostForm";
 import BioUpdateForm from "./forms/BioUpdateForm";
@@ -11,6 +12,14 @@ type Props = {
 const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 	const [buttonClicked, setButtonClicked] = useState(false);
 	const [bio, setBio] = useState(userBio);
+	const navigation = useNavigation();
+
+	const text =
+		navigation.state === "submitting"
+			? "Saving..."
+			: navigation.state === "loading"
+			? "Saved!"
+			: "Edit";
 
 	const handleChange = (evt: any) => setBio(evt.target.value);
 
@@ -23,23 +32,33 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 		buttonClicked ? setButtonClicked(false) : setButtonClicked(true);
 	};
 
-	if (!userBio) return <BioPostForm userId={userId} />;
-
 	return !buttonClicked ? (
-		<div className="mt-20 border-b border-gray-950 pb-5">
-			<div className="flex flex-row justify-between mb-4">
-				<p className="text-xl font-bold mt-4">Bio</p>
-				<div className="mt-2 flex justify-end">
+		<div className="pb-5">
+			<div className="flex flex-row justify-between mt-8 border-b border-gray-950 pb-5">
+				<h3 className="ml-5 mt-5 text-xl font-bold leading-6 text-gray-200">
+					Bio
+				</h3>
+				<div className="mt-4 mr-4">
 					<button
 						onClick={() => handleClick()}
 						type="submit"
-						className="flex flex-row rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 float-right mt-1"
+						className="flex flex-row rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
 					>
-						Edit <PencilIcon className="h-4 w-4 ml-2 mt-[2px]" />
+						{!userBio ? (
+							<>Add Bio</>
+						) : (
+							<>
+								{text} <PencilIcon className="h-4 w-4 ml-2 mt-[2px]" />
+							</>
+						)}
 					</button>
 				</div>
 			</div>
-			<div className="story-container">
+
+			<div className="story-container m-1 sm:m-10 p-2 sm:p-4">
+				{!userBio && (
+					<div className="text-center mt-16 font-bold text-l"> NO BIO YET</div>
+				)}
 				{userBio?.split("\n")?.map((paragraph, index) => (
 					<p key={index + "paragraph"} className="my-2 text-gray-500">
 						{paragraph}
@@ -49,25 +68,33 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 		</div>
 	) : (
 		<>
-			<div className="flex flex-row justify-between mb-4">
-				<p className="text-xl font-bold mt-4">Bio</p>
-				<div className="mt-2 flex justify-end">
+			<div className="flex flex-row justify-between mt-8 border-b border-gray-950 pb-5">
+				<h3 className="ml-5 mt-5 text-xl font-bold leading-6 text-gray-200">
+					Bio
+				</h3>
+				<div className="mt-5 mr-4">
 					<button
 						onClick={() => handleClick()}
 						type="submit"
-						className="flex flex-row rounded-md bg-rose-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600 float-right mt-1"
+						className="flex flex-row rounded-md bg-rose-300/10 px-2.5 py-1.5 text-sm font-semibold text-rose-300 shadow-sm hover:bg-rose-300/20"
 					>
 						Cancel
 					</button>
 				</div>
 			</div>
 
-			<BioUpdateForm
-				handleSubmit={handleSubmit}
-				handleChange={handleChange}
-				userId={userId}
-				bio={bio}
-			/>
+			<div className="story-container m-1 sm:m-10 p-2 sm:p-4">
+				{userBio ? (
+					<BioUpdateForm
+						handleSubmit={handleSubmit}
+						handleChange={handleChange}
+						userId={userId}
+						bio={bio}
+					/>
+				) : (
+					<BioPostForm userId={userId} />
+				)}
+			</div>
 		</>
 	);
 };

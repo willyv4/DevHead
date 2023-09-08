@@ -12,7 +12,7 @@ const SkillView = ({ userSkills }: { userSkills: UserSkills[] }) => {
 					Skills
 				</h3>
 			</div>
-			{userSkills.length && (
+			{userSkills.length !== 0 && (
 				<div className="flex flex-row flex-wrap justify-center p-10">
 					{userSkills.map((skillObj) => (
 						<span

@@ -11,7 +11,6 @@ type UserProfile = {
 	last_name: string | null;
 	place: string | null;
 	image_url: string;
-	username: string;
 	email: string;
 	title: string | null;
 	about: string | null;
@@ -29,11 +28,11 @@ type Props = {
 
 const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 	const INITIAL_STATE = {
-		userImage: userProfile?.image_url,
-		profileTitle: userProfile?.title,
-		firstName: userProfile?.first_name,
-		lastName: userProfile?.last_name,
-		userEmail: userProfile?.email,
+		userImage: userProfile?.image_url || "",
+		profileTitle: userProfile?.title || "",
+		firstName: userProfile?.first_name || "",
+		lastName: userProfile?.last_name || "",
+		userEmail: userProfile?.email || "",
 	};
 
 	const AFTER_SUBMISSION = {
@@ -91,7 +90,7 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 
 	return (
 		<Form method="post" onSubmit={handleSubmit}>
-			{!formData.userImage ? (
+			{!formData?.userImage ? (
 				<div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
 					<div className="text-center">
 						<PhotoIcon
@@ -123,11 +122,20 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 					>
 						X
 					</button>
-					<img src={formData.userImage} alt="preview" className="rounded" />
+					<img
+						src={formData?.userImage || ""}
+						alt="preview"
+						className="rounded"
+					/>
 				</div>
 			)}
 
-			<input defaultValue={formData.userImage} type="hidden" name="userImage" />
+			<input
+				required
+				defaultValue={formData?.userImage || ""}
+				type="hidden"
+				name="userImage"
+			/>
 			<input defaultValue={userProfile.id} type="hidden" name="userId" />
 			<div className="relative mt-4 mb-4">
 				<label className="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">

@@ -5,7 +5,7 @@ import type {
 	LoaderFunction,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
 import { User } from "../models/users";
 import Posts from "~/models/posts";
 import { Skills } from "~/models/skills";
@@ -18,6 +18,7 @@ import ProjectListView from "~/components/user-view/ProjectListView";
 import { Likes } from "~/models/likes";
 import { useUser } from "@clerk/remix";
 import { Follows } from "~/models/follows";
+import { useEffect } from "react";
 
 type UserProfile = {
 	id: string;
@@ -153,8 +154,6 @@ export const action: ActionFunction = async (args: ActionArgs) => {
 	// 	return await Follows.removeFollow(data.userId, data.userBeingFollowed);
 	// }
 
-	// return null;
-	// const customerId = req.cookies['customer'];
 	const method = args.request.method;
 	if (!isActionMethod(method)) {
 		return json({ status: "unsuported method" }, 400);
@@ -165,8 +164,15 @@ export const action: ActionFunction = async (args: ActionArgs) => {
 };
 
 export default function UserProfile() {
+	const navigate = useNavigate();
+	const { isSignedIn } = useUser();
 	const { user } = useUser();
 	const { userSkills, userProfile, userProjects } = useLoaderData<LoaderData>();
+
+	console.log("AUTH", isSignedIn);
+	useEffect(() => {
+		if (!isSignedIn) return navigate("/");
+	}, [navigate, isSignedIn]);
 
 	if (userProfile && user?.id) {
 		return (
@@ -175,9 +181,15 @@ export default function UserProfile() {
 					<Header userProfile={userProfile} userId={user?.id} />
 					<BioView userBio={userProfile.about} />
 					<SkillView userSkills={userSkills} />
-					<GitHubView githubUsername={userProfile.github_username} />
-					<LeetCodeView leetcodeUsername={userProfile.leetcode_username} />
-					<ProjectListView userId={user?.id} userProjects={userProjects} />
+					{userProfile.github_username && (
+						<GitHubView githubUsername={userProfile?.github_username} />
+					)}
+					{userProfile.leetcode_username && (
+						<LeetCodeView leetcodeUsername={userProfile?.leetcode_username} />
+					)}
+					{userProjects && (
+						<ProjectListView userId={user?.id} userProjects={userProjects} />
+					)}
 				</div>
 			</div>
 		);

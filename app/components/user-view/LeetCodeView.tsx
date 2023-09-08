@@ -57,19 +57,19 @@ const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 				</h3>
 			</div>
 
-			<div>
-				<dl className="mt-5 grid grid-cols-1 divide-y divide-gray-900 overflow-hidden rounded bg-gray-400/5 shadow md:grid-cols-4 md:divide-x md:divide-y-0">
+			<div className="mx-auto max-w-7xl px-6 lg:px-8 mt-20">
+				<dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded text-center sm:grid-cols-2 lg:grid-cols-4">
 					{overView.map((item: any) => (
-						<div key={item.name} className="px-4 py-5 sm:p-6">
-							<dt className="text-base font-bold  text-gray-300">
+						<div key={item.name} className="bg-gray-400/5 px-4 py-5 sm:p-6">
+							<dt className="text-base font-bold text-gray-300 mb-4">
 								{item.name} Problems
 							</dt>
-							<dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-								<div className="flex items-baseline text-xl font-semibold text-indigo-300 truncate">
+							<dd className="mt-1 flex flex-row items-baseline justify-between lg:flex mb-4">
+								<div className="flex text-l items-baseline font-semibold text-indigo-300 truncate md:-mb-7">
 									{item.solved} / {item.total}
 								</div>
 
-								<div className="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium md:mt-2 lg:mt-0">
+								<div className="inline-flex rounded-full px-2.5 py-0.5 text-sm font-medium">
 									<span
 										className={`-mb-2 mr-0.5 flex-shrink-0 self-center py-1 px-2 text-xs font-medium mt-1 ${
 											item.successRate > 50

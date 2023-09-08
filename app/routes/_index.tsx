@@ -1,17 +1,21 @@
 import { getAuth } from "@clerk/remix/ssr.server";
 import type { LoaderFunction } from "@remix-run/node";
-import { redirect, json } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { createClerkClient } from "@clerk/remix/api.server";
 import { User } from "../models/users";
-import Home from "./home";
+import Home from "~/components/Home";
 
 export const loader: LoaderFunction = async (args) => {
 	const { userId }: { userId: string | null } = await getAuth(args);
+
 	if (!userId) return json({ message: "no active user" });
 
 	const userWithId = await User.getUserById(userId);
-	// not "", undefined, null
-	if (userWithId[0]?.id) return redirect("/home");
+
+	if (userWithId?.id) {
+		console.log("USER WITH ID: ", userWithId, "redirectiong home");
+		return userWithId;
+	}
 
 	const user = await createClerkClient({
 		secretKey: process.env.CLERK_SECRET_KEY,
@@ -19,13 +23,8 @@ export const loader: LoaderFunction = async (args) => {
 
 	if (!user.id) return json({ message: "could not create clerk user" });
 
-	const username =
-		user.emailAddresses[0].emailAddress.split("@")[0] +
-		Math.floor(Math.random() * 1000);
-
 	const userData: any = {
 		id: user.id,
-		username: user.username || username,
 		firstName: user.firstName,
 		lastName: user.lastName,
 		email: user.emailAddresses[0].emailAddress,
@@ -36,7 +35,7 @@ export const loader: LoaderFunction = async (args) => {
 
 	if (!newUser.id) return json({ message: "could not create db user" });
 
-	return redirect("/home");
+	return null;
 };
 
 export default function Index() {

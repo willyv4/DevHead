@@ -13,7 +13,7 @@ const TagList = ({
 	tags: Tag[];
 }) => (
 	<div>
-		<h1 className="p-2 text-base font-bold text-gray-300 ml-2">{level}</h1>
+		<h1 className="p-2 text-base font-bold text-gray-300 ml-2">{level} Tags</h1>
 		<div className="flex flex-row flex-wrap p-2">
 			{tags.map((tag: Tag) => (
 				<div key={tag.name} className="m-1">

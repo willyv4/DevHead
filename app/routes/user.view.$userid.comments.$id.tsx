@@ -5,7 +5,8 @@ import type {
 	LoaderArgs,
 	LoaderFunction,
 } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
+import { useEffect } from "react";
 import CommentList from "~/components/user-view/CommentList";
 import { Comments } from "../models/comments";
 
@@ -53,6 +54,12 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 export default function ProjectComments() {
 	const { user } = useUser();
 	const comments = useLoaderData<LoaderData>();
+	const navigate = useNavigate();
+	const { isSignedIn } = useUser();
+
+	useEffect(() => {
+		if (!isSignedIn) return navigate("/");
+	}, [navigate, isSignedIn]);
 
 	return (
 		<>{user?.id && <CommentList comments={comments} userId={user?.id} />} </>

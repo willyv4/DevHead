@@ -17,6 +17,7 @@ import SkillsSection from "~/components/user-profile/SkillsSection";
 import { Skills } from "~/models/skills";
 import { useUser } from "@clerk/remix";
 import { useEffect } from "react";
+import { Likes } from "~/models/likes";
 
 type UserProfile = {
 	id: string;
@@ -25,7 +26,6 @@ type UserProfile = {
 	last_name: string | null;
 	place: string | null;
 	image_url: string;
-	username: string;
 	email: string;
 	title: string | null;
 	about: string | null;
@@ -49,6 +49,8 @@ type UserProjects = {
 	code_link: string;
 	live_link: string;
 	like_count: string[] | null;
+	liked_user_ids: string[];
+	comment_count: string;
 };
 
 type LoaderData = {
@@ -125,7 +127,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		}
 	}
 
-	if (data.projectId) {
+	if (data._action === "DELETE_PROJECT") {
 		return await Projects.deleteProjectById(data.projectId);
 	}
 
@@ -141,6 +143,14 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 			data.projectLiveLink,
 			data.projectCodeLink
 		);
+	}
+
+	if (data._action === "POST_LIKE") {
+		return await Likes.addLike(data.userId, data.projectId);
+	}
+
+	if (data._action === "POST_UNLIKE") {
+		return await Likes.removeLike(data.userId, data.projectId);
 	}
 
 	if (data.githubUsername) {
@@ -168,36 +178,35 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 
 export default function UserProfile() {
 	const navigate = useNavigate();
-	const auth = useUser();
+	const { isSignedIn } = useUser();
 	const { userProfile, userProjects, userSkills } = useLoaderData<LoaderData>();
 	const { userid } = useParams();
 
+	console.log("AUTH", isSignedIn);
 	useEffect(() => {
-		if (auth.user?.id !== userid || !auth.isSignedIn) return navigate("/home");
-	}, [navigate, auth.user?.id, auth.isSignedIn, userid]);
+		if (!isSignedIn) return navigate("/");
+	}, [navigate, isSignedIn]);
 
 	const userBio: string | null = userProfile?.about ?? "";
 
-	console.log(userProfile);
+	console.log("USER PROJECTS", userProjects, userProfile, userSkills);
 
-	if (userProfile) {
-		return (
-			<div className="bg-gray-900 pt-28 sm:px-10 px-4">
+	return (
+		<div className="pt-28 sm:px-10 px-4">
+			<div className="rounded-2xl ring-1 ring-gray-950/40">
 				<ProfileHeader userProfile={userProfile} />
-				<BioSection userId={userProfile.id} userBio={userBio} />
-				<SkillsSection userId={userProfile.id} userSkills={userSkills} />
+				<BioSection userId={userProfile?.id} userBio={userBio} />
+				<SkillsSection userId={userProfile?.id} userSkills={userSkills} />
 				<GitHubStat
-					githubUsername={userProfile.github_username}
+					githubUsername={userProfile?.github_username}
 					userId={userid}
 				/>
 				<LeetCodeStats
-					leetcodeUsername={userProfile.leetcode_username}
+					leetcodeUsername={userProfile?.leetcode_username}
 					userId={userid}
 				/>
 				<ProjectList userId={userid} userProjects={userProjects} />
 			</div>
-		);
-	}
-
-	return <p>No user profile data available.</p>;
+		</div>
+	);
 }

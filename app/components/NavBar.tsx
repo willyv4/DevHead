@@ -36,20 +36,22 @@ const NavBar = ({ currUser, userId }: any) => {
 										<Link to="/" prefetch="render">
 											<img src={logo} width="32" height="32" alt="Logo" />
 										</Link>
-										<Link
-											to="/users"
-											prefetch="render"
-											className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-										>
-											Devs
-										</Link>
-										<Link
-											to="/posts"
-											prefetch="render"
-											className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-										>
-											Posts
-										</Link>
+										<SignedIn>
+											<Link
+												to="/users"
+												prefetch="render"
+												className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+											>
+												Devs
+											</Link>
+											<Link
+												to="/posts"
+												prefetch="render"
+												className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+											>
+												Posts
+											</Link>
+										</SignedIn>
 									</div>
 								</div>
 							</div>

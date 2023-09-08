@@ -58,7 +58,7 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 
 	const LeetCodeModal = (
 		<button
-			className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+			className="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
 			onClick={() => setLeetCodeOpen(true)}
 		>
 			Connect LeetCode
@@ -85,7 +85,23 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 		);
 
 	return (
-		<>
+		<div className="mt-20">
+			<div className="flex flex-row justify-between border-b border-gray-950 pb-5">
+				<div className="text-base font-semibold leading-6 text-gray-100">
+					<div className="flex flex-row ml-5">
+						<LeetCodeIcon height="2rem" width="2rem" />
+						<h3 className="ml-2 mt-1 text-xl">LeetCode</h3>
+					</div>
+				</div>
+				<div>
+					<button
+						className="mr-4 flex flex-row rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
+						onClick={() => setLeetCodeOpen(true)}
+					>
+						Edit <PencilIcon className="h-4 w-4 ml-2 mt-[2px]" />
+					</button>
+				</div>
+			</div>
 			{leetCodeOpen && (
 				<Modal
 					FormComponent={
@@ -95,83 +111,64 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 					setOpen={setLeetCodeOpen}
 				/>
 			)}
-			<div className="border-t-2 pt-6 mt-6">
-				<button
-					className="flex flex-row rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 float-right mt-1"
-					onClick={() => setLeetCodeOpen(true)}
-				>
-					Edit <PencilIcon className="h-4 w-4 ml-2 mt-[2px]" />
-				</button>
-			</div>
 
-			<div className="font-bold tracking-tight sm:text-4xl text-gray-900">
-				<div className="flex flex-row">
-					<LeetCodeIcon height="2.5rem" width="2.5rem" />
-					<p className="ml-2 text-3xl">LeetCode</p>
+			<div className="mx-auto max-w-7xl px-6 lg:px-8 mt-20">
+				<dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded text-center sm:grid-cols-2 lg:grid-cols-4">
+					{overView.map((item: any) => (
+						<div key={item.name} className="bg-gray-400/5 px-4 py-5 sm:p-6">
+							<dt className="text-base font-bold text-gray-300 mb-4">
+								{item.name} Problems
+							</dt>
+							<dd className="mt-1 flex flex-row items-baseline justify-between lg:flex mb-4">
+								<div className="flex text-l items-baseline font-semibold text-indigo-300 truncate md:-mb-7">
+									{item.solved} / {item.total}
+								</div>
+
+								<div className="inline-flex rounded-full px-2.5 py-0.5 text-sm font-medium">
+									<span
+										className={`-mb-2 mr-0.5 flex-shrink-0 self-center py-1 px-2 text-xs font-medium mt-1 ${
+											item.successRate > 50
+												? " bg-emerald-400/10 text-emerald-500 ring-1 ring-inset ring-emerald-400/20"
+												: "bg-yellow-400/10 text-yellow-500 ring-1 ring-inset ring-yellow-400/20"
+										} ${item.successRate === undefined && "hidden"} rounded `}
+									>
+										{item.successRate !== undefined
+											? `${
+													item.successRate
+														? `beats: ${item.successRate} %`
+														: "Not Enough Data"
+											  }`
+											: ""}
+									</span>
+								</div>
+							</dd>
+							<div className="text-xs mt-2 -mb-6">
+								completed: {((item.solved / item.total) * 100).toFixed(2)} %
+							</div>
+							<progress
+								className="progress w-full -mb-4"
+								value={(item.solved / item.total) * 100}
+								max="100"
+							></progress>
+						</div>
+					))}
+				</dl>
+
+				<div className="mt-5 grid grid-cols-1 divide-y divide-gray-950 overflow-hidden rounded-lg bg-gray-400/5 shadow md:grid-cols-3 md:divide-x md:divide-y-0">
+					<TagList
+						color={"emerald"}
+						level={"Fundemental"}
+						tags={fundamentalTags}
+					/>
+					<TagList
+						color={"yellow"}
+						level={"Intermediate"}
+						tags={intermediateTags}
+					/>
+					<TagList color={"rose"} level={"Advanced"} tags={advancedTags} />
 				</div>
 			</div>
-
-			<dl className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-4 md:divide-x md:divide-y-0">
-				{overView.map((item: any) => (
-					<div key={item.name} className="px-4 py-5 sm:p-6">
-						<dt className="text-base font-bold text-gray-900">
-							{item.name} Problems
-						</dt>
-						<dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-							<div className="flex items-baseline text-2xl font-semibold text-indigo-600">
-								{item.solved} / {item.total}
-							</div>
-
-							<div
-								className={
-									"inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium md:mt-2 lg:mt-0"
-								}
-							>
-								<span
-									className={`-ml-3 mr-0.5 flex-shrink-0 self-center text-xs font-medium mt-1 ${
-										item.successRate > 50
-											? "text-emerald-500 bg-emerald-100 px-1"
-											: "text-yellow-500 bg-yellow-100 px-1"
-									} ${item.successRate === undefined && "hidden"} rounded `}
-								>
-									{item.successRate !== undefined
-										? `${
-												item.successRate
-													? `beats: ${item.successRate} %`
-													: "Not Enough Data"
-										  }`
-										: ""}
-								</span>
-							</div>
-						</dd>
-						<div className="text-xs mt-2 -mb-6">
-							completed: {((item.solved / item.total) * 100).toFixed(2)} %
-						</div>
-						<progress
-							className="progress w-full -mb-4"
-							value={(item.solved / item.total) * 100}
-							max="100"
-						></progress>
-					</div>
-				))}
-			</dl>
-
-			{/* Tag Section */}
-			<h1 className="mt-5">Skills</h1>
-			<div className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0">
-				<TagList
-					color={"emerald"}
-					level={"Fundemental"}
-					tags={fundamentalTags}
-				/>
-				<TagList
-					color={"yellow"}
-					level={"Intermediate"}
-					tags={intermediateTags}
-				/>
-				<TagList color={"rose"} level={"Advanced"} tags={advancedTags} />
-			</div>
-		</>
+		</div>
 	);
 };
 

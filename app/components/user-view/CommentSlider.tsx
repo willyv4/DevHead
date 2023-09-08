@@ -64,13 +64,11 @@ const CommentSLider: React.FC<props> = ({
 													alt="header"
 													className="w-full h-[250px] inset-0 w-full bg-gray-50 object-cover rounded-tl-xl rounded-tr-xl mt-4 border-2 border-gray-950"
 												/>
-
 												<CommentForm
 													postId={viewProject?.id}
 													userId={userId}
 													action={action}
 												/>
-
 												<Outlet />
 											</div>
 										</div>

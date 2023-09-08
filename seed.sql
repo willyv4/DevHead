@@ -1,11 +1,11 @@
 -- Insert data into the users table
-INSERT INTO users (id, username, email, title, about, code_start, place, first_name, last_name)
+INSERT INTO users (id, email, title, about, place, first_name, last_name)
 VALUES
-  ('1', 'user1', 'user1@example.com', 'Software Engineer', 'I love coding!', '2002', 'UT', 'John', 'Doe'),
-  ('2', 'user2', 'user2@example.com', 'Web Developer', 'Passionate about front-end development.', '2020', 'FL', 'Jane', 'Smith'),
-  ('3', 'user3', 'user3@example.com', 'Data Scientist', 'Exploring the world of data.', '1994', 'OH', 'Michael', 'Johnson'),
-  ('4', 'user4', 'user4@example.com', 'Mobile App Developer', 'Building awesome apps.', '2008', 'CA', 'Emily', 'Williams'),
-  ('5', 'user5', 'user5@example.com', 'UI/UX Designer', 'Creating beautiful interfaces.', '2013', 'NY', 'David', 'Brown');
+  ('1', 'user1@example.com', 'Software Engineer', 'I love coding!', 'UT', 'John', 'Doe'),
+  ('2', 'user2@example.com', 'Web Developer', 'Passionate about front-end development.', 'FL', 'Jane', 'Smith'),
+  ('3', 'user3@example.com', 'Data Scientist', 'Exploring the world of data.', 'OH', 'Michael', 'Johnson'),
+  ('4', 'user4@example.com', 'Mobile App Developer', 'Building awesome apps.', 'CA', 'Emily', 'Williams'),
+  ('5', 'user5@example.com', 'UI/UX Designer', 'Creating beautiful interfaces.', 'NY', 'David', 'Brown');
 
 
 -- Insert data into the portfolioPosts table

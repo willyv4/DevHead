@@ -8,7 +8,6 @@ type UserData = {
 	lastName: string | number;
 	place: string | null;
 	imageUrl: string;
-	username: string;
 	githubUsername: string | null;
 	leetcodeUsername: string | null;
 	email: string;
@@ -25,11 +24,11 @@ export class User {
 
 		try {
 			const result = await db.query(
-				`SELECT username, id, image_url FROM users WHERE id = $1`,
+				`SELECT id, image_url FROM users WHERE id = $1`,
 				[id]
 			);
 
-			return result.rows;
+			return result.rows[0];
 		} catch (error) {
 			return json({
 				message: `Error getting user with id: ${id}, ERROR: ${error}`,
@@ -95,32 +94,30 @@ export class User {
 
 	static async addUser({
 		id,
-		username,
 		firstName,
 		lastName,
 		email,
 		imageUrl,
 	}: UserData): Promise<UserData> {
 		const duplicateCheck = await db.query(
-			`SELECT username FROM users WHERE username = $1`,
-			[username]
+			`SELECT id FROM users WHERE id = $1`,
+			[id]
 		);
 
 		if (duplicateCheck.rows[0]) {
-			throw new Error(`Duplicate username: ${username}`);
+			return duplicateCheck.rows[0];
 		}
 
 		const result = await db.query(
 			`INSERT INTO users
            		(id,
-				username,
             	first_name,
             	last_name,
             	email,
             	image_url)
-           		VALUES ($1, $2, $3, $4, $5, $6)
-           		RETURNING id, username, first_name AS "firstName", last_name AS "lastName", email, image_url AS "imageUrl"`,
-			[id, username, firstName, lastName, email, imageUrl]
+           		VALUES ($1, $2, $3, $4, $5)
+           		RETURNING id, first_name AS "firstName", last_name AS "lastName", email, image_url AS "imageUrl"`,
+			[id, firstName, lastName, email, imageUrl]
 		);
 
 		return result.rows[0] as unknown as UserData;
@@ -201,7 +198,7 @@ export class User {
 
 	static async remove(id: string) {
 		let result = await db.query(
-			`DELETE FROM users WHERE id = $1 RETURNING id, username`,
+			`DELETE FROM users WHERE id = $1 RETURNING id`,
 			[id]
 		);
 

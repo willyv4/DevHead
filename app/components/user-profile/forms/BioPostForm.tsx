@@ -5,42 +5,34 @@ import { UseFormClear } from "~/hooks/useFormClear";
 const BioPostForm = ({ userId }: { userId: string | undefined }) => {
 	const { ref: setFormRef, isAdding } = UseFormClear("POST_BIO");
 	return (
-		<>
-			<p className="text-xl font-bold">Bio</p>
-			<Form ref={setFormRef} method="post" className="mt-6">
-				<Tab.Group>
-					<Tab.Panels className="mt-2">
-						<Tab.Panel className="-m-0.5 rounded-lg p-0.5">
-							<div>
-								<input
-									defaultValue={userId}
-									type="hidden"
-									name="userId"
-									className="pl-2 bg-white block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-								/>
-								<textarea
-									rows={7}
-									name="userBio"
-									className="pl-2 bg-white block w-full rounded-md py-1.5 text-gray-900 border border-gray-200 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-									placeholder="Add Bio Here"
-									defaultValue={""}
-								/>
-							</div>
-						</Tab.Panel>
-					</Tab.Panels>
-				</Tab.Group>
-				<div className="mt-2 flex justify-end">
-					<button
-						type="submit"
-						name="_action"
-						value="POST_BIO"
-						className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-					>
-						{isAdding ? "Processing...." : "Add Bio"}
-					</button>
-				</div>
-			</Form>
-		</>
+		<Form ref={setFormRef} method="post" className="mt-6">
+			<Tab.Group>
+				<Tab.Panels className="mt-2">
+					<Tab.Panel className="-m-0.5 rounded-lg p-0.5">
+						<div>
+							<input defaultValue={userId} type="hidden" name="userId" />
+							<textarea
+								rows={7}
+								name="userBio"
+								className="p-4 bg-gray-400/5 block w-full rounded-md py-1.5 text-gray-400 border border-gray-950 placeholder:text-gray-400 sm:text-sm sm:leading-6 overflow-hidden outline-none"
+								placeholder="Add Bio Here"
+								defaultValue={""}
+							/>
+						</div>
+					</Tab.Panel>
+				</Tab.Panels>
+			</Tab.Group>
+			<div className="mt-2 flex justify-end">
+				<button
+					type="submit"
+					name="_action"
+					value="POST_BIO"
+					className="absolute top-[502px] sm:top-[421px] mr-20 sm:mr-8 flex flex-row rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
+				>
+					{isAdding ? "Processing...." : "Add Bio"}
+				</button>
+			</div>
+		</Form>
 	);
 };
 export default BioPostForm;
