@@ -14,7 +14,10 @@ function useImageUploader() {
 				const formData = new FormData();
 				formData.append("file", file);
 
-				const response = await fetch("http://localhost:3000/api/uploadimage", {
+				// const localUrl = "http://localhost:3000/";
+				const url = "https://dev-head-willyv4.vercel.app/";
+
+				const response = await fetch(`${url}${"api/uploadimage"}`, {
 					method: "POST",
 					body: formData,
 				});
