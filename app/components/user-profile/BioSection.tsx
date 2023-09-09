@@ -1,7 +1,7 @@
 import { PencilIcon } from "@heroicons/react/20/solid";
 import { useNavigation } from "@remix-run/react";
 import { useState } from "react";
-import BioPostForm from "./forms/BioPostForm";
+// import BioPostForm from "./forms/BioPostForm";
 import BioUpdateForm from "./forms/BioUpdateForm";
 
 type Props = {
@@ -15,10 +15,8 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 	const navigation = useNavigation();
 
 	const text =
-		navigation.state === "submitting"
-			? "Saving..."
-			: navigation.state === "loading"
-			? "Saved!"
+		navigation.state === "submitting" || navigation.state === "loading"
+			? "Proccessing..."
 			: "Edit";
 
 	const handleChange = (evt: any) => setBio(evt.target.value);
@@ -55,12 +53,12 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 				</div>
 			</div>
 
-			<div className="story-container m-1 sm:m-10 p-2 sm:p-4">
+			<div className="story-container m-1 ml-4 p-2 sm:p-4 lg:m-4">
 				{!userBio && (
 					<div className="text-center mt-16 font-bold text-l"> NO BIO YET</div>
 				)}
 				{userBio?.split("\n")?.map((paragraph, index) => (
-					<p key={index + "paragraph"} className="my-2 text-gray-500">
+					<p key={index + "paragraph"} className="my-2 text-gray-400">
 						{paragraph}
 					</p>
 				))}
@@ -84,16 +82,12 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 			</div>
 
 			<div className="story-container m-1 sm:m-10 p-2 sm:p-4">
-				{userBio ? (
-					<BioUpdateForm
-						handleSubmit={handleSubmit}
-						handleChange={handleChange}
-						userId={userId}
-						bio={bio}
-					/>
-				) : (
-					<BioPostForm userId={userId} />
-				)}
+				<BioUpdateForm
+					handleSubmit={handleSubmit}
+					handleChange={handleChange}
+					userId={userId}
+					bio={bio}
+				/>
 			</div>
 		</>
 	);

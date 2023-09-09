@@ -8,7 +8,7 @@ const ProjectDeleteForm = ({ postId }: { postId: number }) => {
 				name="_action"
 				value="DELETE_PROJECT"
 				type="submit"
-				className="rounded bg-rose-50 px-2 py-1 text-xs font-semibold text-rose-600 shadow-sm hover:bg-rose-100"
+				className="inline-flex items-center rounded-md bg-rose-400/10 px-2 py-1 text-xs font-medium text-rose-400 ring-1 ring-inset ring-rose-400/20"
 			>
 				X
 			</button>

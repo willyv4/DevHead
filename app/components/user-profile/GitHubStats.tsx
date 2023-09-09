@@ -27,7 +27,7 @@ const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 			className="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
 			onClick={() => setGitHubOpen(true)}
 		>
-			Connect Github
+			{gitHubFetcher.state === "loading" ? "connecting..." : "Connect GitHub"}
 		</button>
 	);
 
@@ -46,7 +46,16 @@ const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 			</>
 		);
 
-	if (gitHubFetcher.state === "loading" || !stats) return <div>Loading...</div>;
+	if (gitHubFetcher.state === "loading") {
+		return (
+			<div className="my-52 sm:my-20 animate-pulse">
+				<EmptyStatus
+					Icon={<GitHubIcon height="2.5rem" width="2.5rem" />}
+					ModalButton={GitHubModal}
+				/>
+			</div>
+		);
+	}
 
 	return (
 		<>

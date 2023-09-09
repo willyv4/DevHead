@@ -3,13 +3,20 @@ import {
 	CodeBracketIcon,
 	ComputerDesktopIcon,
 	HeartIcon,
+	ArrowPathIcon,
 } from "@heroicons/react/24/solid";
 import type {
 	ActionArgs,
 	ActionFunction,
 	LoaderFunction,
 } from "@remix-run/node";
-import { Form, Link, useLoaderData, useNavigate } from "@remix-run/react";
+import {
+	Form,
+	Link,
+	useLoaderData,
+	useNavigate,
+	useNavigation,
+} from "@remix-run/react";
 import { useEffect, useState } from "react";
 import CommentSlider from "~/components/user-view/CommentSlider";
 import { Likes } from "~/models/likes";
@@ -65,8 +72,10 @@ export default function Projects() {
 	const projects = useLoaderData<Projects | any>();
 	const [commentView, setCommentView] = useState<boolean>(false);
 	const [viewProject, setViewProject] = useState<UserProject | null>(null);
+	const [formClicked, setFromClicked] = useState<number | null>(null);
 	const navigate = useNavigate();
 	const { isSignedIn } = useUser();
+	const navigation = useNavigation();
 
 	useEffect(() => {
 		if (!isSignedIn) return navigate("/");
@@ -81,6 +90,24 @@ export default function Projects() {
 	};
 
 	console.log("PROJECTS", projects);
+
+	function getUnlikeState(postId: number) {
+		return postId === formClicked &&
+			(navigation.state === "submitting" || navigation.state === "loading") ? (
+			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
+		) : (
+			<HeartIcon className="w-5 text-rose-500" />
+		);
+	}
+
+	function getLikeState(postId: number) {
+		return postId === formClicked &&
+			(navigation.state === "submitting" || navigation.state === "loading") ? (
+			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
+		) : (
+			<HeartIcon className="w-5" />
+		);
+	}
 
 	return (
 		<>
@@ -197,13 +224,15 @@ export default function Projects() {
 														name="userId"
 														defaultValue={user?.id}
 													/>
+
 													<button
 														type="submit"
 														className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 														name="_action"
 														value="POST_UNLIKE"
+														onClick={() => setFromClicked(post.id)}
 													>
-														<HeartIcon className="w-5 text-rose-500" />
+														{getUnlikeState(post.id)}
 													</button>
 													<span className="text-xs ml-2">
 														{post?.liked_user_ids?.length}
@@ -224,13 +253,15 @@ export default function Projects() {
 														name="userId"
 														defaultValue={user?.id}
 													/>
+
 													<button
 														type="submit"
 														className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 														name="_action"
 														value="POST_LIKE"
+														onClick={() => setFromClicked(post.id)}
 													>
-														<HeartIcon className="w-5" />
+														{getLikeState(post.id)}
 													</button>
 													<span className="text-xs ml-2">
 														{post?.liked_user_ids?.length}

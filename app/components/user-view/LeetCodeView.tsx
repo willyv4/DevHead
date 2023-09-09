@@ -2,6 +2,7 @@ import { useFetcher } from "@remix-run/react";
 import { useEffect } from "react";
 import LeetCodeIcon from "../icon-components/LeetCodeIcon";
 import TagList from "../TagList";
+import EmptyStatus from "../user-profile/EmptyStatus";
 
 type Tag = {
 	name: string;
@@ -45,6 +46,22 @@ const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [leetcodeUsername]);
+
+	const LeetCodeModal = (
+		<button className="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20">
+			Connecting LeetCode...
+		</button>
+	);
+
+	if (leetFetcher.state === "loading")
+		return (
+			<div className="my-96 sm:my-32 animate-pulse">
+				<EmptyStatus
+					Icon={<LeetCodeIcon height="2.5rem" width="2.5rem" />}
+					ModalButton={LeetCodeModal}
+				/>
+			</div>
+		);
 
 	return (
 		<div className="mt-16">

@@ -65,11 +65,19 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 		</button>
 	);
 
-	if (leetFetcher.state === "loading") return <div>Loading...</div>;
+	if (leetFetcher.state === "loading")
+		return (
+			<div className="my-96 sm:my-32 animate-pulse">
+				<EmptyStatus
+					Icon={<LeetCodeIcon height="2.5rem" width="2.5rem" />}
+					ModalButton={LeetCodeModal}
+				/>
+			</div>
+		);
 
 	if (!leetcodeUsername)
 		return (
-			<>
+			<div className="mt-20">
 				<Modal
 					FormComponent={
 						<LeetCodeForm userId={userId} setOpen={setLeetCodeOpen} />
@@ -81,7 +89,7 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 					Icon={<LeetCodeIcon height="2.5rem" width="2.5rem" />}
 					ModalButton={LeetCodeModal}
 				/>
-			</>
+			</div>
 		);
 
 	return (

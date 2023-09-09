@@ -37,12 +37,9 @@ const CommentSLider: React.FC<props> = ({
 								>
 									<Dialog.Panel className="pointer-events-auto w-screen max-w-md">
 										<div className="flex h-full flex-col overflow-y-scroll bg-gray-800 py-6 shadow-xl">
-											<div className="px-4 sm:px-6">
-												<div className="flex w-[430px] items-start justify-between fixed z-30 bg-gray-800 w-[400px] h-12 top-0 pt-4 -ml-6">
-													<Dialog.Title className="pl-6 text-xl font-bold leading-6 text-gray-300">
-														{viewProject?.title}
-													</Dialog.Title>
-													<div className="ml-3 flex h-7 items-center">
+											<div className="fixed z-30 w-full top-0">
+												<div className="flex items-start justify-between pb-24 bg-gradient-to-b from-gray-800 via-gray-800 h-12 top-0 pt-4 ">
+													<div className="ml-8 flex h-7 items-center">
 														<button
 															type="button"
 															className="relative rounded-md bg-gray-800 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -56,13 +53,16 @@ const CommentSLider: React.FC<props> = ({
 															/>
 														</button>
 													</div>
+													<Dialog.Title className="w-full pl-6 mb-1 text-xl font-bold text-gray-300">
+														{viewProject?.title}
+													</Dialog.Title>
 												</div>
 											</div>
-											<div className="relative mt-6 flex-1 px-4 sm:px-6 absolute z-20 -top-2">
+											<div className="relative mt-12 flex-1 px-4 sm:px-5 absolute z-20 -top-2">
 												<img
 													src={viewProject?.image_url}
 													alt="header"
-													className="w-full h-[250px] inset-0 w-full bg-gray-50 object-cover rounded-tl-xl rounded-tr-xl mt-4 border-2 border-gray-950"
+													className="sticky -top-24 z-30 w-full h-[250px] inset-0 w-full bg-gray-50 object-cover rounded-tl-xl rounded-tr-xl mt-4 border-2 border-gray-950"
 												/>
 												<CommentForm
 													postId={viewProject?.id}

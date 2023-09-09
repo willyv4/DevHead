@@ -34,7 +34,7 @@ const Header = ({
 	return (
 		<div>
 			<div className="border-b border-gray-400/5">
-				<div className="w-full h-48 bg-gradient-to-tr from-[#ff80b5]/5 to-[#9089fc]/5 rounded-tr-2xl rounded-tl-2xl" />
+				<div className="w-full h-48 bg-gradient-to-r from-white/60 via to-emerald-100/70 rounded-tr-2xl rounded-tl-2xl" />
 			</div>
 			<div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
 				<div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">

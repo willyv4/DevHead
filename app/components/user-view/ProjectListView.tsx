@@ -1,9 +1,10 @@
 import {
+	ArrowPathIcon,
 	CodeBracketIcon,
 	ComputerDesktopIcon,
 	HeartIcon,
 } from "@heroicons/react/20/solid";
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import CommentSlider from "./CommentSlider";
@@ -26,6 +27,8 @@ type Props = {
 const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 	const [commentView, setCommentView] = useState<boolean>(false);
 	const [viewProject, setViewProject] = useState<UserProject | null>(null);
+	const [formClicked, setFromClicked] = useState<number | null>(null);
+	const navigation = useNavigation();
 
 	const handleClick = (idx: number) => {
 		if (userProjects) {
@@ -34,6 +37,24 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 			setCommentView(!commentView);
 		}
 	};
+
+	function getUnlikeState(postId: number) {
+		return postId === formClicked &&
+			(navigation.state === "submitting" || navigation.state === "loading") ? (
+			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
+		) : (
+			<HeartIcon className="w-5 text-rose-500" />
+		);
+	}
+
+	function getLikeState(postId: number) {
+		return postId === formClicked &&
+			(navigation.state === "submitting" || navigation.state === "loading") ? (
+			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
+		) : (
+			<HeartIcon className="w-5" />
+		);
+	}
 
 	return (
 		<div className="flex-col justify-center mt-20">
@@ -123,8 +144,9 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 												className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 												name="_action"
 												value="POST_UNLIKE"
+												onClick={() => setFromClicked(post.id)}
 											>
-												<HeartIcon className="w-5 text-rose-500" />
+												{getUnlikeState(post.id)}
 											</button>
 											<span className="text-xs ml-2">
 												{post?.liked_user_ids?.length}
@@ -150,8 +172,9 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 												className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 												name="_action"
 												value="POST_LIKE"
+												onClick={() => setFromClicked(post.id)}
 											>
-												<HeartIcon className="w-5" />
+												{getLikeState(post.id)}
 											</button>
 											<span className="text-xs ml-2">
 												{post?.liked_user_ids?.length}

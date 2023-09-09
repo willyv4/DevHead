@@ -1,4 +1,5 @@
 import { UserCircleIcon } from "@heroicons/react/20/solid";
+import { useNavigation } from "@remix-run/react";
 import { useState } from "react";
 import Modal from "../Modal";
 import ProfilePostForm from "./forms/ProfilePostForm";
@@ -24,11 +25,19 @@ type UserProfile = {
 const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 	const [buttonClicked, setButtonClicked] = useState(false);
 	const [updateFromView, setUpdateFormView] = useState(false);
+	const navigation = useNavigation();
+
+	const text =
+		navigation.state === "submitting"
+			? "Saving..."
+			: navigation.state === "loading"
+			? "Saved!"
+			: "Edit";
 
 	return (
 		<div>
 			<div className="border-b border-gray-400/5">
-				<div className="w-full h-48 bg-gradient-to-tr from-[#ff80b5]/5 to-[#9089fc]/5 rounded-tr-2xl rounded-tl-2xl" />
+				<div className="w-full h-48 bg-gradient-to-r from-white/60 via to-emerald-100/70 rounded-tr-2xl rounded-tl-2xl" />
 			</div>
 			<div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
 				<div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
@@ -53,7 +62,7 @@ const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 									onClick={() => setUpdateFormView(true)}
 									className="ml-2 flex flex-row mt-1 rounded mt-[6px] ml-2 px-2 rounded bg-gray-300/10 px-2 py-1 text-xs font-semibold text-gray-300 shadow-sm hover:bg-gray-300/20"
 								>
-									<p className="mt-[1.5px]">Edit</p>
+									<p className="mt-[1.5px]">{text}</p>
 									<UserCircleIcon className="w-5 h-5 ml-2" />
 								</button>
 							</div>
@@ -77,7 +86,6 @@ const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 								</div>
 							) : (
 								<>
-									<small>Example Header: Web Developer</small>
 									<Modal
 										FormComponent={<ProfilePostForm userId={userProfile?.id} />}
 										open={buttonClicked}

@@ -27,8 +27,9 @@ const BioUpdateForm: React.FC<BioUpdateFormProps> = ({
 							<textarea
 								name="userBio"
 								rows={7}
-								className="p-4 bg-gray-400/5 block w-full rounded-md py-1.5 text-gray-400 border border-gray-950 placeholder:text-gray-400 sm:text-sm sm:leading-6 overflow-hidden outline-none"
-								value={bio ? bio : ""}
+								className="overflow-scroll p-4 bg-gray-400/5 block w-full rounded-md py-1.5 text-gray-200 border border-gray-950 placeholder:text-gray-400 sm:text-sm sm:leading-6 overflow-hidden outline-none"
+								placeholder={!bio ? "Add Bio Here..." : ""}
+								value={bio || ""}
 								onChange={handleChange}
 							/>
 						</div>
@@ -40,9 +41,9 @@ const BioUpdateForm: React.FC<BioUpdateFormProps> = ({
 					type="submit"
 					name="_action"
 					value="UPDATE_BIO"
-					className="absolute top-[502px] sm:top-[421px] mr-20 sm:mr-8 flex flex-row rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
+					className="absolute top-[499px] sm:top-[421px] mr-20 sm:mr-8 flex flex-row rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
 				>
-					Submit Edit
+					{!bio ? "Add Bio" : "Submit Edit"}
 				</button>
 			</div>
 		</Form>

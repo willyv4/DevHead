@@ -14,18 +14,18 @@ const CommentForm = ({
 	const navigation = useNavigation();
 
 	const text =
-		navigation.state === "submitting"
-			? "Saving..."
-			: navigation.state === "loading"
-			? "Saved!"
-			: "Add Comment";
+		navigation.state === "submitting" || navigation.state === "loading" ? (
+			<span className="animate-pulse">Processing...</span>
+		) : (
+			"Add Comment"
+		);
 
 	return (
 		<Form
 			ref={setFormRef}
 			action={`${action}${postId}`}
 			method="post"
-			className="sticky top-6 z-30 bg-gray-800 via-gray-800 "
+			className="sticky top-20 z-30 bg-gray-800"
 		>
 			<input type="hidden" defaultValue={postId} name="projectId" />
 			<input type="hidden" defaultValue={userId} name="userId" />

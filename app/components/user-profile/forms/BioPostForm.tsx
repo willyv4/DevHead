@@ -27,7 +27,7 @@ const BioPostForm = ({ userId }: { userId: string | undefined }) => {
 					type="submit"
 					name="_action"
 					value="POST_BIO"
-					className="absolute top-[502px] sm:top-[421px] mr-20 sm:mr-8 flex flex-row rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
+					className="absolute top-[490px] sm:top-[421px] mr-20 sm:mr-8 flex flex-row rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
 				>
 					{isAdding ? "Processing...." : "Add Bio"}
 				</button>

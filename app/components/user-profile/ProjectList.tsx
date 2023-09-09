@@ -1,10 +1,11 @@
 import {
+	ArrowPathIcon,
 	CodeBracketIcon,
 	ComputerDesktopIcon,
 	HeartIcon,
 	PlusIcon,
 } from "@heroicons/react/20/solid";
-import { Form, Link } from "@remix-run/react";
+import { Form, Link, useNavigation } from "@remix-run/react";
 import { useState } from "react";
 import Modal from "../Modal";
 import CommentSlider from "../user-view/CommentSlider";
@@ -37,6 +38,8 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 	const [editFormView, setEditFormView] = useState(false);
 	const [commentView, setCommentView] = useState<boolean>(false);
 	const [viewProject, setViewProject] = useState<UserProject | null>(null);
+	const [formClicked, setFromClicked] = useState<number | null>(null);
+	const navigation = useNavigation();
 
 	const handleClick = (index: number | null) => {
 		if (userProjects && index) {
@@ -53,6 +56,24 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 			setCommentView(!commentView);
 		}
 	};
+
+	function getUnlikeState(postId: number) {
+		return postId === formClicked &&
+			(navigation.state === "submitting" || navigation.state === "loading") ? (
+			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
+		) : (
+			<HeartIcon className="w-5 text-rose-500" />
+		);
+	}
+
+	function getLikeState(postId: number) {
+		return postId === formClicked &&
+			(navigation.state === "submitting" || navigation.state === "loading") ? (
+			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
+		) : (
+			<HeartIcon className="w-5" />
+		);
+	}
 
 	return (
 		<div className="flex-col justify-center mt-20">
@@ -113,7 +134,7 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 			{userProjects.length === 0 && (
 				<div className="text-center h-36 mt-16 font-bold text-l">
 					{" "}
-					NO SKILLS YET
+					NO PROJECTS YET
 				</div>
 			)}
 
@@ -195,8 +216,10 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 												className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 												name="_action"
 												value="POST_UNLIKE"
+												onClick={() => setFromClicked(post.id)}
 											>
-												<HeartIcon className="w-5 text-rose-500" />
+												{/* <HeartIcon className="w-5 text-rose-500" /> */}
+												{getUnlikeState(post.id)}
 											</button>
 											<span className="text-xs ml-2">
 												{post?.liked_user_ids?.length}
@@ -222,8 +245,9 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 												className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 												name="_action"
 												value="POST_LIKE"
+												onClick={() => setFromClicked(post.id)}
 											>
-												<HeartIcon className="w-5" />
+												{getLikeState(post.id)}
 											</button>
 											<span className="text-xs ml-2">
 												{post?.liked_user_ids?.length}

@@ -1,6 +1,7 @@
 import { useFetcher } from "@remix-run/react";
 import { useEffect } from "react";
 import GitHubIcon from "../icon-components/GitHubIcon";
+import EmptyStatus from "../user-profile/EmptyStatus";
 
 type Props = {
 	githubUsername: string | null;
@@ -16,7 +17,22 @@ const GitHubView: React.FC<Props> = ({ githubUsername }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [githubUsername]);
 
-	if (gitHubFetcher.state === "loading") return <div> Loading...</div>;
+	const GitHubModal = (
+		<button className="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20">
+			{gitHubFetcher.state === "loading" ? "connecting..." : "Connect GitHub"}
+		</button>
+	);
+
+	if (gitHubFetcher.state === "loading") {
+		return (
+			<div className="my-52 sm:my-20 animate-pulse">
+				<EmptyStatus
+					Icon={<GitHubIcon height="2.5rem" width="2.5rem" />}
+					ModalButton={GitHubModal}
+				/>
+			</div>
+		);
+	}
 
 	return (
 		<>

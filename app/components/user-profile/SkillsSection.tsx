@@ -61,21 +61,11 @@ const SkillsSection = ({
 			</div>
 
 			{userSkills.length !== 0 ? (
-				<div className="flex flex-row justify-center">
-					<div className="flex flex-row flex-wrap p-2 mt-10 mb-10">
+				<div className="ml-4 mr-4 flex flex-row justify-center">
+					<div className="flex flex-row flex-wrap justify-center mt-10 mb-4">
 						{userSkills.map((skillObj) => (
-							<div key={skillObj.id + skillObj.skill} className="p-3">
-								<span
-									key={skillObj.id}
-									className="inline-flex items-center gap-x-1.5 rounded-md px-2.5 py-1 font-bold text-white ring-1 ring-inset ring-gray-800 text-xs sm:text-xl"
-								>
-									<svg
-										className="h-1.5 w-1.5 sm:h-2.5 w-2.5 fill-emerald-400"
-										viewBox="0 0 6 6"
-										aria-hidden="true"
-									>
-										<circle cx={3} cy={3} r={3} />
-									</svg>
+							<div key={skillObj.id + skillObj.skill} className="p-1">
+								<span className="inline-flex items-center rounded-md bg-emerald-400/10 px-2 py-1 text-md sm:text-2xl font-medium text-emerald-300 ring-1 ring-inset ring-emerald-400/20">
 									{skillObj.skill}{" "}
 									{deleteFormView && (
 										<Form method="post">
@@ -89,7 +79,7 @@ const SkillsSection = ({
 													name="_action"
 													value="DELETE_SKILL"
 													type="submit"
-													className="ml-1 -mr-1 inline-flex items-center rounded-md bg-rose-400/10 px-2 text-[10px] font-medium text-rose-400 ring-1 ring-inset ring-rose-400/20"
+													className="ml-1 -mr-1 inline-flex items-center px-2 text-[10px] font-bold text-emerald-300"
 												>
 													X
 												</button>

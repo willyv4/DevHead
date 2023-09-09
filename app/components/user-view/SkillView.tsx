@@ -13,22 +13,16 @@ const SkillView = ({ userSkills }: { userSkills: UserSkills[] }) => {
 				</h3>
 			</div>
 			{userSkills.length !== 0 && (
-				<div className="flex flex-row flex-wrap justify-center p-10">
-					{userSkills.map((skillObj) => (
-						<span
-							key={skillObj.id}
-							className="mx-10 my-4 inline-flex items-center gap-x-1.5 rounded-md px-2.5 py-1 font-bold text-white ring-1 ring-inset ring-gray-800 text-xs sm:text-2xl"
-						>
-							<svg
-								className="h-1.5 w-1.5 sm:h-2.5 w-2.5 fill-emerald-400"
-								viewBox="0 0 6 6"
-								aria-hidden="true"
-							>
-								<circle cx={3} cy={3} r={3} />
-							</svg>
-							{skillObj.skill}
-						</span>
-					))}
+				<div className="ml-4 mr-4 flex flex-row justify-center">
+					<div className="flex flex-row flex-wrap justify-center mt-10 mb-4">
+						{userSkills.map((skillObj) => (
+							<div key={skillObj.id + skillObj.skill} className="p-1">
+								<span className="inline-flex items-center rounded-md bg-emerald-400/10 px-2 py-1 text-md sm:text-2xl font-medium text-emerald-300 ring-1 ring-inset ring-emerald-400/20">
+									{skillObj.skill}
+								</span>
+							</div>
+						))}
+					</div>
 				</div>
 			)}
 		</div>

@@ -118,8 +118,7 @@ export default class Posts {
         		FROM portfolio_posts pp
         		LEFT JOIN portfolio_comments pc ON pp.id = pc.post_id
         		LEFT JOIN users u ON pp.user_id = u.id
-        		GROUP BY pp.id, author_first_name, author_last_name
-        		ORDER BY (SELECT COUNT(user_id) FROM likes WHERE post_id = pp.id) DESC;`);
+        		GROUP BY pp.id, author_first_name, author_last_name;`);
 
 			return result.rows;
 		} catch (error) {
