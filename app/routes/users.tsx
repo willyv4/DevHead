@@ -4,6 +4,7 @@ import { User } from "../models/users";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { useUser } from "@clerk/remix";
 import { useEffect } from "react";
+import Blob from "../components/Blob";
 
 type UserData = {
 	id: number;
@@ -41,30 +42,18 @@ export default function UserList() {
 		<>
 			<div className="border-b border-gray-950 pb-5 mt-28 px-8">
 				<h3 className="text-base font-semibold leading-6 text-gray-50">
-					Projects & Contributions
+					Follow DevHeads for Insporation 🙌
 				</h3>
 				<p className="mt-2 max-w-4xl text-sm text-gray-400">
-					Dive in and Discover a range of projects and contributions from our
-					talented community. Explore, learn, and get inspired by the
-					code-driven solutions shared here.
+					Discover a talented group of developers. Connect with them to find
+					inspiration and insights into their work.
 				</p>
 			</div>
 			<div
 				role="list"
 				className="pb-10 px-12 md:px-4 lg:px-24 mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3"
 			>
-				<div
-					className="fixed inset-x-0 -z-30 transform-gpu overflow-hidden blur-3xl right-0 top-[calc(100%-80rem)]"
-					aria-hidden="true"
-				>
-					<div
-						className="relitive aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:w-[72.1875rem]"
-						style={{
-							clipPath:
-								"polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-						}}
-					/>
-				</div>
+				<Blob />
 
 				{users &&
 					users?.map((user: UserData) => (

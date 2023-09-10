@@ -27,6 +27,11 @@ const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 	const [updateFromView, setUpdateFormView] = useState(false);
 	const navigation = useNavigation();
 
+	const followerCount = userProfile.followers?.filter((f) => f !== null).length;
+	const followingCount = userProfile.following?.filter(
+		(f) => f !== null
+	).length;
+
 	const text =
 		navigation.state === "submitting"
 			? "Saving..."
@@ -53,7 +58,7 @@ const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 						/>
 					</div>
 					<div className="sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
-						<div className="min-w-0 flex-1 md:block">
+						<div className="mt-10 min-w-0 flex-1 md:block">
 							<div className="flex flex-row mt-10">
 								<h1 className="truncate text-2xl font-bold text-gray-200">
 									{userProfile?.first_name + " " + userProfile?.last_name}
@@ -93,6 +98,15 @@ const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 									/>
 								</>
 							)}
+
+							<div className="flex flex-row mt-2">
+								<span className="mr-2 inline-flex items-center rounded-md bg-emerald-400/10 px-2 py-1 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-400/20">
+									Followers: {followerCount}
+								</span>
+								<span className="inline-flex items-center rounded-md bg-emerald-400/10 px-2 py-1 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-400/20">
+									Following: {followingCount}
+								</span>
+							</div>
 						</div>
 					</div>
 				</div>

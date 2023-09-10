@@ -18,9 +18,9 @@ const GitHubView: React.FC<Props> = ({ githubUsername }) => {
 	}, [githubUsername]);
 
 	const GitHubModal = (
-		<button className="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20">
+		<div className="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20">
 			{gitHubFetcher.state === "loading" ? "connecting..." : "Connect GitHub"}
-		</button>
+		</div>
 	);
 
 	if (gitHubFetcher.state === "loading") {
@@ -57,7 +57,7 @@ const GitHubView: React.FC<Props> = ({ githubUsername }) => {
 
 						<div className="mx-auto max-w-7xl">
 							<div className="mx-auto max-w-2xl lg:max-w-none">
-								<dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded text-center sm:grid-cols-2 lg:grid-cols-4">
+								<dl className="grid grid-cols-1 gap-0.5 overflow-hidden rounded text-center sm:grid-cols-2 lg:grid-cols-4">
 									{data?.map((stat: any) => (
 										<div
 											key={stat.name}

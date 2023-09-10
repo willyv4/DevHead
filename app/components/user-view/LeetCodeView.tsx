@@ -48,9 +48,9 @@ const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 	}, [leetcodeUsername]);
 
 	const LeetCodeModal = (
-		<button className="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20">
+		<div className="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20">
 			Connecting LeetCode...
-		</button>
+		</div>
 	);
 
 	if (leetFetcher.state === "loading")
@@ -74,8 +74,8 @@ const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 				</h3>
 			</div>
 
-			<div className="mx-auto max-w-7xl px-6 lg:px-8 mt-20">
-				<dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded text-center sm:grid-cols-2 lg:grid-cols-4">
+			<div className="mx-auto max-w-7xl px-6 lg:px-8 mt-4">
+				<dl className="mt-10 grid grid-cols-1 gap-0.5 overflow-hidden rounded text-center sm:grid-cols-2 lg:grid-cols-4">
 					{overView.map((item: any) => (
 						<div key={item.name} className="bg-gray-400/5 px-4 py-5 sm:p-6">
 							<dt className="text-base font-bold text-gray-300 mb-4">

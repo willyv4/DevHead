@@ -1,9 +1,10 @@
 import { SignedIn, SignedOut, SignOutButton } from "@clerk/remix";
-import { Link, useNavigate } from "@remix-run/react";
+import { Link, useNavigate, useNavigation } from "@remix-run/react";
 import logo from "../../public/devhead_logo.png";
 import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon } from "@heroicons/react/24/solid";
 
 function classNames(...classes: any) {
 	return classes.filter(Boolean).join(" ");
@@ -11,7 +12,9 @@ function classNames(...classes: any) {
 
 const NavBar = ({ currUser, userId }: any) => {
 	const [isSignedOut, setIsSignedOut] = useState<boolean>(false);
+	const [isClicked, setIsClicked] = useState<string>("");
 	const navigate = useNavigate();
+	const navigation = useNavigation();
 
 	const handleCLick = () => {
 		setIsSignedOut(true);
@@ -23,6 +26,13 @@ const NavBar = ({ currUser, userId }: any) => {
 			return navigate("/");
 		}
 	}, [isSignedOut, navigate]);
+
+	const textState = (text: string) => {
+		return isClicked === text &&
+			(navigation.state === "submitting" || navigation.state === "loading")
+			? "Redirecting..."
+			: text;
+	};
 
 	return (
 		<Disclosure
@@ -56,16 +66,18 @@ const NavBar = ({ currUser, userId }: any) => {
 											<Link
 												to="/users"
 												prefetch="render"
-												className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+												onClick={() => setIsClicked("Devs")}
+												className="bg-gray-900/10 text-white rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-800/90"
 											>
-												Devs
+												{textState("Devs")}
 											</Link>
 											<Link
 												to="/posts"
 												prefetch="render"
-												className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+												onClick={() => setIsClicked("Posts")}
+												className="bg-gray-900/10 text-white rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-800/90"
 											>
-												Posts
+												{textState("Posts")}
 											</Link>
 										</SignedIn>
 									</div>
@@ -78,15 +90,20 @@ const NavBar = ({ currUser, userId }: any) => {
 											<Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
 												<span className="absolute -inset-1.5" />
 												<span className="sr-only">Open user menu</span>
-												<img
-													className="h-10 w-10 rounded-full"
-													src={
-														currUser?.image_url
-															? currUser?.image_url
-															: "https://kansai-resilience-forum.jp/wp-content/uploads/2019/02/IAFOR-Blank-Avatar-Image-1.jpg"
-													}
-													alt="profile"
-												/>
+												{navigation.state === "submitting" ||
+												navigation.state === "loading" ? (
+													<ArrowPathIcon className="w-9 h-9 p-1 animate-spin rounded-full bg-gray-300 p-2 text-gray-950 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-200" />
+												) : (
+													<img
+														className="h-10 w-10 rounded-full"
+														src={
+															currUser?.image_url
+																? currUser?.image_url
+																: "https://kansai-resilience-forum.jp/wp-content/uploads/2019/02/IAFOR-Blank-Avatar-Image-1.jpg"
+														}
+														alt="profile"
+													/>
+												)}
 											</Menu.Button>
 										</div>
 										<Transition
@@ -156,24 +173,27 @@ const NavBar = ({ currUser, userId }: any) => {
 								<Link
 									className="bg-white/10 text-white block rounded-md px-3 py-2 text-base font-medium w-full mb-1"
 									to="/"
+									onClick={() => setIsClicked("Home")}
 								>
-									Home
+									{textState("Home")}
 								</Link>
 							</Disclosure.Button>
 							<Disclosure.Button>
 								<Link
 									to="/users"
 									className="bg-white/10 text-white block rounded-md px-3 py-2 text-base font-medium w-full mb-1"
+									onClick={() => setIsClicked("Devs")}
 								>
-									Devs
+									{textState("Devs")}
 								</Link>
 							</Disclosure.Button>
 							<Disclosure.Button>
 								<Link
 									to="/posts"
+									onClick={() => setIsClicked("Posts")}
 									className="bg-white/10 text-white block rounded-md px-3 py-2 text-base font-medium w-full mb-1"
 								>
-									Posts
+									{textState("Posts")}
 								</Link>
 							</Disclosure.Button>
 						</div>

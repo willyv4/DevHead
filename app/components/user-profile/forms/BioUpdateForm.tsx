@@ -41,9 +41,11 @@ const BioUpdateForm: React.FC<BioUpdateFormProps> = ({
 					type="submit"
 					name="_action"
 					value="UPDATE_BIO"
-					className="absolute top-[499px] sm:top-[421px] mr-20 sm:mr-8 flex flex-row rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
+					className={`absolute ${
+						!bio ? "top-[536px]" : "top-[536px]"
+					} sm:top-[468px] mr-20 sm:mr-[70px] flex flex-row rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20`}
 				>
-					{!bio ? "Add Bio" : "Submit Edit"}
+					{!bio ? "Add Bio" : "Submit"}
 				</button>
 			</div>
 		</Form>

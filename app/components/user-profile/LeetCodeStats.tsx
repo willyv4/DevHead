@@ -120,8 +120,8 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 				/>
 			)}
 
-			<div className="mx-auto max-w-7xl px-6 lg:px-8 mt-20">
-				<dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded text-center sm:grid-cols-2 lg:grid-cols-4">
+			<div className="mx-auto max-w-7xl px-6 lg:px-8 mt-10">
+				<dl className="grid grid-cols-1 gap-0.5 overflow-hidden rounded text-center sm:grid-cols-2 lg:grid-cols-4">
 					{overView.map((item: any) => (
 						<div key={item.name} className="bg-gray-400/5 px-4 py-5 sm:p-6">
 							<dt className="text-base font-bold text-gray-300 mb-4">

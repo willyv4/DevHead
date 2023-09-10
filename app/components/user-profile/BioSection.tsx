@@ -81,7 +81,7 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 				</div>
 			</div>
 
-			<div className="story-container m-1 sm:m-10 p-2 sm:p-4">
+			<div className="story-container m-1 p-2 sm:p-4">
 				<BioUpdateForm
 					handleSubmit={handleSubmit}
 					handleChange={handleChange}

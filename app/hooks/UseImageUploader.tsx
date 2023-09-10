@@ -6,6 +6,7 @@ function useImageUploader() {
 	const [validFile, setValidFile] = useState<File | null>(null);
 	const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [message, setMessage] = useState<string | null>(null);
 
 	async function uploadFileToServer(file: File | null) {
 		if (file !== null) {
@@ -49,7 +50,13 @@ function useImageUploader() {
 			f.type.match(/image\/(png|jpg|jpeg)/)
 		);
 
-		if (validFiles.length) setValidFile(validFiles[0]);
+		if (validFiles.length) {
+			setValidFile(validFiles[0]);
+		} else {
+			setMessage(
+				"Invalid file format! Please select a PNG, JPG, or JPEG image."
+			);
+		}
 	};
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -67,6 +74,8 @@ function useImageUploader() {
 		setValidFile,
 		setIsSubmitted,
 		isLoading,
+		message,
+		setMessage,
 	];
 }
 

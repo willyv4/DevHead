@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 const Footer = () => {
 	return (
-		<footer className="footer footer-center pt-40 p-10 bg-gradient-to-t from-black/40 text-gray-400 rounded">
+		<footer className="footer footer-center pt-40 p-10 mt-20 bg-gradient-to-t from-black/40 text-gray-400 rounded">
 			<nav className="grid grid-flow-col gap-4">
 				<a className="link link-hover">About us</a>
 				<a className="link link-hover">Contact</a>

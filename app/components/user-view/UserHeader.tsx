@@ -1,5 +1,5 @@
 import { EnvelopeIcon } from "@heroicons/react/20/solid";
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 
 type UserProfile = {
 	id: string;
@@ -26,6 +26,7 @@ const Header = ({
 	userProfile: UserProfile;
 	userId: string;
 }) => {
+	const navigation = useNavigation();
 	const followerCount = userProfile.followers?.filter((f) => f !== null).length;
 	const followingCount = userProfile.following?.filter(
 		(f) => f !== null
@@ -67,7 +68,11 @@ const Header = ({
 												type="submit"
 												className="mt-[6px] ml-2 px-2 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
 											>
-												Unfollow
+												{navigation.state === "submitting"
+													? "Saving..."
+													: navigation.state === "loading"
+													? "Saved!"
+													: "Unfollow"}
 											</button>
 										) : (
 											<button
@@ -76,7 +81,11 @@ const Header = ({
 												type="submit"
 												className="mt-[6px] ml-2 px-2 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
 											>
-												Follow
+												{navigation.state === "submitting"
+													? "Saving..."
+													: navigation.state === "loading"
+													? "Saved!"
+													: "Follow"}
 											</button>
 										)}
 									</Form>
@@ -92,10 +101,10 @@ const Header = ({
 							)}
 
 							<div className="flex flex-row mt-2">
-								<span className="mr-2 inline-flex items-center rounded-md bg-emerald-300/10 px-2 py-1 text-xs font-medium text-emerald-300 ring-1 ring-inset ring-emerald-300/30">
+								<span className="mr-2 inline-flex items-center rounded-md bg-emerald-300/10 px-2 py-1 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-300/30">
 									Followers: {followerCount}
 								</span>
-								<span className="inline-flex items-center rounded-md bg-emerald-300/10 px-2 py-1 text-xs font-medium text-emerald-300 ring-1 ring-inset ring-emerald-300/30">
+								<span className="inline-flex items-center rounded-md bg-emerald-300/10 px-2 py-1 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-300/30">
 									Following: {followingCount}
 								</span>
 							</div>

@@ -84,7 +84,7 @@ const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 				/>
 			)}
 
-			<div className="bg-gray-900">
+			<div>
 				<div className="mx-auto max-w-7xl px-6 lg:px-8">
 					<div className="mx-auto max-w-2xl lg:max-w-none">
 						<div className="font-bold tracking-tight sm:text-4xl text-gray-900">
@@ -96,7 +96,7 @@ const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 
 						<div className="mx-auto max-w-7xl">
 							<div className="mx-auto max-w-2xl lg:max-w-none">
-								<dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded text-center sm:grid-cols-2 lg:grid-cols-4">
+								<dl className="grid grid-cols-1 gap-0.5 overflow-hidden rounded text-center sm:grid-cols-2 lg:grid-cols-4">
 									{stats?.map((stat: any) => (
 										<div
 											key={stat.name}

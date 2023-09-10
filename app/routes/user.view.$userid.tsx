@@ -176,7 +176,7 @@ export default function UserProfile() {
 
 	if (userProfile && user?.id) {
 		return (
-			<div className="bg-gray-900 pt-28 sm:px-10 px-4">
+			<div className="pt-28 sm:px-10 px-4">
 				<div className="rounded-2xl ring-1 ring-gray-950 mt-10">
 					<Header userProfile={userProfile} userId={user?.id} />
 					<BioView userBio={userProfile.about} />
@@ -194,6 +194,4 @@ export default function UserProfile() {
 			</div>
 		);
 	}
-
-	return <p>No user profile data available.</p>;
 }
