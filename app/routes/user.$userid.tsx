@@ -197,6 +197,7 @@ export default function UserProfile() {
 				<ProfileHeader userProfile={userProfile} />
 				<BioSection userId={userProfile?.id} userBio={userBio} />
 				<SkillsSection userId={userProfile?.id} userSkills={userSkills} />
+				<ProjectList userId={userid} userProjects={userProjects} />
 				<GitHubStat
 					githubUsername={userProfile?.github_username}
 					userId={userid}
@@ -205,7 +206,6 @@ export default function UserProfile() {
 					leetcodeUsername={userProfile?.leetcode_username}
 					userId={userid}
 				/>
-				<ProjectList userId={userid} userProjects={userProjects} />
 			</div>
 		</div>
 	);

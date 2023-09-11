@@ -1,13 +1,18 @@
-import { Link, useLoaderData, useNavigate } from "@remix-run/react";
+import {
+	Link,
+	useLoaderData,
+	useNavigate,
+	useNavigation,
+} from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { User } from "../models/users";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { useUser } from "@clerk/remix";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Blob from "../components/Blob";
 
 type UserData = {
-	id: number;
+	id: string;
 	first_name: string;
 	last_name: string;
 	email: string;
@@ -33,6 +38,8 @@ export default function UserList() {
 	const { users } = useLoaderData<Users>();
 	const navigate = useNavigate();
 	const { isSignedIn } = useUser();
+	const [isClicked, setIsClicked] = useState<string>("");
+	const navigation = useNavigation();
 
 	useEffect(() => {
 		if (!isSignedIn) return navigate("/");
@@ -93,10 +100,20 @@ export default function UserList() {
 								<div className="-mt-px flex rounded-lg">
 									<div className="flex w-0 flex-1">
 										<Link
+											onClick={() => setIsClicked(user.id)}
 											to={`../user/view/${user.id}`}
 											className="bg-white/0 text-white rounded-bl-lg rounded-br-lg relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
 										>
-											See Profile <ArrowRightIcon className="w-4" />
+											{isClicked === user.id &&
+											(navigation.state === "submitting" ||
+												navigation.state === "loading") ? (
+												"Loading..."
+											) : (
+												<div className="flex flex-row">
+													See Profile{" "}
+													<ArrowRightIcon className="w-4 ml-2 mt-[2px]" />
+												</div>
+											)}
 										</Link>
 									</div>
 								</div>

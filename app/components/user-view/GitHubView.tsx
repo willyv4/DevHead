@@ -36,7 +36,7 @@ const GitHubView: React.FC<Props> = ({ githubUsername }) => {
 
 	return (
 		<>
-			<div className="border-b border-gray-950 pb-5 mt-16">
+			<div className="border-b border-gray-950 pb-5 mt-6">
 				<h3 className="font-bold leading-6 text-gray-100">
 					<div className="ml-5 flex flex-row">
 						<GitHubIcon height="2rem" width="2rem" />

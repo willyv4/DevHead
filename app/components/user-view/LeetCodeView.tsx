@@ -64,7 +64,7 @@ const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 		);
 
 	return (
-		<div className="mt-16">
+		<div className="mt-10 pb-8">
 			<div className="border-b border-gray-950 pb-5">
 				<h3 className="text-base font-semibold leading-6 text-gray-100">
 					<div className="flex flex-row ml-5">

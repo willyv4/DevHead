@@ -7,7 +7,7 @@ type AlertProps = {
 
 const Alert: React.FC<AlertProps> = ({ message, setMessage }) => {
 	return (
-		<div className="absolute mx-auto w-full -ml-6 top-0 rounded-tr-md rounded-tl-md bg-rose-50 p-4 shadow-2xl shadow-gray-950">
+		<div className="absolute -ml-4 sm:-ml-6 w-full top-0 rounded-tr-md rounded-tl-md bg-rose-50 p-4 shadow-2xl shadow-gray-950">
 			<div className="flex">
 				<div className="flex-shrink-0">
 					<p className="text-lg" aria-hidden="true">

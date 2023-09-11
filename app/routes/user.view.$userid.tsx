@@ -181,14 +181,14 @@ export default function UserProfile() {
 					<Header userProfile={userProfile} userId={user?.id} />
 					<BioView userBio={userProfile.about} />
 					<SkillView userSkills={userSkills} />
+					{userProjects && (
+						<ProjectListView userId={user?.id} userProjects={userProjects} />
+					)}
 					{userProfile.github_username && (
 						<GitHubView githubUsername={userProfile?.github_username} />
 					)}
 					{userProfile.leetcode_username && (
 						<LeetCodeView leetcodeUsername={userProfile?.leetcode_username} />
-					)}
-					{userProjects && (
-						<ProjectListView userId={user?.id} userProjects={userProjects} />
 					)}
 				</div>
 			</div>

@@ -30,7 +30,7 @@ const NavBar = ({ currUser, userId }: any) => {
 	const textState = (text: string) => {
 		return isClicked === text &&
 			(navigation.state === "submitting" || navigation.state === "loading")
-			? "Redirecting..."
+			? "Loading..."
 			: text;
 	};
 

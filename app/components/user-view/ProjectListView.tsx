@@ -57,7 +57,7 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 	}
 
 	return (
-		<div className="flex-col justify-center mt-20">
+		<div className="flex-col justify-center mt-10">
 			<div className="border-b border-gray-950 pb-5">
 				<h3 className="text-xl font-bold leading-6 text-gray-300">
 					<div className="flex flex-row ml-5">

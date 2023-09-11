@@ -85,7 +85,7 @@ const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 			)}
 
 			<div>
-				<div className="mx-auto max-w-7xl px-6 lg:px-8">
+				<div className="mx-auto max-w-7xl px-4 lg:px-8">
 					<div className="mx-auto max-w-2xl lg:max-w-none">
 						<div className="font-bold tracking-tight sm:text-4xl text-gray-900">
 							<div className="flex flex-row">

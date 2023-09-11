@@ -1,5 +1,5 @@
 import { PhotoIcon } from "@heroicons/react/20/solid";
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import Alert from "~/components/Alert";
@@ -31,14 +31,6 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
 		projectLikeCount: project?.like_count,
 	};
 
-	const AFTER_SUBMISSION: any = {
-		imageUrl: "",
-		projectTitle: "",
-		projectCodeLink: "",
-		projectLiveLink: "",
-		projectLikeCount: "",
-	};
-
 	const [
 		image,
 		getRootProps,
@@ -52,6 +44,15 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
 		setMessage,
 	] = useImageUploader() as any;
 	const [formData, setFormData] = useState(INITIAL_STATE);
+	const navigation = useNavigation();
+	const [submitted, setSubmitted] = useState<boolean>(false);
+
+	const text =
+		navigation.state === "submitting"
+			? "Saving..."
+			: navigation.state === "loading"
+			? "loading..."
+			: "your good to go!";
 
 	useEffect(() => {
 		if (image) {
@@ -93,18 +94,15 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
 	// 		projectFetcher.submit(formData,{"action":`user/${userId}/${projectId}`,"method":"PUT"})
 	// 	}
 	// };
-	const handleSubmit = () => {
-		setFormData(AFTER_SUBMISSION);
-		setOpen(false);
-	};
-
-	console.log(message);
+	// const handleSubmit = () => {
+	// 	setFormData(AFTER_SUBMISSION);
+	// };
 
 	return (
 		// <projectFetcher.Form ref={formRef} onSubmit={handleSubmit}>
 		<>
 			{message && <Alert message={message} setMessage={setMessage} />}
-			<Form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
+			<Form method="post" encType="multipart/form-data">
 				{!formData.imageUrl ? (
 					<div className="mt-2 mb-8 flex justify-center rounded-lg border border-dashed border-gray-200/25 px-6 py-10">
 						<div className="text-center">
@@ -208,8 +206,9 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
 						type="submit"
 						name="_action"
 						value="PUT"
+						onClick={() => setSubmitted(true)}
 					>
-						Submit
+						{submitted ? text : "submit"}
 					</button>
 				)}
 			</Form>

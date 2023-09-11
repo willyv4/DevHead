@@ -1,5 +1,5 @@
 import { PhotoIcon } from "@heroicons/react/20/solid";
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import Alert from "~/components/Alert";
@@ -29,20 +29,21 @@ type Props = {
 
 const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 	const INITIAL_STATE = {
-		userImage: userProfile?.image_url || "",
-		profileTitle: userProfile?.title || "",
-		firstName: userProfile?.first_name || "",
-		lastName: userProfile?.last_name || "",
-		userEmail: userProfile?.email || "",
+		userImage: userProfile?.image_url,
+		profileTitle: userProfile?.title,
+		firstName: userProfile?.first_name,
+		lastName: userProfile?.last_name,
+		userEmail: userProfile?.email,
 	};
+	const navigation = useNavigation();
+	const [submitted, setSubmitted] = useState<boolean>(false);
 
-	const AFTER_SUBMISSION = {
-		userImage: "",
-		profileTitle: "",
-		firstName: "",
-		lastName: "",
-		userEmail: "",
-	};
+	const text =
+		navigation.state === "submitting"
+			? "Saving..."
+			: navigation.state === "loading"
+			? "loading..."
+			: "your good to go!";
 
 	const [
 		image,
@@ -86,15 +87,10 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 		setIsSubmitted(false);
 	};
 
-	const handleSubmit = () => {
-		setFormData(AFTER_SUBMISSION);
-		setOpen(false);
-	};
-
 	return (
 		<>
 			{message && <Alert message={message} setMessage={setMessage} />}
-			<Form method="post" onSubmit={handleSubmit}>
+			<Form method="post">
 				{!formData?.userImage ? (
 					<div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
 						<div className="text-center">
@@ -139,7 +135,7 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 
 				<input
 					required
-					defaultValue={formData?.userImage || ""}
+					defaultValue={formData?.userImage}
 					type="hidden"
 					name="userImage"
 				/>
@@ -199,7 +195,7 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 						className="pl-2 bg-gray-700 block w-full rounded-md border-0 py-1.5 text-gray-300 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-1 focus:ring-indigo-600 sm:text-sm sm:leading-6"
 					/>
 				</div>
-				{!image ? (
+				{!formData.userImage ? (
 					<div
 						className="text-center w-full rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
 						onClick={() => setMessage("Please fill out the form to submit!")}
@@ -212,8 +208,9 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 						type="submit"
 						name="_action"
 						value="PUT_USER"
+						onClick={() => setSubmitted(true)}
 					>
-						Submit
+						{submitted ? text : "submit"}
 					</button>
 				)}
 			</Form>

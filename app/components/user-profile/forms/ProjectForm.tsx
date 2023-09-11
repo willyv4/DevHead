@@ -1,5 +1,6 @@
 import { PhotoIcon } from "@heroicons/react/20/solid";
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
+import { useState } from "react";
 import Alert from "~/components/Alert";
 import { UseFormClear } from "~/hooks/useFormClear";
 import useImageUploader from "~/hooks/UseImageUploader";
@@ -24,6 +25,15 @@ const ProjectForm = ({
 		setMessage,
 	] = useImageUploader() as any;
 	const { ref: setFormRef } = UseFormClear("POST_PROJECTS");
+	const navigation = useNavigation();
+	const [submitted, setSubmitted] = useState<boolean>(false);
+
+	const text =
+		navigation.state === "submitting"
+			? "Saving..."
+			: navigation.state === "loading"
+			? "loading..."
+			: "your good to go!";
 
 	const handleClick = () => {
 		setImage(null);
@@ -34,12 +44,7 @@ const ProjectForm = ({
 	return (
 		<>
 			{message && <Alert message={message} setMessage={setMessage} />}
-			<Form
-				ref={setFormRef}
-				method="post"
-				encType="multipart/form-data"
-				onSubmit={() => setOpen(false)}
-			>
+			<Form ref={setFormRef} method="post" encType="multipart/form-data">
 				<input defaultValue={userId} type="hidden" name="userId" />
 
 				{image ? (
@@ -134,8 +139,9 @@ const ProjectForm = ({
 						type="submit"
 						name="_action"
 						value="POST_PROJECTS"
+						onClick={() => setSubmitted(true)}
 					>
-						Submit
+						{submitted ? text : "submit"}
 					</button>
 				)}
 			</Form>

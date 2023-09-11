@@ -1,4 +1,4 @@
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 import { useState } from "react";
 import Modal from "../Modal";
 import SkillsForm from "./forms/SkillsForm";
@@ -18,6 +18,17 @@ const SkillsSection = ({
 }) => {
 	const [skillsFormView, setSkillsFormView] = useState<boolean>(false);
 	const [deleteFormView, setDeleteFormView] = useState<boolean>(false);
+	const [isClicked, setIsClicked] = useState<number | null>(null);
+	const navigation = useNavigation();
+
+	const textState = (id: number) => {
+		return isClicked === id &&
+			(navigation.state === "submitting" || navigation.state === "loading") ? (
+			<p className="animate-pulse text-emerald-100">...</p>
+		) : (
+			"X"
+		);
+	};
 
 	console.log(userSkills);
 
@@ -79,9 +90,10 @@ const SkillsSection = ({
 													name="_action"
 													value="DELETE_SKILL"
 													type="submit"
+													onClick={() => setIsClicked(skillObj.id)}
 													className="ml-1 -mr-1 inline-flex items-center px-2 text-[10px] font-bold text-emerald-300"
 												>
-													X
+													{textState(skillObj.id)}
 												</button>
 											</div>
 										</Form>
@@ -93,7 +105,6 @@ const SkillsSection = ({
 				</div>
 			) : (
 				<div className="text-center h-36 mt-16 font-bold text-l">
-					{" "}
 					NO SKILLS YET
 				</div>
 			)}
