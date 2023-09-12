@@ -106,14 +106,16 @@ const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 									</span>
 								</div>
 							</dd>
-							<div className="text-xs mt-2 -mb-6">
-								completed: {((item.solved / item.total) * 100).toFixed(2)} %
+							<div className="mt-8">
+								<div className="text-xs -mb-4 text-indigo-300">
+									Completed: {((item.solved / item.total) * 100).toFixed(2)} %
+								</div>
+								<progress
+									className="progress progress-success w-full -mb-4"
+									value={(item.solved / item.total) * 100}
+									max="100"
+								></progress>
 							</div>
-							<progress
-								className="progress w-full -mb-4"
-								value={(item.solved / item.total) * 100}
-								max="100"
-							></progress>
 						</div>
 					))}
 				</dl>

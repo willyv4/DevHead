@@ -155,7 +155,7 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 									Completed: {((item.solved / item.total) * 100).toFixed(2)} %
 								</div>
 								<progress
-									className="progress text-indigo-300 w-full -mb-4"
+									className="progress progress-success  w-full -mb-4"
 									value={(item.solved / item.total) * 100}
 									max="100"
 								></progress>
