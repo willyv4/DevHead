@@ -95,7 +95,7 @@ const NavBar = ({ currUser, userId }: any) => {
 													<ArrowPathIcon className="w-9 h-9 p-1 animate-spin rounded-full bg-gray-300 p-2 text-gray-950 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-200" />
 												) : (
 													<img
-														className="h-10 w-10 rounded-full"
+														className="h-10 w-10 rounded-full object-cover"
 														src={
 															currUser?.image_url
 																? currUser?.image_url

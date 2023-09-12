@@ -26,7 +26,7 @@ const CommentList = ({ comments, userId }: any) => {
 									<img
 										src={comment?.author_image_url}
 										alt="profile"
-										className="w-8 rounded-full absolute -ml-2 ring-2 ring-blue-700/10"
+										className="w-9 h-9 object-cover rounded-full absolute -ml-3 ring-2 ring-blue-700/10"
 									/>
 									<span className="ml-2 pl-5 items-center rounded-md bg-gray-700 px-2 p-1 text-[10px] font-medium text-gray-300 ring-1 ring-inset ring-gray-300/10">
 										{comment?.author_first_name +

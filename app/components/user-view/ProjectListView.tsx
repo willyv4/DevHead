@@ -98,7 +98,7 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 									<a
 										rel="noreferrer"
 										target="_blank"
-										href={post.live_link}
+										href={post.code_link}
 										className="mr-[1px] flex items-center px-2 py-1 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 									>
 										Site
@@ -107,7 +107,7 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 
 									<a
 										target="_blank"
-										href={post.code_link}
+										href={post.live_link}
 										className="mr-[1px] flex items-center bg-white/20 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 										rel="noreferrer"
 									>

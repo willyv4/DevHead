@@ -46,7 +46,7 @@ const GitHubStat: React.FC<Props> = ({ githubUsername, userId }) => {
 			</>
 		);
 
-	if (gitHubFetcher.state === "loading") {
+	if (!gitHubFetcher.data) {
 		return (
 			<div className="my-52 sm:my-20 animate-pulse">
 				<EmptyStatus

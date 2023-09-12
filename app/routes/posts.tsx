@@ -170,7 +170,7 @@ export default function Projects() {
 											<a
 												rel="noreferrer"
 												target="_blank"
-												href={post.live_link}
+												href={post.code_link}
 												className="mr-[1px] flex items-center px-2 py-1 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 											>
 												Site
@@ -179,7 +179,7 @@ export default function Projects() {
 
 											<a
 												target="_blank"
-												href={post.code_link}
+												href={post.live_link}
 												className="mr-[1px] flex items-center bg-white/20 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 												rel="noreferrer"
 											>
@@ -191,6 +191,7 @@ export default function Projects() {
 												preventScrollReset={true}
 												onClick={() => handleClick(idx + 1)}
 												to={`./comments/${post.id}`}
+												prefetch="intent"
 												className=" mr-[1px] flex items-center px-2 py-2 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 											>
 												Comments{" "}

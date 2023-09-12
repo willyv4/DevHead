@@ -53,7 +53,7 @@ const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 		</div>
 	);
 
-	if (leetFetcher.state === "loading")
+	if (!leetFetcher.data)
 		return (
 			<div className="my-96 sm:my-32 animate-pulse">
 				<EmptyStatus

@@ -18,7 +18,12 @@ const BioUpdateForm: React.FC<BioUpdateFormProps> = ({
 	const { ref: setFormRef } = UseFormClear("UPDATE_BIO");
 
 	return (
-		<Form ref={setFormRef} method="post" onSubmit={handleSubmit}>
+		<Form
+			ref={setFormRef}
+			method="post"
+			onSubmit={handleSubmit}
+			className="mb-10"
+		>
 			<Tab.Group>
 				<Tab.Panels className="">
 					<Tab.Panel className="-m-0.5 rounded-lg p-0.5">
@@ -41,11 +46,9 @@ const BioUpdateForm: React.FC<BioUpdateFormProps> = ({
 					type="submit"
 					name="_action"
 					value="UPDATE_BIO"
-					className={`absolute ${
-						!bio ? "top-[536px]" : "top-[536px]"
-					} sm:top-[468px] mr-20 sm:mr-[70px] flex flex-row rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20`}
+					className={`text-center rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20 w-full  sm:w-fit`}
 				>
-					{!bio ? "Add Bio" : "Submit"}
+					{!bio ? "Add Bio" : "Submit Bio"}
 				</button>
 			</div>
 		</Form>

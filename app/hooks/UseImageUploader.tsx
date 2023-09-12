@@ -62,7 +62,6 @@ function useImageUploader() {
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		onDrop,
 		accept: { "image/*": [] },
-		maxSize: 1024 * 1000,
 	});
 
 	return [

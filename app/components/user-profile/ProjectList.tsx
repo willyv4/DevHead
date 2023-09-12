@@ -199,7 +199,7 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 									<a
 										rel="noreferrer"
 										target="_blank"
-										href={post.live_link}
+										href={post.code_link}
 										className="mr-[1px] flex items-center px-2 py-1 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 									>
 										Site
@@ -208,7 +208,7 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 
 									<a
 										target="_blank"
-										href={post.code_link}
+										href={post.live_link}
 										className="mr-[1px] flex items-center bg-gray-400/5 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 										rel="noreferrer"
 									>
@@ -220,6 +220,7 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 										preventScrollReset={true}
 										onClick={() => handleCommentClick(idx + 1)}
 										to={`./comments/${post.id}`}
+										prefetch="intent"
 										className=" mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 									>
 										Comments{" "}

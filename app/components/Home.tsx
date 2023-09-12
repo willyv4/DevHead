@@ -10,7 +10,7 @@ const Home = () => {
 		{
 			name: "Share Projects/Contributions",
 			description:
-				"Join the DevHeads community and proudly share your coding achievements. Post your projects, share code links, and showcase live websites. Be inspired as you explore and contribute to others' projects!",
+				"Join the DevHead community and proudly share your coding achievements. Post your projects, share code links, and showcase live websites. Be inspired as you explore and contribute to others' projects!",
 			icon: ComputerDesktopIcon,
 		},
 		{

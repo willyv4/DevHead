@@ -70,7 +70,7 @@ export default function UserList() {
 						>
 							<div className="flex flex-1 flex-col p-8 rounded-lg">
 								<img
-									className="mx-auto h-32 w-32 flex-shrink-0 rounded-full"
+									className="object-cover mx-auto h-32 w-32 flex-shrink-0 rounded-full"
 									src={user.image_url}
 									alt=""
 								/>

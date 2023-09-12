@@ -41,7 +41,7 @@ const Header = ({
 				<div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
 					<div className="flex">
 						<img
-							className="h-24 w-24 rounded-full ring-4 ring-gray-900 sm:h-32 sm:w-32"
+							className="h-24 w-24 object-cover rounded-full ring-4 ring-gray-900 sm:h-32 sm:w-32"
 							src={userProfile?.image_url}
 							alt=""
 						/>

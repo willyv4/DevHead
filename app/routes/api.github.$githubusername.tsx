@@ -24,7 +24,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 				value: (yearlyContributions / 52.143).toFixed(1),
 			},
 			{
-				name: "Repositories",
+				name: "Public Repositories",
 				value: contributionsData.data.user.repositories.totalCount,
 			},
 		],
