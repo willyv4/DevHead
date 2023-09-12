@@ -249,7 +249,6 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 												value="POST_UNLIKE"
 												onClick={() => setFromClicked(post.id)}
 											>
-												{/* <HeartIcon className="w-5 text-rose-500" /> */}
 												{getUnlikeState(post.id)}
 											</button>
 											<span className="text-xs ml-2">

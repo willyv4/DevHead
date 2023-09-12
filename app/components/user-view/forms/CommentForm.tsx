@@ -34,6 +34,7 @@ const CommentForm = ({
 					rows={3}
 					name="comment"
 					id="comment"
+					required
 					className="p-2 block w-full bg-gray-950/20 p-0 pb-2 text-gray-300  placeholder:text-gray-400 sm:text-sm sm:leading-6 outline-none "
 					placeholder="Add your comment..."
 				/>

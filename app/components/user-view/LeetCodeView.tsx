@@ -47,6 +47,8 @@ const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [leetcodeUsername]);
 
+	console.log("leetFetcher", data?.leetCodeSummary);
+
 	const LeetCodeModal = (
 		<div className="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20">
 			Connecting LeetCode...

@@ -194,7 +194,7 @@ export default function Projects() {
 												prefetch="intent"
 												className=" mr-[1px] flex items-center px-2 py-2 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 											>
-												Comments{" "}
+												Comments
 												<span className="text-xs ml-2">
 													{post.comment_count}
 												</span>

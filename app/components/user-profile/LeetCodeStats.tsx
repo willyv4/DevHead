@@ -127,7 +127,7 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 							<dt className="text-base font-bold text-gray-300 mb-4">
 								{item.name} Problems
 							</dt>
-							<dd className="mt-1 flex flex-row items-baseline justify-between lg:flex mb-4">
+							<dd className="mt-1 flex flex-row items-baseline justify-evenly lg:flex mb-4">
 								<div className="flex text-l items-baseline font-semibold text-indigo-300 truncate md:-mb-7">
 									{item.solved} / {item.total}
 								</div>
@@ -150,14 +150,16 @@ const LeetCodeStats: React.FC<LeetCodeStatProps> = ({
 									</span>
 								</div>
 							</dd>
-							<div className="text-xs mt-2 -mb-6">
-								completed: {((item.solved / item.total) * 100).toFixed(2)} %
+							<div className="mt-8">
+								<div className="text-xs -mb-4 text-indigo-300">
+									Completed: {((item.solved / item.total) * 100).toFixed(2)} %
+								</div>
+								<progress
+									className="progress text-indigo-300 w-full -mb-4"
+									value={(item.solved / item.total) * 100}
+									max="100"
+								></progress>
 							</div>
-							<progress
-								className="progress w-full -mb-4"
-								value={(item.solved / item.total) * 100}
-								max="100"
-							></progress>
 						</div>
 					))}
 				</dl>
