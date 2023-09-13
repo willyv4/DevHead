@@ -1,18 +1,13 @@
 import { useUser } from "@clerk/remix";
 import { useEffect, useState } from "react";
 import CommentSlider from "~/components/user-view/CommentSlider";
-import { Likes } from "~/models/likes";
 import Posts from "~/models/posts";
 import Blob from "../components/Blob";
 import {
 	CodeBracketIcon,
 	ComputerDesktopIcon,
 } from "@heroicons/react/24/solid";
-import type {
-	ActionArgs,
-	ActionFunction,
-	LoaderFunction,
-} from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { Link, useLoaderData, useNavigate } from "@remix-run/react";
 import LikeDeleteForm from "~/components/LikeDeleteForm";
 import LikePostForm from "~/components/likePostForm";
@@ -35,21 +30,6 @@ type UserProject = {
 export const loader: LoaderFunction = async () => {
 	const projects = Posts.getAllUserProjects();
 	return projects;
-};
-
-export const action: ActionFunction = async ({ request }: ActionArgs) => {
-	const formData = await request.formData();
-	const _action = formData.get("_action");
-	const userId = formData.get("userId");
-	const projectId = Number(formData.get("projectId"));
-
-	if (_action === "POST_LIKE" && typeof userId === "string") {
-		return await Likes.addLike(userId, projectId);
-	}
-
-	if (_action === "POST_UNLIKE" && typeof userId === "string") {
-		return await Likes.removeLike(userId, projectId);
-	}
 };
 
 export default function Projects() {

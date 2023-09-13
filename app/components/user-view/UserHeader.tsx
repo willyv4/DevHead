@@ -1,5 +1,6 @@
 import { EnvelopeIcon } from "@heroicons/react/20/solid";
-import { Form, useNavigation } from "@remix-run/react";
+import FollowForm from "../FollowForm";
+import UnfollowForm from "../UnfollowForm";
 
 type UserProfile = {
 	id: string;
@@ -26,7 +27,6 @@ const Header = ({
 	userProfile: UserProfile;
 	userId: string;
 }) => {
-	const navigation = useNavigation();
 	const followerCount = userProfile.followers?.filter((f) => f !== null).length;
 	const followingCount = userProfile.following?.filter(
 		(f) => f !== null
@@ -53,43 +53,18 @@ const Header = ({
 								<h1 className="text-2xl font-bold text-gray-200">
 									{userProfile?.first_name + " " + userProfile?.last_name}
 								</h1>
-								{userId !== userProfile.id && (
-									<Form method="post">
-										<input type="hidden" defaultValue={userId} name="userId" />
-										<input
-											type="hidden"
-											defaultValue={userProfile.id}
-											name="userBeingFollowed"
+								{userId !== userProfile.id &&
+									(userProfile.followers?.includes(userId) ? (
+										<UnfollowForm
+											userId={userId}
+											userBeingFollowed={userProfile.id}
 										/>
-										{userProfile.followers?.includes(userId) ? (
-											<button
-												name="_action"
-												value="DELETE_FOLLOW"
-												type="submit"
-												className="mt-[6px] ml-2 px-2 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
-											>
-												{navigation.state === "submitting"
-													? "Saving..."
-													: navigation.state === "loading"
-													? "Saved!"
-													: "Unfollow"}
-											</button>
-										) : (
-											<button
-												name="_action"
-												value="POST_FOLLOW"
-												type="submit"
-												className="mt-[6px] ml-2 px-2 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
-											>
-												{navigation.state === "submitting"
-													? "Saving..."
-													: navigation.state === "loading"
-													? "Saved!"
-													: "Follow"}
-											</button>
-										)}
-									</Form>
-								)}
+									) : (
+										<FollowForm
+											userId={userId}
+											userBeingFollowed={userProfile.id}
+										/>
+									))}
 							</div>
 
 							{userProfile?.title && (

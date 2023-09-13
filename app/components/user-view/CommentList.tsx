@@ -1,20 +1,6 @@
-import { ArrowPathIcon } from "@heroicons/react/24/solid";
-import { Form, useNavigation } from "@remix-run/react";
-import { useState } from "react";
+import DeleteCommentForm from "../DeleteCommentForm";
 
 const CommentList = ({ comments, userId }: any) => {
-	const navigation = useNavigation();
-	const [commentClicked, setCommentClicked] = useState<number | null>(null);
-
-	function textState(commentId: number) {
-		return commentId === commentClicked &&
-			(navigation.state === "submitting" || navigation.state === "loading") ? (
-			<ArrowPathIcon className="w-3 m-[2px] animate animate-spin font-bold text-gray-300/50" />
-		) : (
-			<div className="w-4">X</div>
-		);
-	}
-
 	return (
 		<div className="pl-4 py-2">
 			<div className="mt-10">
@@ -35,22 +21,7 @@ const CommentList = ({ comments, userId }: any) => {
 									</span>
 								</div>
 								{comment?.user_id === userId && (
-									<Form method="post" className="absolute right-3 -top-3">
-										<input
-											type="hidden"
-											defaultValue={comment?.comment_id}
-											name="commentId"
-										/>
-										<button
-											onClick={() => setCommentClicked(comment.comment_id)}
-											type="submit"
-											name="_action"
-											value="DELETE_COMMENT"
-											className="text-center inline-flex items-center rounded-full bg-gray-800 px-1 py-1 text-xs font-medium text-rose-400 ring-1 ring-inset ring-rose-400/80 hover:ring-rose-400/40"
-										>
-											{textState(comment.comment_id)}
-										</button>
-									</Form>
+									<DeleteCommentForm commentId={comment?.comment_id} />
 								)}
 							</div>
 

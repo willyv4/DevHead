@@ -1,6 +1,5 @@
 import { PencilIcon } from "@heroicons/react/20/solid";
 import { useFetcher } from "@remix-run/react";
-
 import { useEffect, useState } from "react";
 import LeetCodeIcon from "../../icon-components/LeetCodeIcon";
 import Modal from "../../Modal";
