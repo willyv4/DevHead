@@ -1,6 +1,5 @@
-import { Form } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { useEffect } from "react";
-import { UseFormClear } from "~/hooks/useFormClear";
 
 const LeetCodeForm = ({
 	userId,
@@ -9,14 +8,23 @@ const LeetCodeForm = ({
 	userId: string | undefined;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-	const { ref: setFormRef, isAdding } = UseFormClear("POST_LEETCODE");
+	const leetCodePost = useFetcher();
+
+	const text =
+		leetCodePost.state === "submitting"
+			? "Saving..."
+			: leetCodePost.state === "loading"
+			? "Saved!"
+			: "Submit";
 
 	useEffect(() => {
-		if (isAdding) setOpen(false);
-	}, [isAdding, setOpen]);
+		if (leetCodePost?.data?.success && leetCodePost.state === "idle") {
+			setOpen(false);
+		}
+	}, [leetCodePost?.data?.success, leetCodePost.state, setOpen]);
 
 	return (
-		<Form ref={setFormRef} method="post">
+		<leetCodePost.Form method="POST" action="/api/userprofile">
 			<input defaultValue={userId} type="hidden" name="userId" />
 
 			<div className="relative mt-4 mb-4">
@@ -32,12 +40,10 @@ const LeetCodeForm = ({
 			<button
 				className="w-full rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
 				type="submit"
-				name="_action"
-				value="POST_LEETCODE"
 			>
-				{isAdding ? "Processing..." : "Submit"}
+				{text}
 			</button>
-		</Form>
+		</leetCodePost.Form>
 	);
 };
 

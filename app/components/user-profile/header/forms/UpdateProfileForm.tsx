@@ -1,5 +1,5 @@
 import { PhotoIcon } from "@heroicons/react/20/solid";
-import { Form, useNavigation } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import Alert from "~/components/Alert";
@@ -28,6 +28,7 @@ type Props = {
 };
 
 const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
+	const userProfilePut = useFetcher();
 	const INITIAL_STATE = {
 		userImage: userProfile?.image_url,
 		profileTitle: userProfile?.title,
@@ -35,13 +36,13 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 		lastName: userProfile?.last_name,
 		userEmail: userProfile?.email,
 	};
-	const navigation = useNavigation();
+
 	const [submitted, setSubmitted] = useState<boolean>(false);
 
 	const text =
-		navigation.state === "submitting"
+		userProfilePut.state === "submitting"
 			? "Saving..."
-			: navigation.state === "loading"
+			: userProfilePut.state === "loading"
 			? "loading..."
 			: "your good to go!";
 
@@ -90,7 +91,7 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 	return (
 		<>
 			{message && <Alert message={message} setMessage={setMessage} />}
-			<Form method="post">
+			<userProfilePut.Form method="PUT" action="/api/userprofile">
 				{!formData?.userImage ? (
 					<div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
 						<div className="text-center">
@@ -213,7 +214,7 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 						{submitted ? text : "submit"}
 					</button>
 				)}
-			</Form>
+			</userProfilePut.Form>
 		</>
 	);
 };

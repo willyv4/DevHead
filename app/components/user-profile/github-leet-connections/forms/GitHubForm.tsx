@@ -1,5 +1,5 @@
-import { Form } from "@remix-run/react";
-import { UseFormClear } from "~/hooks/useFormClear";
+import { useFetcher } from "@remix-run/react";
+import { useEffect } from "react";
 
 const GitHubForm = ({
 	userId,
@@ -8,10 +8,23 @@ const GitHubForm = ({
 	userId: string | undefined;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-	const { ref: setFormRef, isAdding } = UseFormClear("POST_GITHUB");
+	const gitHubPost = useFetcher();
+
+	const text =
+		gitHubPost.state === "submitting"
+			? "Saving..."
+			: gitHubPost.state === "loading"
+			? "Saved!"
+			: "Submit";
+
+	useEffect(() => {
+		if (gitHubPost?.data?.success && gitHubPost.state === "idle") {
+			setOpen(false);
+		}
+	}, [gitHubPost?.data?.success, gitHubPost.state, setOpen]);
 
 	return (
-		<Form ref={setFormRef} method="post" onSubmit={() => setOpen(false)}>
+		<gitHubPost.Form method="POST" action="/api/userprofile">
 			<div className="relative mt-2 mb-4">
 				<input defaultValue={userId} type="hidden" name="userId" />
 				<label className="absolute -top-2 left-2 inline-block bg-gray-700 px-1 text-xs font-medium text-gray-300">
@@ -29,9 +42,9 @@ const GitHubForm = ({
 				name="_action"
 				value="POST_GITHUB"
 			>
-				{isAdding ? "Processing..." : "Submit"}
+				{text}
 			</button>
-		</Form>
+		</gitHubPost.Form>
 	);
 };
 

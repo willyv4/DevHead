@@ -1,9 +1,9 @@
 import { PencilIcon } from "@heroicons/react/20/solid";
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import GitHubIcon from "../icon-components/GitHubIcon";
-import Modal from "../Modal";
-import EmptyStatus from "./EmptyStatus";
+import GitHubIcon from "../../icon-components/GitHubIcon";
+import Modal from "../../Modal";
+import EmptyStatus from "../../EmptyStatus";
 import GitHubForm from "./forms/GitHubForm";
 
 type Props = {

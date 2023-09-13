@@ -1,7 +1,7 @@
 import { useFetcher } from "@remix-run/react";
 import { useEffect } from "react";
 import GitHubIcon from "../icon-components/GitHubIcon";
-import EmptyStatus from "../user-profile/EmptyStatus";
+import EmptyStatus from "../EmptyStatus";
 
 type Props = {
 	githubUsername: string | null;

@@ -1,12 +1,11 @@
 import {
-	ArrowPathIcon,
 	CodeBracketIcon,
 	ComputerDesktopIcon,
-	HeartIcon,
 } from "@heroicons/react/20/solid";
-import { Form, useNavigation } from "@remix-run/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import LikeDeleteForm from "../LikeDeleteForm";
+import LikePostForm from "../likePostForm";
 import CommentSlider from "./CommentSlider";
 
 type UserProject = {
@@ -27,8 +26,6 @@ type Props = {
 const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 	const [commentView, setCommentView] = useState<boolean>(false);
 	const [viewProject, setViewProject] = useState<UserProject | null>(null);
-	const [formClicked, setFromClicked] = useState<number | null>(null);
-	const navigation = useNavigation();
 
 	const handleClick = (idx: number) => {
 		if (userProjects) {
@@ -37,24 +34,6 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 			setCommentView(!commentView);
 		}
 	};
-
-	function getUnlikeState(postId: number) {
-		return postId === formClicked &&
-			(navigation.state === "submitting" || navigation.state === "loading") ? (
-			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
-		) : (
-			<HeartIcon className="w-5 text-rose-500" />
-		);
-	}
-
-	function getLikeState(postId: number) {
-		return postId === formClicked &&
-			(navigation.state === "submitting" || navigation.state === "loading") ? (
-			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
-		) : (
-			<HeartIcon className="w-5" />
-		);
-	}
 
 	return (
 		<div className="flex-col justify-center mt-10">
@@ -99,7 +78,7 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 										rel="noreferrer"
 										target="_blank"
 										href={post.code_link}
-										className="mr-[1px] flex items-center px-2 py-1 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
+										className="mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 									>
 										Site
 										<ComputerDesktopIcon className="w-4 ml-1" />
@@ -108,7 +87,7 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 									<a
 										target="_blank"
 										href={post.live_link}
-										className="mr-[1px] flex items-center bg-white/20 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
+										className="mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 										rel="noreferrer"
 									>
 										Code
@@ -119,67 +98,23 @@ const ProjectListView: React.FC<Props> = ({ userId, userProjects }) => {
 										preventScrollReset={true}
 										to={`./comments/${post.id}`}
 										onClick={() => handleClick(idx + 1)}
-										className=" mr-[1px] flex items-center px-2 py-2 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
+										className="mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 									>
 										Comments {post.comment_count}
 									</Link>
 
 									{post?.liked_user_ids?.includes(userId) ? (
-										<Form
-											method="post"
-											className="flex flex-row flex items-center px-2 py-2 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
-										>
-											<input
-												type="hidden"
-												name="projectId"
-												defaultValue={post.id}
-											/>
-											<input
-												type="hidden"
-												name="userId"
-												defaultValue={userId}
-											/>
-											<button
-												type="submit"
-												className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
-												name="_action"
-												value="POST_UNLIKE"
-												onClick={() => setFromClicked(post.id)}
-											>
-												{getUnlikeState(post.id)}
-											</button>
-											<span className="text-xs ml-2">
-												{post?.liked_user_ids?.length}
-											</span>
-										</Form>
+										<LikeDeleteForm
+											userId={userId}
+											postId={post.id}
+											likeCount={post?.liked_user_ids?.length}
+										/>
 									) : (
-										<Form
-											method="post"
-											className="flex flex-row flex items-center px-2 py-2 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray/30"
-										>
-											<input
-												type="hidden"
-												name="projectId"
-												defaultValue={post.id}
-											/>
-											<input
-												type="hidden"
-												name="userId"
-												defaultValue={userId}
-											/>
-											<button
-												type="submit"
-												className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
-												name="_action"
-												value="POST_LIKE"
-												onClick={() => setFromClicked(post.id)}
-											>
-												{getLikeState(post.id)}
-											</button>
-											<span className="text-xs ml-2">
-												{post?.liked_user_ids?.length}
-											</span>
-										</Form>
+										<LikePostForm
+											userId={userId}
+											postId={post.id}
+											likeCount={post?.liked_user_ids?.length}
+										/>
 									)}
 								</div>
 							</div>

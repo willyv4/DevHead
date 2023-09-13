@@ -1,21 +1,19 @@
 import {
-	ArrowPathIcon,
 	CodeBracketIcon,
 	ComputerDesktopIcon,
-	HeartIcon,
 	PlusIcon,
-	// WrenchIcon,
 } from "@heroicons/react/20/solid";
-import { Form, Link, useNavigation } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { useState } from "react";
-import Modal from "../Modal";
-import CommentSlider from "../user-view/CommentSlider";
+import Modal from "../../Modal";
+import CommentSlider from "../../user-view/CommentSlider";
 import EditButtonView from "./EditButtonView";
-// import EmptyStatus from "./EmptyStatus";
-import EditPostForm from "./forms/EditPostForm";
-import ProjectDeleteForm from "./forms/ProjectDeleteForm";
-import ProjectForm from "./forms/ProjectForm";
-import ProjectUpdateForm from "./forms/ProjectUpdateForm";
+import EditPostForm from "./EditPostButton";
+import ProjectDeleteForm from "./forms/DeleteProjectForm";
+import ProjectForm from "./forms/PostProjectForm";
+import ProjectUpdateForm from "./forms/UpdateProjectForm";
+import LikeDeleteForm from "../../LikeDeleteForm";
+import LikePostForm from "~/components/likePostForm";
 
 type UserProject = {
 	id: number;
@@ -40,9 +38,6 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 	const [editFormView, setEditFormView] = useState(false);
 	const [commentView, setCommentView] = useState<boolean>(false);
 	const [viewProject, setViewProject] = useState<UserProject | null>(null);
-	const [formClicked, setFromClicked] = useState<number | null>(null);
-	// const [isClicked, setIsClicked] = useState<boolean>(false);
-	const navigation = useNavigation();
 
 	const handleClick = (index: number | null) => {
 		if (userProjects && index) {
@@ -59,46 +54,6 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 			setCommentView(!commentView);
 		}
 	};
-
-	function getUnlikeState(postId: number) {
-		return postId === formClicked &&
-			(navigation.state === "submitting" || navigation.state === "loading") ? (
-			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
-		) : (
-			<HeartIcon className="w-5 text-rose-500" />
-		);
-	}
-
-	function getLikeState(postId: number) {
-		return postId === formClicked &&
-			(navigation.state === "submitting" || navigation.state === "loading") ? (
-			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
-		) : (
-			<HeartIcon className="w-5" />
-		);
-	}
-
-	// const ProjectModal = (
-	// 	<button className="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-400/5">
-	// 		Loading Projects...
-	// 	</button>
-	// );
-
-	// // function loadingState() {
-	// // 	if (
-	// // 		isClicked &&
-	// // 		(navigation.state === "loading" || navigation.state === "submitting")
-	// // 	) {
-	// // 		return (
-	// // 			<div className="my-20 w-full animate-pulse">
-	// // 				<EmptyStatus
-	// // 					Icon={<WrenchIcon height="2.5rem" width="2.5rem" />}
-	// // 					ModalButton={ProjectModal}
-	// // 				/>
-	// // 			</div>
-	// // 		);
-	// // 	}
-	// // }
 
 	return (
 		<div className="flex-col justify-center mt-10">
@@ -128,13 +83,7 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 
 			{(!userProjects || userProjects.length < 1 || addButton) && (
 				<Modal
-					FormComponent={
-						<ProjectForm
-							userId={userId}
-							setOpen={setAddButton}
-							// setIsClicked={setIsClicked}
-						/>
-					}
+					FormComponent={<ProjectForm userId={userId} setOpen={setAddButton} />}
 					open={addButton}
 					setOpen={setAddButton}
 				/>
@@ -221,68 +170,24 @@ const ProjectList: React.FC<Props> = ({ userId, userProjects }) => {
 										onClick={() => handleCommentClick(idx + 1)}
 										to={`./comments/${post.id}`}
 										prefetch="intent"
-										className=" mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
+										className="mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 									>
 										Comments{" "}
 										<span className="text-xs ml-2">{post?.comment_count}</span>
 									</Link>
 
 									{userId && post?.liked_user_ids?.includes(userId) ? (
-										<Form
-											method="post"
-											className="flex flex-row flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
-										>
-											<input
-												type="hidden"
-												name="projectId"
-												defaultValue={post.id}
-											/>
-											<input
-												type="hidden"
-												name="userId"
-												defaultValue={userId}
-											/>
-											<button
-												type="submit"
-												className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
-												name="_action"
-												value="POST_UNLIKE"
-												onClick={() => setFromClicked(post.id)}
-											>
-												{getUnlikeState(post.id)}
-											</button>
-											<span className="text-xs ml-2">
-												{post?.liked_user_ids?.length}
-											</span>
-										</Form>
+										<LikeDeleteForm
+											userId={userId}
+											postId={post.id}
+											likeCount={post?.liked_user_ids?.length}
+										/>
 									) : (
-										<Form
-											method="post"
-											className="flex flex-row flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray/30"
-										>
-											<input
-												type="hidden"
-												name="projectId"
-												defaultValue={post.id}
-											/>
-											<input
-												type="hidden"
-												name="userId"
-												defaultValue={userId}
-											/>
-											<button
-												type="submit"
-												className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
-												name="_action"
-												value="POST_LIKE"
-												onClick={() => setFromClicked(post.id)}
-											>
-												{getLikeState(post.id)}
-											</button>
-											<span className="text-xs ml-2">
-												{post?.liked_user_ids?.length}
-											</span>
-										</Form>
+										<LikePostForm
+											userId={userId}
+											postId={post.id}
+											likeCount={post?.liked_user_ids?.length}
+										/>
 									)}
 								</div>
 							</div>

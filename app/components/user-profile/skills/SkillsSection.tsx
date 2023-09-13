@@ -1,7 +1,7 @@
-import { Form, useNavigation } from "@remix-run/react";
 import { useState } from "react";
-import Modal from "../Modal";
-import SkillsForm from "./forms/SkillsForm";
+import Modal from "../../Modal";
+import DeleteSkillForm from "./DeleteSkillForm";
+import SkillsForm from "./SkillsForm";
 
 type UserSkills = {
 	id: number;
@@ -18,17 +18,6 @@ const SkillsSection = ({
 }) => {
 	const [skillsFormView, setSkillsFormView] = useState<boolean>(false);
 	const [deleteFormView, setDeleteFormView] = useState<boolean>(false);
-	const [isClicked, setIsClicked] = useState<number | null>(null);
-	const navigation = useNavigation();
-
-	const textState = (id: number) => {
-		return isClicked === id &&
-			(navigation.state === "submitting" || navigation.state === "loading") ? (
-			<p className="animate-pulse text-emerald-100">...</p>
-		) : (
-			"X"
-		);
-	};
 
 	return (
 		<div>
@@ -76,26 +65,7 @@ const SkillsSection = ({
 							<div key={skillObj.id + skillObj.skill} className="p-1">
 								<div className="inline-flex items-center rounded-md bg-emerald-400/10 px-2 py-1 text-md sm:text-2xl font-medium text-emerald-300 ring-1 ring-inset ring-emerald-400/20">
 									{skillObj.skill}{" "}
-									{deleteFormView && (
-										<Form method="post">
-											<input
-												type="hidden"
-												defaultValue={skillObj.id}
-												name="skillId"
-											/>
-											<div className="relative flex flex-row">
-												<button
-													name="_action"
-													value="DELETE_SKILL"
-													type="submit"
-													onClick={() => setIsClicked(skillObj.id)}
-													className="ml-1 -mr-1 inline-flex items-center px-2 text-[10px] font-bold text-emerald-300"
-												>
-													{textState(skillObj.id)}
-												</button>
-											</div>
-										</Form>
-									)}
+									{deleteFormView && <DeleteSkillForm skillId={skillObj.id} />}
 								</div>
 							</div>
 						))}

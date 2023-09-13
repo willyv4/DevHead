@@ -2,10 +2,10 @@ import { PencilIcon } from "@heroicons/react/20/solid";
 import { useFetcher } from "@remix-run/react";
 
 import { useEffect, useState } from "react";
-import LeetCodeIcon from "../icon-components/LeetCodeIcon";
-import Modal from "../Modal";
-import TagList from "../TagList";
-import EmptyStatus from "./EmptyStatus";
+import LeetCodeIcon from "../../icon-components/LeetCodeIcon";
+import Modal from "../../Modal";
+import TagList from "../../TagList";
+import EmptyStatus from "../../EmptyStatus";
 import LeetCodeForm from "./forms/LeetCodeForm";
 
 type Tag = {

@@ -1,12 +1,13 @@
 import { Tab } from "@headlessui/react";
-import { Form } from "@remix-run/react";
-import { UseFormClear } from "~/hooks/useFormClear";
+// import { useFetcher } from "@remix-run/react";
+import { useEffect } from "react";
 
 type BioUpdateFormProps = {
 	handleSubmit: () => void;
 	handleChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	userId: string | undefined;
 	bio: string | null;
+	bioPutFetcher: any;
 };
 
 const BioUpdateForm: React.FC<BioUpdateFormProps> = ({
@@ -14,14 +15,23 @@ const BioUpdateForm: React.FC<BioUpdateFormProps> = ({
 	handleChange,
 	userId,
 	bio,
+	bioPutFetcher,
 }) => {
-	const { ref: setFormRef } = UseFormClear("UPDATE_BIO");
+	const text =
+		bioPutFetcher.state === "submitting" || bioPutFetcher.state === "loading"
+			? "Proccessing..."
+			: "Submit Bio";
+
+	useEffect(() => {
+		if (bioPutFetcher?.data?.success) {
+			handleSubmit();
+		}
+	}, [bioPutFetcher?.data?.success, bioPutFetcher.state, handleSubmit]);
 
 	return (
-		<Form
-			ref={setFormRef}
-			method="post"
-			onSubmit={handleSubmit}
+		<bioPutFetcher.Form
+			method="PUT"
+			action="/api/userprofile"
 			className="mb-10"
 		>
 			<Tab.Group>
@@ -44,14 +54,12 @@ const BioUpdateForm: React.FC<BioUpdateFormProps> = ({
 			<div className="mt-2 flex justify-end">
 				<button
 					type="submit"
-					name="_action"
-					value="UPDATE_BIO"
 					className={`text-center rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20 w-full  sm:w-fit`}
 				>
-					{!bio ? "Add Bio" : "Submit Bio"}
+					{!bio ? "Add Bio" : text}
 				</button>
 			</div>
-		</Form>
+		</bioPutFetcher.Form>
 	);
 };
 

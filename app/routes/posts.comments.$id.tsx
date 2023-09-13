@@ -61,7 +61,7 @@ export default function ProjectComments() {
 		if (!isSignedIn) return navigate("/");
 	}, [navigate, isSignedIn]);
 
-	console.log("LOADER DATA", loaderData);
+	// console.log("LOADER DATA", loaderData);
 
 	useEffect(() => {
 		setComments(loaderData[0]?.comments);

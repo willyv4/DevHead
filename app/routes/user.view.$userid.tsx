@@ -1,5 +1,4 @@
 import type {
-	ActionArgs,
 	ActionFunction,
 	LoaderArgs,
 	LoaderFunction,
@@ -15,7 +14,6 @@ import BioView from "~/components/user-view/BioView";
 import GitHubView from "~/components/user-view/GitHubView";
 import LeetCodeView from "~/components/user-view/LeetCodeView";
 import ProjectListView from "~/components/user-view/ProjectListView";
-import { Likes } from "~/models/likes";
 import { useUser } from "@clerk/remix";
 import { Follows } from "~/models/follows";
 import { useEffect } from "react";
@@ -81,12 +79,7 @@ export const loader: LoaderFunction = async ({
 	return null;
 };
 
-// interface ActionRequest {
-
-// 	request:Request
-// }
-
-const userViewPost: ActionFunction = async ({ request, params }) => {
+export const action: ActionFunction = async ({ request }) => {
 	const formData = await request.formData();
 	const data = Object.fromEntries(formData) as unknown as {
 		_action: string;
@@ -96,14 +89,6 @@ const userViewPost: ActionFunction = async ({ request, params }) => {
 		commentId: number;
 		userBeingFollowed: string;
 	};
-
-	if (data._action === "POST_LIKE") {
-		return await Likes.addLike(data.userId, data.projectId);
-	}
-
-	if (data._action === "POST_UNLIKE") {
-		return await Likes.removeLike(data.userId, data.projectId);
-	}
 
 	if (data._action === "POST_FOLLOW") {
 		return await Follows.addFollow(data.userId, data.userBeingFollowed);
@@ -115,53 +100,6 @@ const userViewPost: ActionFunction = async ({ request, params }) => {
 
 	return json({ status: "success" });
 };
-const actionMethodMap = {
-	POST: userViewPost,
-	PUT: userViewPost,
-	DELETE: userViewPost, // DELETE_FOLLOW
-};
-
-function isActionMethod(s: string): s is keyof typeof actionMethodMap {
-	return Object.keys(actionMethodMap).includes(s);
-}
-
-export const action: ActionFunction = async (args: ActionArgs) => {
-	// const formData = await request.formData();
-	// const data = Object.fromEntries(formData) as unknown as {
-	// 	_action: string;
-	// 	userId: string;
-	// 	projectId: number;
-	// 	comment: string;
-	// 	commentId: number;
-	// 	userBeingFollowed: string;
-	// };
-
-	// LIKES RESOURCE
-	// if (data._action === "POST_LIKE") {
-	// 	return await Likes.addLike(data.userId, data.projectId);
-	// }
-
-	// if (data._action === "POST_UNLIKE") {
-	// 	return await Likes.removeLike(data.userId, data.projectId);
-	// }
-
-	// FOLLOWS RESOURCE
-	// if (data._action === "POST_FOLLOW") {
-	// 	return await Follows.addFollow(data.userId, data.userBeingFollowed);
-	// }
-
-	// if (data._action === "DELETE_FOLLOW") {
-	// 	return await Follows.removeFollow(data.userId, data.userBeingFollowed);
-	// }
-
-	const method = args.request.method;
-	if (!isActionMethod(method)) {
-		return json({ status: "unsuported method" }, 400);
-	}
-	const func = actionMethodMap[method];
-
-	return await func(args);
-};
 
 export default function UserProfile() {
 	const navigate = useNavigate();
@@ -169,7 +107,6 @@ export default function UserProfile() {
 	const { user } = useUser();
 	const { userSkills, userProfile, userProjects } = useLoaderData<LoaderData>();
 
-	console.log("AUTH", isSignedIn);
 	useEffect(() => {
 		if (!isSignedIn) return navigate("/");
 	}, [navigate, isSignedIn]);

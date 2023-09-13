@@ -15,8 +15,8 @@ function useImageUploader() {
 				const formData = new FormData();
 				formData.append("file", file);
 
-				// const url = "http://localhost:3000/";
-				const url = "https://dev-head-willyv4.vercel.app/";
+				const url = "http://localhost:3000/";
+				// const url = "https://dev-head-willyv4.vercel.app/";
 
 				const response = await fetch(`${url}${"api/uploadimage"}`, {
 					method: "POST",
@@ -27,7 +27,7 @@ function useImageUploader() {
 					const { data } = await response.json();
 					setImage(data);
 					setIsLoading(false);
-					console.log("File uploaded to Cloudinary:", data);
+					// console.log("File uploaded to Cloudinary:", data);
 				} else {
 					console.error("File upload to Cloudinary failed");
 				}

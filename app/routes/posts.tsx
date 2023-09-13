@@ -1,27 +1,21 @@
 import { useUser } from "@clerk/remix";
+import { useEffect, useState } from "react";
+import CommentSlider from "~/components/user-view/CommentSlider";
+import { Likes } from "~/models/likes";
+import Posts from "~/models/posts";
+import Blob from "../components/Blob";
 import {
 	CodeBracketIcon,
 	ComputerDesktopIcon,
-	HeartIcon,
-	ArrowPathIcon,
 } from "@heroicons/react/24/solid";
 import type {
 	ActionArgs,
 	ActionFunction,
 	LoaderFunction,
 } from "@remix-run/node";
-import {
-	Form,
-	Link,
-	useLoaderData,
-	useNavigate,
-	useNavigation,
-} from "@remix-run/react";
-import { useEffect, useState } from "react";
-import CommentSlider from "~/components/user-view/CommentSlider";
-import { Likes } from "~/models/likes";
-import Posts from "~/models/posts";
-import Blob from "../components/Blob";
+import { Link, useLoaderData, useNavigate } from "@remix-run/react";
+import LikeDeleteForm from "~/components/LikeDeleteForm";
+import LikePostForm from "~/components/likePostForm";
 
 type UserProject = {
 	id: number;
@@ -38,45 +32,32 @@ type UserProject = {
 	user_id: string;
 };
 
-type Projects = {
-	projects: UserProject[] | null | undefined;
-};
-
 export const loader: LoaderFunction = async () => {
 	const projects = Posts.getAllUserProjects();
-
 	return projects;
 };
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
 	const formData = await request.formData();
-	const data = Object.fromEntries(formData) as unknown as {
-		_action: string;
-		userId: string;
-		projectId: number;
-		comment: string;
-		commentId: number;
-		userBeingFollowed: string;
-	};
+	const _action = formData.get("_action");
+	const userId = formData.get("userId");
+	const projectId = Number(formData.get("projectId"));
 
-	if (data._action === "POST_LIKE") {
-		return await Likes.addLike(data.userId, data.projectId);
+	if (_action === "POST_LIKE" && typeof userId === "string") {
+		return await Likes.addLike(userId, projectId);
 	}
 
-	if (data._action === "POST_UNLIKE") {
-		return await Likes.removeLike(data.userId, data.projectId);
+	if (_action === "POST_UNLIKE" && typeof userId === "string") {
+		return await Likes.removeLike(userId, projectId);
 	}
 };
 
 export default function Projects() {
-	const { user } = useUser();
-	const projects = useLoaderData<Projects | any>();
+	const navigate = useNavigate();
+	const { user, isSignedIn } = useUser();
+	const projects = useLoaderData<UserProject[]>();
 	const [commentView, setCommentView] = useState<boolean>(false);
 	const [viewProject, setViewProject] = useState<UserProject | null>(null);
-	const [formClicked, setFromClicked] = useState<number | null>(null);
-	const navigate = useNavigate();
-	const { isSignedIn } = useUser();
-	const navigation = useNavigation();
 
 	useEffect(() => {
 		if (!isSignedIn) return navigate("/");
@@ -85,30 +66,10 @@ export default function Projects() {
 	const handleClick = (idx: number) => {
 		if (projects) {
 			const pickedProject = projects[idx - 1];
-			setViewProject(pickedProject);
+			setViewProject(pickedProject as UserProject);
 			setCommentView(!commentView);
 		}
 	};
-
-	console.log("PROJECTS", projects);
-
-	function getUnlikeState(postId: number) {
-		return postId === formClicked &&
-			(navigation.state === "submitting" || navigation.state === "loading") ? (
-			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
-		) : (
-			<HeartIcon className="w-5 text-rose-500" />
-		);
-	}
-
-	function getLikeState(postId: number) {
-		return postId === formClicked &&
-			(navigation.state === "submitting" || navigation.state === "loading") ? (
-			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
-		) : (
-			<HeartIcon className="w-5" />
-		);
-	}
 
 	return (
 		<>
@@ -136,7 +97,7 @@ export default function Projects() {
 					/>
 
 					<div className="rounded-box flex flex-row flex-wrap justify-center mt-10">
-						{projects?.map((post: UserProject, idx: number) => (
+						{projects?.map((post, idx: number) => (
 							<div
 								key={post.id + post.title}
 								className="w-[300px] flex flex-row m-4 align-items rounded-xl"
@@ -171,7 +132,7 @@ export default function Projects() {
 												rel="noreferrer"
 												target="_blank"
 												href={post.code_link}
-												className="mr-[1px] flex items-center px-2 py-1 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
+												className="mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 											>
 												Site
 												<ComputerDesktopIcon className="w-4 ml-1" />
@@ -180,7 +141,7 @@ export default function Projects() {
 											<a
 												target="_blank"
 												href={post.live_link}
-												className="mr-[1px] flex items-center bg-white/20 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
+												className="mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 												rel="noreferrer"
 											>
 												Code
@@ -192,7 +153,7 @@ export default function Projects() {
 												onClick={() => handleClick(idx + 1)}
 												to={`./comments/${post.id}`}
 												prefetch="intent"
-												className=" mr-[1px] flex items-center px-2 py-2 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
+												className="mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 											>
 												Comments
 												<span className="text-xs ml-2">
@@ -201,63 +162,17 @@ export default function Projects() {
 											</Link>
 
 											{user?.id && post?.liked_user_ids?.includes(user?.id) ? (
-												<Form
-													method="post"
-													className="flex flex-row flex items-center px-2 py-2 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
-												>
-													<input
-														type="hidden"
-														name="projectId"
-														defaultValue={post.id}
-													/>
-													<input
-														type="hidden"
-														name="userId"
-														defaultValue={user?.id}
-													/>
-
-													<button
-														type="submit"
-														className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
-														name="_action"
-														value="POST_UNLIKE"
-														onClick={() => setFromClicked(post.id)}
-													>
-														{getUnlikeState(post.id)}
-													</button>
-													<span className="text-xs ml-2">
-														{post?.liked_user_ids?.length}
-													</span>
-												</Form>
+												<LikeDeleteForm
+													userId={user?.id}
+													postId={post.id}
+													likeCount={post?.liked_user_ids?.length}
+												/>
 											) : (
-												<Form
-													method="post"
-													className="flex flex-row flex items-center px-2 py-2 bg-white/20 text-xs font-semibold text-white shadow-sm hover:bg-gray/30"
-												>
-													<input
-														type="hidden"
-														name="projectId"
-														defaultValue={post.id}
-													/>
-													<input
-														type="hidden"
-														name="userId"
-														defaultValue={user?.id}
-													/>
-
-													<button
-														type="submit"
-														className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
-														name="_action"
-														value="POST_LIKE"
-														onClick={() => setFromClicked(post.id)}
-													>
-														{getLikeState(post.id)}
-													</button>
-													<span className="text-xs ml-2">
-														{post?.liked_user_ids?.length}
-													</span>
-												</Form>
+												<LikePostForm
+													userId={user?.id}
+													postId={post.id}
+													likeCount={post?.liked_user_ids?.length}
+												/>
 											)}
 										</div>
 									</div>

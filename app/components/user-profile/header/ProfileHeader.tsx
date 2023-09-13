@@ -1,9 +1,8 @@
 import { UserCircleIcon } from "@heroicons/react/20/solid";
 import { useNavigation } from "@remix-run/react";
 import { useState } from "react";
-import Modal from "../Modal";
-import ProfilePostForm from "./forms/ProfilePostForm";
-import ProfileUpdateForm from "./forms/ProfileUpdateForm";
+import Modal from "../../Modal";
+import ProfileUpdateForm from "./forms/UpdateProfileForm";
 
 type UserProfile = {
 	id: string;
@@ -23,7 +22,6 @@ type UserProfile = {
 };
 
 const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
-	const [buttonClicked, setButtonClicked] = useState(false);
 	const [updateFromView, setUpdateFormView] = useState(false);
 	const navigation = useNavigation();
 
@@ -83,20 +81,12 @@ const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 								setOpen={setUpdateFormView}
 							/>
 
-							{userProfile?.title ? (
+							{userProfile?.title && (
 								<div className="flex flex-row">
 									<h1 className="truncate text-sm font-bold text-gray-500 mt-[1px] mr-2">
 										{userProfile?.title}
 									</h1>
 								</div>
-							) : (
-								<>
-									<Modal
-										FormComponent={<ProfilePostForm userId={userProfile?.id} />}
-										open={buttonClicked}
-										setOpen={setButtonClicked}
-									/>
-								</>
 							)}
 
 							<div className="flex flex-row mt-2">

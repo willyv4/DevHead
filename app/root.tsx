@@ -29,6 +29,7 @@ export const loader: LoaderFunction = (args) => {
 	return rootAuthLoader(
 		args,
 		async ({ request }) => {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const { userId, sessionId, getToken } = request.auth;
 
 			const user = await User.getUserById(userId ?? "");
@@ -39,7 +40,7 @@ export const loader: LoaderFunction = (args) => {
 				currUser = user;
 			}
 
-			console.log("Root loader auth:", { userId, sessionId, getToken });
+			// console.log("Root loader auth:", { userId, sessionId, getToken });
 			return { currUser: currUser, userId: userId };
 		},
 		{

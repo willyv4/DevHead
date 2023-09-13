@@ -1,5 +1,5 @@
 import { PhotoIcon } from "@heroicons/react/20/solid";
-import { Form, useNavigation } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { useState } from "react";
 import Alert from "~/components/Alert";
 import { UseFormClear } from "~/hooks/useFormClear";
@@ -12,6 +12,9 @@ const ProjectForm = ({
 	userId: string | undefined;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+	const projectPost = useFetcher();
+	const { ref: setFormRef } = UseFormClear("POST_PROJECTS");
+	const [submitted, setSubmitted] = useState<boolean>(false);
 	const [
 		image,
 		getRootProps,
@@ -24,14 +27,11 @@ const ProjectForm = ({
 		message,
 		setMessage,
 	] = useImageUploader() as any;
-	const { ref: setFormRef } = UseFormClear("POST_PROJECTS");
-	const navigation = useNavigation();
-	const [submitted, setSubmitted] = useState<boolean>(false);
 
 	const text =
-		navigation.state === "submitting"
+		projectPost.state === "submitting"
 			? "Saving..."
-			: navigation.state === "loading"
+			: projectPost.state === "loading"
 			? "loading..."
 			: "your good to go!";
 
@@ -44,7 +44,7 @@ const ProjectForm = ({
 	return (
 		<>
 			{message && <Alert message={message} setMessage={setMessage} />}
-			<Form ref={setFormRef} method="post" encType="multipart/form-data">
+			<projectPost.Form method="POST" action="/api/projects" ref={setFormRef}>
 				<input defaultValue={userId} type="hidden" name="userId" />
 
 				{image ? (
@@ -137,14 +137,12 @@ const ProjectForm = ({
 					<button
 						className="w-full rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
 						type="submit"
-						name="_action"
-						value="POST_PROJECTS"
 						onClick={() => setSubmitted(true)}
 					>
 						{submitted ? text : "submit"}
 					</button>
 				)}
-			</Form>
+			</projectPost.Form>
 		</>
 	);
 };

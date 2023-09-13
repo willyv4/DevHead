@@ -13,7 +13,6 @@ export const loader: LoaderFunction = async (args) => {
 	const userWithId = await User.getUserById(userId);
 
 	if (userWithId?.id) {
-		console.log("USER WITH ID: ", userWithId, "redirectiong home");
 		return userWithId;
 	}
 

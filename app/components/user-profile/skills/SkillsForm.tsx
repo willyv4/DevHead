@@ -1,13 +1,13 @@
-import { Form, useNavigation } from "@remix-run/react";
 import type { SetStateAction } from "react";
 import { useState } from "react";
+import { useFetcher } from "react-router-dom";
 
 const SkillsForm = ({ userId }: { userId: string }) => {
 	const [skill, setSkill] = useState<string>("");
-	const navigation = useNavigation();
+	const skillPost = useFetcher();
 
 	const text =
-		navigation.state === "submitting" || navigation.state === "loading"
+		skillPost.state === "submitting" || skillPost.state === "loading"
 			? "Processing..."
 			: "Add Skill";
 
@@ -15,7 +15,11 @@ const SkillsForm = ({ userId }: { userId: string }) => {
 		setSkill(e.target.value);
 
 	return (
-		<Form method="post" onSubmit={() => setSkill("")}>
+		<skillPost.Form
+			method="POST"
+			action="/api/skills"
+			onSubmit={() => setSkill("")}
+		>
 			<div className="relative mt-4 mb-4">
 				<label className="absolute -top-2 left-2 inline-block bg-gray-700 px-1 text-xs font-medium text-gray-300">
 					Skill
@@ -33,12 +37,10 @@ const SkillsForm = ({ userId }: { userId: string }) => {
 			<button
 				className="w-full rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
 				type="submit"
-				name="_action"
-				value="POST_SKILL"
 			>
 				{text}
 			</button>
-		</Form>
+		</skillPost.Form>
 	);
 };
 

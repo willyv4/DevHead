@@ -61,13 +61,13 @@ export default function ProjectComments() {
 		if (!isSignedIn) return navigate("/");
 	}, [navigate, isSignedIn]);
 
-	console.log("LOADER DATA", loaderData);
+	// console.log("LOADER DATA", loaderData);
 
 	useEffect(() => {
 		setComments(loaderData[0]?.comments);
 	}, [loaderData]);
 
-	console.log(comments);
+	// console.log(comments);
 	return (
 		<>{user?.id && <CommentList comments={comments} userId={user?.id} />} </>
 	);

@@ -2,7 +2,7 @@ import { useFetcher } from "@remix-run/react";
 import { useEffect } from "react";
 import LeetCodeIcon from "../icon-components/LeetCodeIcon";
 import TagList from "../TagList";
-import EmptyStatus from "../user-profile/EmptyStatus";
+import EmptyStatus from "../EmptyStatus";
 
 type Tag = {
 	name: string;
@@ -46,8 +46,6 @@ const LeetCodeView: React.FC<LeetCodeStatProps> = ({ leetcodeUsername }) => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [leetcodeUsername]);
-
-	console.log("leetFetcher", data?.leetCodeSummary);
 
 	const LeetCodeModal = (
 		<div className="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20">

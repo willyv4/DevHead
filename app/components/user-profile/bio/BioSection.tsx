@@ -1,7 +1,6 @@
 import { PencilIcon } from "@heroicons/react/20/solid";
-import { useNavigation } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { useState } from "react";
-// import BioPostForm from "./forms/BioPostForm";
 import BioUpdateForm from "./forms/BioUpdateForm";
 
 type Props = {
@@ -10,12 +9,12 @@ type Props = {
 };
 
 const BioSection: React.FC<Props> = ({ userId, userBio }) => {
+	const bioPut = useFetcher();
 	const [buttonClicked, setButtonClicked] = useState(false);
 	const [bio, setBio] = useState(userBio);
-	const navigation = useNavigation();
 
 	const text =
-		navigation.state === "submitting" || navigation.state === "loading"
+		bioPut.state === "submitting" || bioPut.state === "loading"
 			? "Proccessing..."
 			: "Edit";
 
@@ -87,6 +86,7 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 					handleChange={handleChange}
 					userId={userId}
 					bio={bio}
+					bioPutFetcher={bioPut}
 				/>
 			</div>
 		</>
