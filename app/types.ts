@@ -21,20 +21,9 @@ export type UserSkills = {
 	user_id: string;
 };
 
-export type UserProjects = {
-	id: number;
-	image_url: string;
-	title: string;
-	code_link: string;
-	live_link: string;
-	like_count: string[] | null;
-	liked_user_ids: string[];
-	comment_count: string;
-};
-
 export type LoaderData = {
 	userProfile: UserProfile;
-	userProjects: UserProjects[];
+	userProjects: UserProject[];
 	userSkills: UserSkills[];
 };
 

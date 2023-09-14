@@ -43,7 +43,7 @@ const ProjectButtonGroup: React.FC<Props> = ({
 					rel="noreferrer"
 					target="_blank"
 					href={project.code_link}
-					className="mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
+					className="mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm  hover:bg-gray-50/30"
 				>
 					Site
 					<ComputerDesktopIcon className="w-4 ml-1" />
@@ -52,7 +52,7 @@ const ProjectButtonGroup: React.FC<Props> = ({
 				<a
 					target="_blank"
 					href={project.live_link}
-					className="mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
+					className="mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm  hover:bg-gray-50/30"
 					rel="noreferrer"
 				>
 					Code
@@ -64,7 +64,7 @@ const ProjectButtonGroup: React.FC<Props> = ({
 					onClick={() => handleCommentClick(idx + 1)}
 					to={`./comments/${project.id}`}
 					prefetch="intent"
-					className="mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
+					className="mr-[1px] flex items-center px-2 py-2 bg-gray-400/5 text-xs font-semibold text-white shadow-sm  hover:bg-gray-50/30"
 				>
 					Comments
 					<span className="text-xs ml-2">{project.comment_count}</span>

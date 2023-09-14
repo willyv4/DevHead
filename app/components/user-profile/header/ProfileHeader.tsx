@@ -39,11 +39,11 @@ const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 
 	return (
 		<div>
-			<div className="border-b border-gray-400/5">
-				<div className="w-full h-48 bg-gradient-to-r from-white/60 via to-emerald-100/70 rounded-tr-2xl rounded-tl-2xl" />
+			<div>
+				<div className="w-full h-48 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-900 rounded-tr-2xl rounded-tl-2xl" />
 			</div>
 			<div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-				<div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
+				<div className="-mt-36 sm:flex sm:items-end sm:space-x-5">
 					<div className="flex">
 						<img
 							className="object-cover h-24 w-24 rounded-full ring-4 ring-gray-900 sm:h-32 sm:w-32"

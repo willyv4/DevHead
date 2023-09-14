@@ -44,7 +44,7 @@ export default function UserProfile() {
 
 	return (
 		<div className="pt-28 sm:px-10 px-4">
-			<div className="rounded-2xl ring-1 ring-gray-950/40">
+			<div className="rounded-2xl ring-1 ring-gray-950/40 shadow-md shadow-gray-950">
 				<ProfileHeader userProfile={userProfile} />
 				<BioSection userId={userProfile?.id} userBio={userBio} />
 				<SkillsSection userId={userProfile?.id} userSkills={userSkills} />
