@@ -5,7 +5,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 	try {
 		const api_key: string = process.env.CLOUDINARY_API_KEY || "";
 		const formData = await request.formData();
-		const file = formData.get("file") as unknown as string | Blob;
+		const file = formData.get("file") as string | Blob;
 
 		const upload_preset = "ovbvlega";
 		const cloudinaryUrl =

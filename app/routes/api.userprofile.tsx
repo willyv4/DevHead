@@ -17,15 +17,14 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 	} = Object.fromEntries(formData);
 
 	if (request.method === "PUT" && !userBio) {
-		const userData: any = {
-			id: userId,
-			firstName: firstName,
-			lastName: lastName,
-			email: userEmail,
-			imageUrl: userImage,
-			title: profileTitle,
-		};
-		return await User.updateUser(userData);
+		return await User.updateUser(
+			userId.toString(),
+			firstName.toString(),
+			lastName.toString(),
+			userEmail.toString(),
+			userImage.toString(),
+			profileTitle.toString()
+		);
 	}
 
 	if (request.method === "PUT" && userBio) {

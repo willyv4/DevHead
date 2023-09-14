@@ -22,15 +22,13 @@ export const loader: LoaderFunction = async (args) => {
 
 	if (!user.id) return json({ message: "could not create clerk user" });
 
-	const userData: any = {
-		id: user.id,
-		firstName: user.firstName,
-		lastName: user.lastName,
-		email: user.emailAddresses[0].emailAddress,
-		imageUrl: user.imageUrl,
-	};
-
-	const newUser = await User.addUser(userData);
+	const newUser = await User.addUser(
+		user.id,
+		user.firstName,
+		user.lastName,
+		user.emailAddresses[0].emailAddress,
+		user.imageUrl
+	);
 
 	if (!newUser.id) return json({ message: "could not create db user" });
 

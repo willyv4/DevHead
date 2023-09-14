@@ -37,3 +37,35 @@ export type LoaderData = {
 	userProjects: UserProjects[];
 	userSkills: UserSkills[];
 };
+
+export type UserData = {
+	id: string;
+	first_name: string;
+	last_name: string;
+	email: string;
+	title: string;
+	image_url: string;
+	about: string;
+	skills: string;
+	code_start: string;
+	followers: string[];
+	following: string[];
+};
+
+export type Users = {
+	users: UserData[];
+};
+
+export type UserProject = {
+	id: number;
+	image_url: string;
+	title: string;
+	code_link: string;
+	live_link: string;
+	like_count: string[] | null;
+	comment_count: string;
+	liked_user_ids: string[];
+	author_first_name: string;
+	author_last_name: string;
+	user_id: string;
+};

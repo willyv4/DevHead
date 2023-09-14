@@ -38,7 +38,7 @@ export class Comments {
 					WHERE pc.post_id = $1;`,
 				[postId]
 			);
-			return res.rows;
+			return res.rows[0];
 		} catch (error) {
 			return [];
 		}

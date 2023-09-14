@@ -1,19 +1,14 @@
 import { PhotoIcon } from "@heroicons/react/20/solid";
 import { useFetcher } from "@remix-run/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Alert from "~/components/Alert";
 import { UseFormClear } from "~/hooks/useFormClear";
 import useImageUploader from "~/hooks/UseImageUploader";
 
-const ProjectForm = ({
-	userId,
-	setOpen,
-}: {
-	userId: string | undefined;
-	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 	const projectPost = useFetcher();
-	const { ref: setFormRef } = UseFormClear("POST_PROJECTS");
+	const isAdding = projectPost.state === "submitting";
+	const { ref: setFormRef } = UseFormClear(isAdding);
 	const [submitted, setSubmitted] = useState<boolean>(false);
 	const [
 		image,
@@ -28,18 +23,25 @@ const ProjectForm = ({
 		setMessage,
 	] = useImageUploader() as any;
 
-	const text =
-		projectPost.state === "submitting"
+	function presentButtonView() {
+		return isAdding
 			? "Saving..."
 			: projectPost.state === "loading"
-			? "loading..."
-			: "your good to go!";
+			? "Loading..."
+			: "You're good to go!";
+	}
 
 	const handleClick = () => {
 		setImage(null);
 		setValidFile(null);
 		setIsSubmitted(false);
 	};
+
+	useEffect(() => {
+		if (projectPost?.data?.success && projectPost.state === "idle") {
+			setImage(null);
+		}
+	}, [projectPost?.data?.success, projectPost.state, setImage]);
 
 	return (
 		<>
@@ -139,7 +141,7 @@ const ProjectForm = ({
 						type="submit"
 						onClick={() => setSubmitted(true)}
 					>
-						{submitted ? text : "submit"}
+						{submitted ? presentButtonView() : "submit"}
 					</button>
 				)}
 			</projectPost.Form>

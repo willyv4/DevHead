@@ -1,23 +1,6 @@
 import { json } from "@remix-run/node";
 import { db } from "../db.server";
 
-type UserData = {
-	id: string;
-	code_start: string | null;
-	firstName: string | number;
-	lastName: string | number;
-	place: string | null;
-	imageUrl: string;
-	githubUsername: string | null;
-	leetcodeUsername: string | null;
-	email: string;
-	title: string | number | null;
-	about: string | null;
-	skills: string | null;
-	followers: string[] | null;
-	following: string[] | null;
-};
-
 export class User {
 	static async getUserById(id: string) {
 		if (!id) return null;
@@ -61,17 +44,6 @@ export class User {
 		}
 	}
 
-	// static async findAll() {
-	// 	try {
-	// 		const result = await db.query(`SELECT * FROM users ORDER BY username`);
-	// 		return result.rows;
-	// 	} catch (error) {
-	// 		return json({
-	// 			message: `Error getting users ERROR: ${error}`,
-	// 		});
-	// 	}
-	// }
-
 	static async getUserOverviews() {
 		try {
 			const result = await db.query(`
@@ -92,13 +64,13 @@ export class User {
 		}
 	}
 
-	static async addUser({
-		id,
-		firstName,
-		lastName,
-		email,
-		imageUrl,
-	}: UserData): Promise<UserData> {
+	static async addUser(
+		id: string,
+		firstName: string | null,
+		lastName: string | null,
+		email: string,
+		imageUrl: string | null
+	) {
 		const duplicateCheck = await db.query(
 			`SELECT id FROM users WHERE id = $1`,
 			[id]
@@ -120,11 +92,17 @@ export class User {
 			[id, firstName, lastName, email, imageUrl]
 		);
 
-		return result.rows[0] as unknown as UserData;
+		return result.rows[0];
 	}
 
-	static async updateUser(userData: UserData): Promise<UserData> {
-		const { id, firstName, lastName, email, imageUrl, title } = userData;
+	static async updateUser(
+		id: string,
+		firstName: string,
+		lastName: string,
+		email: string,
+		imageUrl: string,
+		title: string
+	) {
 		const result = await db.query(
 			`UPDATE users
      		SET first_name = $2, last_name = $3, email = $4, image_url = $5, title = $6
@@ -137,7 +115,7 @@ export class User {
 			throw new Error(`User with id ${id} not found`);
 		}
 
-		return result.rows[0] as unknown as UserData;
+		return result.rows[0];
 	}
 
 	static async connectLeetcode(id: string, leetcodeUsername: string | null) {

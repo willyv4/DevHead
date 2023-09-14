@@ -1,5 +1,4 @@
 import { Tab } from "@headlessui/react";
-// import { useFetcher } from "@remix-run/react";
 import { useEffect } from "react";
 
 type BioUpdateFormProps = {

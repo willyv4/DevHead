@@ -1,7 +1,7 @@
 import { PencilIcon } from "@heroicons/react/20/solid";
 
 type Props = {
-	handleClick: (index: number | null) => void;
+	handleClick: (index: number) => void;
 	index: number;
 };
 

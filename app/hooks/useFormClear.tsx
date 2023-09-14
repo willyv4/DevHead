@@ -1,14 +1,7 @@
-import { useNavigation } from "@remix-run/react";
 import { useCallback, useEffect, useRef } from "react";
 
-export const UseFormClear = (actionValue: string) => {
-	const navigation = useNavigation();
-	const isAdding =
-		navigation.state === "submitting" &&
-		navigation.formData?.get("_action") === actionValue;
-
+export const UseFormClear = (isAdding: boolean) => {
 	const formRef = useRef<HTMLFormElement | null | undefined>();
-
 	const setFormRef = useCallback((node: HTMLFormElement | null) => {
 		formRef.current = node;
 	}, []);
@@ -19,5 +12,5 @@ export const UseFormClear = (actionValue: string) => {
 		}
 	}, [isAdding]);
 
-	return { ref: setFormRef, isAdding };
+	return { ref: setFormRef };
 };

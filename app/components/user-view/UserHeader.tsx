@@ -1,24 +1,7 @@
 import { EnvelopeIcon } from "@heroicons/react/20/solid";
 import FollowForm from "../FollowForm";
 import UnfollowForm from "../UnfollowForm";
-
-type UserProfile = {
-	id: string;
-	code_start: string | null;
-	first_name: string | null;
-	last_name: string | null;
-	place: string | null;
-	image_url: string;
-	username: string;
-	email: string;
-	title: string | null;
-	about: string | null;
-	skills: string | null;
-	followers: string[] | null;
-	following: string[] | null;
-	github_username: string | null;
-	leetcode_username: string | null;
-};
+import type { UserProfile } from "../../types";
 
 const Header = ({
 	userProfile,
