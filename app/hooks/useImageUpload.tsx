@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
-function useImageUploader() {
+function useImageUpload() {
 	const [image, setImage] = useState<string | null | undefined>(null);
 	const [validFile, setValidFile] = useState<File | null>(null);
 	const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -77,4 +77,4 @@ function useImageUploader() {
 	];
 }
 
-export default useImageUploader;
+export default useImageUpload;

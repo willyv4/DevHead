@@ -3,7 +3,7 @@ import { useFetcher } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import Alert from "~/components/Alert";
 import { useFormClear } from "~/hooks/useFormClear";
-import useImageUploader from "~/hooks/useImageUploader";
+import useImageUpload from "~/hooks/useImageUpload";
 
 const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 	const projectPost = useFetcher();
@@ -21,7 +21,7 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 		isLoading,
 		message,
 		setMessage,
-	] = useImageUploader() as any;
+	] = useImageUpload() as any;
 
 	function presentButtonView() {
 		return isAdding

@@ -3,7 +3,7 @@ import { useFetcher } from "@remix-run/react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import Alert from "~/components/Alert";
-import useImageUploader from "~/hooks/useImageUploader";
+import useImageUpload from "~/hooks/useImageUpload";
 import type { UserProfile } from "../../../../types";
 
 type Props = {
@@ -42,7 +42,7 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 		isLoading,
 		message,
 		setMessage,
-	] = useImageUploader() as any;
+	] = useImageUpload() as any;
 
 	useEffect(() => {
 		if (image) {

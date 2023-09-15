@@ -4,7 +4,7 @@ import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import Alert from "~/components/Alert";
 import { useFormClear } from "~/hooks/useFormClear";
-import useImageUploader from "~/hooks/useImageUploader";
+import useImageUpload from "~/hooks/useImageUpload";
 
 type Project = {
 	id: string | number;
@@ -43,7 +43,7 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
 		isLoading,
 		message,
 		setMessage,
-	] = useImageUploader() as any;
+	] = useImageUpload() as any;
 	const [formData, setFormData] = useState(INITIAL_STATE);
 	const [submitted, setSubmitted] = useState<boolean>(false);
 
