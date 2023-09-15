@@ -4,7 +4,6 @@ import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import Alert from "~/components/Alert";
 import { useFormClear } from "~/hooks/useFormClear";
-
 import useImageUploader from "~/hooks/useImageUploader";
 
 type Project = {
