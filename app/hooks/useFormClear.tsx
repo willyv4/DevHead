@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 
-export const UseFormClear = (isAdding: boolean) => {
+export const useFormClear = (isAdding: boolean) => {
 	const formRef = useRef<HTMLFormElement | null | undefined>();
 	const setFormRef = useCallback((node: HTMLFormElement | null) => {
 		formRef.current = node;

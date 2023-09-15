@@ -2,7 +2,7 @@ import type { LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { User } from "../models/users";
 import GitHubStat from "../components/user-profile/github-leet-connections/GitHubStats";
-import LeetCodeStats from "~/components/user-profile/github-leet-connections/LeetCodeStats";
+import LeetCodeProfileView from "~/components/user-profile/github-leet-connections/LeetCodeProfileView";
 import ProfileHeader from "~/components/user-profile/header/ProfileHeader";
 import BioSection from "~/components/user-profile/bio/BioSection";
 import { useNavigate } from "react-router";
@@ -53,7 +53,7 @@ export default function UserProfile() {
 					githubUsername={userProfile?.github_username}
 					userId={userid}
 				/>
-				<LeetCodeStats
+				<LeetCodeProfileView
 					leetcodeUsername={userProfile?.leetcode_username}
 					userId={userid}
 				/>

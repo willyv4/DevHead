@@ -7,16 +7,11 @@ import Header from "~/components/user-view/UserHeader";
 import SkillView from "~/components/user-view/SkillView";
 import BioView from "~/components/user-view/BioView";
 import GitHubView from "~/components/user-view/GitHubView";
-import LeetCodeView from "~/components/user-view/LeetCodeView";
+import LeetCodeUserView from "~/components/user-view/LeetCodeUserView";
 import ProjectListView from "~/components/user-view/ProjectListView";
 import { useUser } from "@clerk/remix";
 import { useEffect } from "react";
-import type {
-	LoaderData,
-	UserProjects,
-	UserSkills,
-	UserProfile,
-} from "~/types";
+import type { LoaderData, UserProject, UserSkills, UserProfile } from "~/types";
 
 export const loader: LoaderFunction = async ({
 	params,
@@ -25,9 +20,7 @@ export const loader: LoaderFunction = async ({
 
 	if (userId) {
 		const userProfile: UserProfile = await User.getUserProfileById(userId);
-		const userProjects: UserProjects[] = await Posts.getUserProjectsById(
-			userId
-		);
+		const userProjects: UserProject[] = await Posts.getUserProjectsById(userId);
 		const userSkills: UserSkills[] = await Skills.getSkillsById(userId);
 
 		return { userProfile, userProjects, userSkills };
@@ -60,7 +53,9 @@ export default function UserProfile() {
 						<GitHubView githubUsername={userProfile?.github_username} />
 					)}
 					{userProfile.leetcode_username && (
-						<LeetCodeView leetcodeUsername={userProfile?.leetcode_username} />
+						<LeetCodeUserView
+							leetcodeUsername={userProfile?.leetcode_username}
+						/>
 					)}
 				</div>
 			</div>

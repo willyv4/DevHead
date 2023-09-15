@@ -11,23 +11,12 @@ type Props = {
 const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 	const bioPut = useFetcher();
 	const [buttonClicked, setButtonClicked] = useState(false);
-	const [bio, setBio] = useState(userBio);
 
-	const text =
-		bioPut.state === "submitting" || bioPut.state === "loading"
+	function renderTextState(text: string) {
+		return bioPut.state === "submitting" || bioPut.state === "loading"
 			? "Proccessing..."
-			: "Edit";
-
-	const handleChange = (evt: any) => setBio(evt.target.value);
-
-	const handleSubmit = () => {
-		setBio(bio);
-		setButtonClicked(false);
-	};
-
-	const handleClick = () => {
-		buttonClicked ? setButtonClicked(false) : setButtonClicked(true);
-	};
+			: text;
+	}
 
 	return !buttonClicked ? (
 		<div className="pb-5">
@@ -37,15 +26,16 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 				</h3>
 				<div className="mt-4 mr-4">
 					<button
-						onClick={() => handleClick()}
+						onClick={() => setButtonClicked(true)}
 						type="submit"
 						className="flex flex-row rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
 					>
 						{!userBio ? (
-							<>Add Bio</>
+							<>{renderTextState("Add Bio")}</>
 						) : (
 							<>
-								{text} <PencilIcon className="h-4 w-4 ml-2 mt-[2px]" />
+								{renderTextState("Edit")}{" "}
+								<PencilIcon className="h-4 w-4 ml-2 mt-[2px]" />
 							</>
 						)}
 					</button>
@@ -71,7 +61,7 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 				</h3>
 				<div className="mt-5 mr-4">
 					<button
-						onClick={() => handleClick()}
+						onClick={() => setButtonClicked(false)}
 						type="submit"
 						className="flex flex-row rounded-md bg-rose-300/10 px-2.5 py-1.5 text-sm font-semibold text-rose-300 shadow-sm hover:bg-rose-300/20"
 					>
@@ -82,11 +72,10 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 
 			<div className="story-container m-1 p-2 sm:p-4">
 				<BioUpdateForm
-					handleSubmit={handleSubmit}
-					handleChange={handleChange}
+					userBio={userBio}
 					userId={userId}
-					bio={bio}
 					bioPutFetcher={bioPut}
+					setButtonClicked={setButtonClicked}
 				/>
 			</div>
 		</>

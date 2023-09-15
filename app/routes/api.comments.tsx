@@ -14,13 +14,13 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 			Number(projectId),
 			comment.toString()
 		);
-		return json({ success: true });
+		return json({ success: true, status: 201 });
 	}
 
 	if (request.method === "DELETE") {
 		await Comments.deleteComment(Number(commentId));
-		return json({ success: true });
+		return json({ success: true, status: 200 });
 	}
 
-	return json({ success: false });
+	return json({ success: false, status: 500 });
 };

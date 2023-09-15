@@ -11,7 +11,7 @@ function useImageUploader() {
 	async function uploadFileToServer(file: File | null) {
 		if (file !== null) {
 			try {
-				console.log("Valid File:", file);
+				// console.log("Valid File:", file);
 				const formData = new FormData();
 				formData.append("file", file);
 
@@ -27,7 +27,6 @@ function useImageUploader() {
 					const { data } = await response.json();
 					setImage(data);
 					setIsLoading(false);
-					// console.log("File uploaded to Cloudinary:", data);
 				} else {
 					console.error("File upload to Cloudinary failed");
 				}

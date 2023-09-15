@@ -115,94 +115,100 @@ export const loader: LoaderFunction = async ({ params }) => {
 		credentials: "include",
 	});
 
-	const apiReqs = await Promise.all([
-		getProfile,
-		getSkills,
-		getLanguages,
-		getProblemSolvedSummary,
-	]);
+	try {
+		const apiReqs = await Promise.all([
+			getProfile,
+			getSkills,
+			getLanguages,
+			getProblemSolvedSummary,
+		]);
 
-	const [profile, skills, languages, summary] = await Promise.all(
-		apiReqs.map((r) => r.json())
-	);
+		const [profile, skills, languages, summary] = await Promise.all(
+			apiReqs.map((r) => r.json())
+		);
 
-	const advancedTags = skills.data.matchedUser.tagProblemCounts.advanced.map(
-		(tags: any) => {
-			return { name: tags.tagName, solved: tags.problemsSolved };
+		// console.log(profile, skills, languages, summary);
+
+		const advancedTags = skills.data.matchedUser.tagProblemCounts.advanced.map(
+			(tags: any) => {
+				return { name: tags.tagName, solved: tags.problemsSolved };
+			}
+		);
+
+		const intermediateTags =
+			skills.data.matchedUser.tagProblemCounts.intermediate.map((tags: any) => {
+				return { name: tags.tagName, solved: tags.problemsSolved };
+			});
+
+		const fundamentalTags =
+			skills.data.matchedUser.tagProblemCounts.fundamental.map((tags: any) => {
+				return { name: tags.tagName, solved: tags.problemsSolved };
+			});
+
+		const successRateOne =
+			summary.data.matchedUser.problemsSolvedBeatsStats[0].percentage;
+		const successRateTwo =
+			summary.data.matchedUser.problemsSolvedBeatsStats[1].percentage;
+		const successRateThree =
+			summary.data.matchedUser.problemsSolvedBeatsStats[2].percentage;
+
+		function calculateAverage(
+			successRateOne: number | null,
+			successRateTwo: number | null,
+			successRateThree: number | null
+		) {
+			successRateOne = typeof successRateOne === "number" ? successRateOne : 0;
+			successRateTwo = typeof successRateTwo === "number" ? successRateTwo : 0;
+			successRateThree =
+				typeof successRateThree === "number" ? successRateThree : 0;
+
+			let average = (successRateOne + successRateTwo + successRateThree) / 3;
+			const result = average !== 0 ? parseFloat(average.toFixed(2)) : null;
+			return result;
 		}
-	);
 
-	const intermediateTags =
-		skills.data.matchedUser.tagProblemCounts.intermediate.map((tags: any) => {
-			return { name: tags.tagName, solved: tags.problemsSolved };
+		const leetCodeSummary = [
+			{
+				name: "All",
+				solved:
+					summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[0].count,
+				total: summary.data.allQuestionsCount[0].count,
+				successRate: calculateAverage(
+					successRateOne,
+					successRateTwo,
+					successRateThree
+				),
+			},
+			{
+				name: "Easy",
+				solved:
+					summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[1].count,
+				total: summary.data.allQuestionsCount[1].count,
+				successRate: successRateOne,
+			},
+			{
+				name: "Medium",
+				solved:
+					summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[2].count,
+				total: summary.data.allQuestionsCount[2].count,
+				successRate: successRateTwo,
+			},
+			{
+				name: "Hard",
+				solved:
+					summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[3].count,
+				total: summary.data.allQuestionsCount[3].count,
+				successRate: successRateThree,
+			},
+		];
+
+		return json({
+			prefferedLanguage: languages.data.matchedUser.languageProblemCount[0],
+			rank: profile.data.matchedUser.profile.ranking,
+			tags: { advancedTags, intermediateTags, fundamentalTags },
+			leetCodeSummary,
 		});
-
-	const fundamentalTags =
-		skills.data.matchedUser.tagProblemCounts.fundamental.map((tags: any) => {
-			return { name: tags.tagName, solved: tags.problemsSolved };
-		});
-
-	const successRateOne =
-		summary.data.matchedUser.problemsSolvedBeatsStats[0].percentage;
-	const successRateTwo =
-		summary.data.matchedUser.problemsSolvedBeatsStats[1].percentage;
-	const successRateThree =
-		summary.data.matchedUser.problemsSolvedBeatsStats[2].percentage;
-
-	function calculateAverage(
-		successRateOne: number | null,
-		successRateTwo: number | null,
-		successRateThree: number | null
-	) {
-		successRateOne = typeof successRateOne === "number" ? successRateOne : 0;
-		successRateTwo = typeof successRateTwo === "number" ? successRateTwo : 0;
-		successRateThree =
-			typeof successRateThree === "number" ? successRateThree : 0;
-
-		let average = (successRateOne + successRateTwo + successRateThree) / 3;
-		const result = average !== 0 ? parseFloat(average.toFixed(2)) : null;
-		return result;
+	} catch (error) {
+		return json({ success: false, status: 500, error: error });
 	}
-
-	const leetCodeSummary = [
-		{
-			name: "All",
-			solved:
-				summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[0].count,
-			total: summary.data.allQuestionsCount[0].count,
-			successRate: calculateAverage(
-				successRateOne,
-				successRateTwo,
-				successRateThree
-			),
-		},
-		{
-			name: "Easy",
-			solved:
-				summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[1].count,
-			total: summary.data.allQuestionsCount[1].count,
-			successRate: successRateOne,
-		},
-		{
-			name: "Medium",
-			solved:
-				summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[2].count,
-			total: summary.data.allQuestionsCount[2].count,
-			successRate: successRateTwo,
-		},
-		{
-			name: "Hard",
-			solved:
-				summary.data.matchedUser.submitStatsGlobal.acSubmissionNum[3].count,
-			total: summary.data.allQuestionsCount[3].count,
-			successRate: successRateThree,
-		},
-	];
-
-	return json({
-		prefferedLanguage: languages.data.matchedUser.languageProblemCount[0],
-		rank: profile.data.matchedUser.profile.ranking,
-		tags: { advancedTags, intermediateTags, fundamentalTags },
-		leetCodeSummary,
-	});
 };

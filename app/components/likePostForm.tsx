@@ -10,7 +10,7 @@ type Props = {
 const LikePostForm: React.FC<Props> = ({ userId, postId, likeCount }) => {
 	const likePost = useFetcher();
 
-	function getLikeState() {
+	function renderLikeState() {
 		return likePost.state === "submitting" || likePost.state === "loading" ? (
 			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
 		) : (
@@ -29,7 +29,7 @@ const LikePostForm: React.FC<Props> = ({ userId, postId, likeCount }) => {
 				type="submit"
 				className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 			>
-				{getLikeState()}
+				{renderLikeState()}
 			</button>
 			<span className="text-xs ml-2">{likeCount}</span>
 		</likePost.Form>

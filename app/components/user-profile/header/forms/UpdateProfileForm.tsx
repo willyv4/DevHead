@@ -3,24 +3,8 @@ import { useFetcher } from "@remix-run/react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import Alert from "~/components/Alert";
-import useImageUploader from "~/hooks/UseImageUploader";
-
-type UserProfile = {
-	id: string;
-	code_start: string | null;
-	first_name: string | null;
-	last_name: string | null;
-	place: string | null;
-	image_url: string;
-	email: string;
-	title: string | null;
-	about: string | null;
-	skills: string | null;
-	followers: string[] | null;
-	following: string[] | null;
-	github_username: string | null;
-	leetcode_username: string | null;
-};
+import useImageUploader from "~/hooks/useImageUploader";
+import type { UserProfile } from "../../../../types";
 
 type Props = {
 	userProfile: UserProfile;
@@ -29,6 +13,7 @@ type Props = {
 
 const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 	const userProfilePut = useFetcher();
+	const [submitted, setSubmitted] = useState<boolean>(false);
 	const INITIAL_STATE = {
 		userImage: userProfile?.image_url,
 		profileTitle: userProfile?.title,
@@ -36,15 +21,15 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 		lastName: userProfile?.last_name,
 		userEmail: userProfile?.email,
 	};
+	const [formData, setFormData] = useState(INITIAL_STATE);
 
-	const [submitted, setSubmitted] = useState<boolean>(false);
-
-	const text =
-		userProfilePut.state === "submitting"
+	function renderTextState() {
+		return userProfilePut.state === "submitting"
 			? "Saving..."
 			: userProfilePut.state === "loading"
 			? "loading..."
 			: "your good to go!";
+	}
 
 	const [
 		image,
@@ -58,8 +43,6 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 		message,
 		setMessage,
 	] = useImageUploader() as any;
-
-	const [formData, setFormData] = useState(INITIAL_STATE);
 
 	useEffect(() => {
 		if (image) {
@@ -211,7 +194,7 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 						value="PUT_USER"
 						onClick={() => setSubmitted(true)}
 					>
-						{submitted ? text : "submit"}
+						{submitted ? renderTextState() : "submit"}
 					</button>
 				)}
 			</userProfilePut.Form>

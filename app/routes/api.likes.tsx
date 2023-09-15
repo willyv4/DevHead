@@ -3,18 +3,20 @@ import { json } from "react-router";
 import { Likes } from "~/models/likes";
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
-	const formData = await request.formData();
-	const { userId, projectId } = Object.fromEntries(formData);
+	try {
+		const formData = await request.formData();
+		const { userId, projectId } = Object.fromEntries(formData);
 
-	if (request.method === "DELETE") {
-		await Likes.removeLike(userId.toString(), Number(projectId));
-		return json({ success: true });
+		if (request.method === "DELETE") {
+			await Likes.removeLike(userId.toString(), Number(projectId));
+			return json({ success: true, status: 200 });
+		}
+
+		if (request.method === "POST") {
+			await Likes.addLike(userId.toString(), Number(projectId));
+			return json({ success: true, status: 201 });
+		}
+	} catch (error) {
+		return json({ success: false, status: 500, error: error });
 	}
-
-	if (request.method === "POST") {
-		await Likes.addLike(userId.toString(), Number(projectId));
-		return json({ success: true });
-	}
-
-	return json({ success: false });
 };

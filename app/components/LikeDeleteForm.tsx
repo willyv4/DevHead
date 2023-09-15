@@ -10,7 +10,7 @@ type Props = {
 const LikeDeleteForm: React.FC<Props> = ({ userId, postId, likeCount }) => {
 	const likeDelete = useFetcher();
 
-	function getUnlikeState() {
+	function renderLikeState() {
 		return likeDelete.state === "submitting" ||
 			likeDelete.state === "loading" ? (
 			<ArrowPathIcon className="w-5 p-1 animate-spin opacity-50" />
@@ -30,7 +30,7 @@ const LikeDeleteForm: React.FC<Props> = ({ userId, postId, likeCount }) => {
 				type="submit"
 				className="flex items-center rounded-lg text-xs font-semibold text-white shadow-sm hover:bg-gray-50/30"
 			>
-				{getUnlikeState()}
+				{renderLikeState()}
 			</button>
 			<span className="text-xs ml-2">{likeCount}</span>
 		</likeDelete.Form>

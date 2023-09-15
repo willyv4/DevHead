@@ -8,13 +8,13 @@ export const action: ActionFunction = async ({ request }) => {
 
 	if (request.method === "POST") {
 		await Follows.addFollow(userId.toString(), userBeingFollowed.toString());
-		return json({ success: true });
+		return json({ success: true, status: 201 });
 	}
 
 	if (request.method === "DELETE") {
 		await Follows.removeFollow(userId.toString(), userBeingFollowed.toString());
-		return json({ success: true });
+		return json({ success: true, status: 200 });
 	}
 
-	return json({ success: false });
+	return json({ success: false, status: 500 });
 };

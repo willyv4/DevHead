@@ -23,21 +23,11 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 
 		if (cloudinaryResponse.ok) {
 			const cloudinaryData = await cloudinaryResponse.json();
-			console.log("Cloudinary response:", cloudinaryData);
-
-			return json({ message: "success", data: cloudinaryData.secure_url });
+			return json({ success: true, data: cloudinaryData.secure_url });
 		} else {
-			console.error(
-				"Cloudinary upload failed with status:",
-				cloudinaryResponse.status
-			);
-			return json(
-				{ error: "File upload to Cloudinary failed" },
-				{ status: 500 }
-			);
+			return json({ error: `File upload failed`, status: 500 });
 		}
 	} catch (error) {
-		console.error("Error handling file upload:", error);
-		return json({ error: "File upload failed" }, { status: 500 });
+		return json({ error: `File upload failed: ${error}`, status: 500 });
 	}
 };

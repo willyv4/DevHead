@@ -9,7 +9,7 @@ const UnfollowForm = ({
 }) => {
 	const followDelete = useFetcher();
 
-	function presentTextState() {
+	function renderFollowState() {
 		return followDelete.state === "submitting"
 			? "Saving..."
 			: followDelete.state === "loading"
@@ -30,7 +30,7 @@ const UnfollowForm = ({
 				type="submit"
 				className="mt-[6px] ml-2 px-2 rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
 			>
-				{presentTextState()}
+				{renderFollowState()}
 			</button>
 		</followDelete.Form>
 	);

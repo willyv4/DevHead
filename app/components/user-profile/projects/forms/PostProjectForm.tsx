@@ -2,13 +2,13 @@ import { PhotoIcon } from "@heroicons/react/20/solid";
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import Alert from "~/components/Alert";
-import { UseFormClear } from "~/hooks/useFormClear";
-import useImageUploader from "~/hooks/UseImageUploader";
+import { useFormClear } from "~/hooks/useFormClear";
+import useImageUploader from "~/hooks/useImageUploader";
 
 const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 	const projectPost = useFetcher();
 	const isAdding = projectPost.state === "submitting";
-	const { ref: setFormRef } = UseFormClear(isAdding);
+	const { ref: setFormRef } = useFormClear(isAdding);
 	const [submitted, setSubmitted] = useState<boolean>(false);
 	const [
 		image,

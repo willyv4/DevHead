@@ -1,37 +1,34 @@
 import { Tab } from "@headlessui/react";
-import { useEffect } from "react";
+import { useState } from "react";
 
 type BioUpdateFormProps = {
-	handleSubmit: () => void;
-	handleChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+	userBio: string | null;
 	userId: string | undefined;
-	bio: string | null;
 	bioPutFetcher: any;
+	setButtonClicked: (value: boolean) => void;
 };
 
 const BioUpdateForm: React.FC<BioUpdateFormProps> = ({
-	handleSubmit,
-	handleChange,
+	userBio,
 	userId,
-	bio,
 	bioPutFetcher,
+	setButtonClicked,
 }) => {
-	const text =
-		bioPutFetcher.state === "submitting" || bioPutFetcher.state === "loading"
-			? "Proccessing..."
-			: "Submit Bio";
+	const [bio, setBio] = useState(userBio);
+	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+		setBio(e.target.value);
 
-	useEffect(() => {
-		if (bioPutFetcher?.data?.success) {
-			handleSubmit();
-		}
-	}, [bioPutFetcher?.data?.success, bioPutFetcher.state, handleSubmit]);
+	const handleSubmit = () => {
+		setBio(bio);
+		setButtonClicked(false);
+	};
 
 	return (
 		<bioPutFetcher.Form
 			method="PUT"
 			action="/api/userprofile"
 			className="mb-10"
+			onSubmit={handleSubmit}
 		>
 			<Tab.Group>
 				<Tab.Panels className="">
@@ -41,7 +38,7 @@ const BioUpdateForm: React.FC<BioUpdateFormProps> = ({
 							<textarea
 								name="userBio"
 								rows={7}
-								className="overflow-scroll p-4 bg-gray-400/5 block w-full rounded-md py-1.5 text-gray-200 border border-gray-950 placeholder:text-gray-400 sm:text-sm sm:leading-6 overflow-hidden outline-none"
+								className="overflow-y-scroll p-4 bg-gray-400/5 block w-full rounded-md py-1.5 text-gray-200 border border-gray-950 placeholder:text-gray-400 sm:text-sm sm:leading-6 overflow-hidden outline-none"
 								placeholder={!bio ? "Add Bio Here..." : ""}
 								value={bio || ""}
 								onChange={handleChange}
@@ -55,7 +52,7 @@ const BioUpdateForm: React.FC<BioUpdateFormProps> = ({
 					type="submit"
 					className={`text-center rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20 w-full  sm:w-fit`}
 				>
-					{!bio ? "Add Bio" : text}
+					{!bio ? "Add Bio" : "Submit Bio"}
 				</button>
 			</div>
 		</bioPutFetcher.Form>

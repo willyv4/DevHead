@@ -3,39 +3,23 @@ import { useNavigation } from "@remix-run/react";
 import { useState } from "react";
 import Modal from "../../Modal";
 import ProfileUpdateForm from "./forms/UpdateProfileForm";
-
-type UserProfile = {
-	id: string;
-	code_start: string | null;
-	first_name: string | null;
-	last_name: string | null;
-	place: string | null;
-	image_url: string;
-	email: string;
-	title: string | null;
-	about: string | null;
-	skills: string | null;
-	followers: string[] | null;
-	following: string[] | null;
-	github_username: string | null;
-	leetcode_username: string | null;
-};
+import type { UserProfile } from "~/types";
 
 const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 	const [updateFromView, setUpdateFormView] = useState(false);
 	const navigation = useNavigation();
-
 	const followerCount = userProfile.followers?.filter((f) => f !== null).length;
 	const followingCount = userProfile.following?.filter(
 		(f) => f !== null
 	).length;
 
-	const text =
-		navigation.state === "submitting"
+	function renderTextState() {
+		return navigation.state === "submitting"
 			? "Saving..."
 			: navigation.state === "loading"
 			? "Saved!"
 			: "Edit";
+	}
 
 	return (
 		<div>
@@ -65,7 +49,7 @@ const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 									onClick={() => setUpdateFormView(true)}
 									className="ml-2 flex flex-row mt-1 rounded mt-[6px] ml-2 px-2 rounded bg-gray-300/10 px-2 py-1 text-xs font-semibold text-gray-300 shadow-sm hover:bg-gray-300/20"
 								>
-									<p className="mt-[1.5px]">{text}</p>
+									<p className="mt-[1.5px]">{renderTextState()}</p>
 									<UserCircleIcon className="w-5 h-5 ml-2" />
 								</button>
 							</div>

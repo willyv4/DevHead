@@ -1,5 +1,5 @@
 import { useFetcher } from "@remix-run/react";
-import { UseFormClear } from "~/hooks/useFormClear";
+import { useFormClear } from "~/hooks/useFormClear";
 
 const CommentForm = ({
 	postId,
@@ -12,7 +12,7 @@ const CommentForm = ({
 }) => {
 	const commentPost = useFetcher();
 	const isAdding = commentPost.state === "submitting";
-	const { ref: setFormRef } = UseFormClear(isAdding);
+	const { ref: setFormRef } = useFormClear(isAdding);
 
 	function presentButtonView() {
 		return isAdding || commentPost.state === "loading" ? (

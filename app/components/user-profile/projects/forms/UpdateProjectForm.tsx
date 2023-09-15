@@ -3,9 +3,9 @@ import { useFetcher } from "@remix-run/react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import Alert from "~/components/Alert";
-import { UseFormClear } from "~/hooks/useFormClear";
+import { useFormClear } from "~/hooks/useFormClear";
 
-import useImageUploader from "~/hooks/UseImageUploader";
+import useImageUploader from "~/hooks/useImageUploader";
 
 type Project = {
 	id: string | number;
@@ -23,7 +23,8 @@ type Props = {
 
 const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
 	const projectPut = useFetcher();
-	const { ref: setFormRef } = UseFormClear("PUT");
+	const isAdding = projectPut.state === "loading";
+	const { ref: setFormRef } = useFormClear(isAdding);
 	const INITIAL_STATE = {
 		imageUrl: project?.image_url,
 		projectTitle: project?.title,

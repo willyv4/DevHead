@@ -58,3 +58,40 @@ export type UserProject = {
 	author_last_name: string;
 	user_id: string;
 };
+
+export type Comment = {
+	author_first_name: string;
+	author_image_url: string;
+	author_last_name: string;
+	comment: string;
+	comment_id: number;
+	user_id: string;
+};
+
+export type Tag = {
+	name: string;
+	solved: number;
+};
+
+export type Tags = {
+	advancedTags: Tag[];
+	intermediateTags: Tag[];
+	fundamentalTags: Tag[];
+};
+
+export type ProblemSolvingStats = {
+	name: string;
+	solved: number;
+	successRate: number;
+	total: number;
+};
+
+export type LeetCodeData = {
+	leetCodeSummary: ProblemSolvingStats[];
+	prefferedLanguage: {
+		languageName: string;
+		problemsSolved: number;
+	};
+	rank: number;
+	tags: Tags;
+};
