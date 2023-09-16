@@ -1,14 +1,14 @@
 import type { LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { User } from "../models/users";
-import GitHubStat from "../components/user-profile/github-leet-connections/GitHubStats";
-import LeetCodeProfileView from "~/components/user-profile/github-leet-connections/LeetCodeProfileView";
-import ProfileHeader from "~/components/user-profile/header/ProfileHeader";
-import BioSection from "~/components/user-profile/bio/BioSection";
+import GitHubStat from "../components/userprofile/github-leet-connections/GitHubStats";
+import LeetCodeProfileView from "~/components/userprofile/github-leet-connections/LeetCodeProfileView";
+import ProfileHeader from "~/components/userprofile/header/ProfileHeader";
+import BioSection from "~/components/userprofile/bio/BioSection";
 import { useNavigate } from "react-router";
-import ProjectList from "~/components/user-profile/projects/ProjectList";
+import ProjectList from "~/components/userprofile/projects/ProjectList";
 import Projects from "~/models/posts";
-import SkillsSection from "~/components/user-profile/skills/SkillsSection";
+import SkillsSection from "~/components/userprofile/skills/SkillsSection";
 import { Skills } from "~/models/skills";
 import { useUser } from "@clerk/remix";
 import { useEffect } from "react";
@@ -19,15 +19,12 @@ export const loader: LoaderFunction = async ({
 }: LoaderArgs): Promise<LoaderData | null> => {
 	const userId: string | undefined = params.userid;
 
-	if (userId) {
-		const userProfile = await User.getUserProfileById(userId);
-		const userProjects = await Projects.getUserProjectsById(userId);
-		const userSkills = await Skills.getSkillsById(userId);
+	if (!userId) return null;
 
-		return { userProfile, userProjects, userSkills };
-	}
-
-	return null;
+	const userProfile = await User.getUserProfileById(userId);
+	const userProjects = await Projects.getUserProjectsById(userId);
+	const userSkills = await Skills.getSkillsById(userId);
+	return { userProfile, userProjects, userSkills };
 };
 
 export default function UserProfile() {

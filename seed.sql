@@ -1,4 +1,3 @@
--- Insert data into the users table
 INSERT INTO users (id, email, title, about, place, first_name, last_name)
 VALUES
   ('1', 'user1@example.com', 'Software Engineer', 'I love coding!', 'UT', 'John', 'Doe'),
@@ -7,8 +6,6 @@ VALUES
   ('4', 'user4@example.com', 'Mobile App Developer', 'Building awesome apps.', 'CA', 'Emily', 'Williams'),
   ('5', 'user5@example.com', 'UI/UX Designer', 'Creating beautiful interfaces.', 'NY', 'David', 'Brown');
 
-
--- Insert data into the portfolioPosts table
 INSERT INTO portfolio_posts (user_id, title, description)
 VALUES
   ('1', 'My Project 1', 'Check out my latest project!'),
@@ -17,7 +14,6 @@ VALUES
   ('4', 'Mobile Game', 'Play my new mobile game!'),
   ('5', 'UI Redesign', 'Redesigned the user interface for an app.');
 
--- Insert data into the portfolioComments table
 INSERT INTO portfolio_comments (user_id, post_id, comment)
 VALUES
   ('2', 1, 'Great work!'),
@@ -26,7 +22,6 @@ VALUES
   ('4', 4, 'The game is fun.'),
   ('5', 5, 'Beautiful UI design.');
 
--- Insert data into the likes table
 INSERT INTO likes (post_id, user_id)
 VALUES
   (3, '2'),

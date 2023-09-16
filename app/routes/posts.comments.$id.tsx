@@ -2,7 +2,7 @@ import { useUser } from "@clerk/remix";
 import type { LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { useLoaderData, useNavigate } from "@remix-run/react";
 import { useEffect } from "react";
-import CommentList from "~/components/user-view/CommentList";
+import CommentList from "~/components/comment/CommentList";
 import { Comments } from "../models/comments";
 
 type LoaderData = {

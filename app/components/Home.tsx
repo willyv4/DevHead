@@ -2,8 +2,8 @@ import { SignedIn } from "@clerk/remix";
 import { ComputerDesktopIcon } from "@heroicons/react/24/solid";
 import { Link } from "@remix-run/react";
 import screenshot from "../../public/screen_shot.png";
-import GitHubIcon from "./icon-components/GitHubIcon";
-import LeetCodeIcon from "./icon-components/LeetCodeIcon";
+import GitHubIcon from "./utility/icon-components/GitHubIcon";
+import LeetCodeIcon from "./utility/icon-components/LeetCodeIcon";
 
 const Home = () => {
 	const features = [

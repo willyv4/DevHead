@@ -36,9 +36,6 @@ export default class Posts {
 		projectLiveLink: string,
 		projectCodeLink: string
 	) {
-		// const resp = {
-		// 	user_id, image_url, title, code_link, live_link
-		// };
 		try {
 			await db.query(
 				`INSERT INTO portfolio_posts
@@ -46,11 +43,9 @@ export default class Posts {
      			VALUES ($1, $2, $3, $4, $5)`,
 				[userId, projectImage, projectTitle, projectLiveLink, projectCodeLink]
 			);
-			// resp.user_id = queryResp[0].userId
 			return json({ success: true });
 		} catch (error) {
 			return json({ success: false });
-			// return json({ message: `Error adding projects - error: ${error}` });
 		}
 	}
 
@@ -80,7 +75,6 @@ export default class Posts {
 					projectLiveLink,
 				]
 			);
-
 			return { success: true };
 		} catch (error) {
 			return json({ message: `Error updating projects - error: ${error}` });
@@ -95,7 +89,6 @@ export default class Posts {
             WHERE id = $1`,
 				[id]
 			);
-
 			return json({ deleted: true });
 		} catch (error) {
 			return json({ message: `Error deleting projects - error: ${error}` });

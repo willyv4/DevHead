@@ -21,6 +21,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 			success: false,
 			status: 500,
 			message: `failed to ${request.method} Skill!`,
+			error: error,
 		});
 	}
 };

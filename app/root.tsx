@@ -31,15 +31,9 @@ export const loader: LoaderFunction = (args) => {
 		async ({ request }) => {
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const { userId, sessionId, getToken } = request.auth;
-
 			const user = await User.getUserById(userId ?? "");
-
 			let currUser = {};
-
-			if (user && user) {
-				currUser = user;
-			}
-
+			if (user && user) currUser = user;
 			// console.log("Root loader auth:", { userId, sessionId, getToken });
 			return { currUser: currUser, userId: userId };
 		},
@@ -52,7 +46,6 @@ export const loader: LoaderFunction = (args) => {
 function App() {
 	const { user } = useUser();
 	const { currUser } = useLoaderData();
-
 	return (
 		<html lang="en" className="bg-gray-900">
 			<head>

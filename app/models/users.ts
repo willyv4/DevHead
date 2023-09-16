@@ -3,19 +3,23 @@ import { db } from "../db.server";
 
 export class User {
 	static async getUserById(id: string) {
-		if (!id) return null;
-
 		try {
 			const result = await db.query(
 				`SELECT id, image_url FROM users WHERE id = $1`,
 				[id]
 			);
 
+			if (!result.rows[0]) {
+				return {
+					message: `Error getting user with id: ${id}}`,
+				};
+			}
+
 			return result.rows[0];
 		} catch (error) {
-			return json({
+			return {
 				message: `Error getting user with id: ${id}, ERROR: ${error}`,
-			});
+			};
 		}
 	}
 
@@ -36,11 +40,22 @@ export class User {
 			);
 
 			const user = result.rows[0];
+
+			console.log("USSER", user);
+
+			if (!user) {
+				return {
+					message: `Error getting user Profile with id: ${id}`,
+					status: 500,
+				};
+			}
+
 			return user;
 		} catch (error) {
-			return json({
+			return {
 				message: `Error getting user Profile with id: ${id}, ERROR: ${error}`,
-			});
+				status: 500,
+			};
 		}
 	}
 

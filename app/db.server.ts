@@ -3,7 +3,7 @@ import { Pool } from "pg";
 
 const connectionString =
 	process.env.NODE_ENV === "test"
-		? "devhead_test"
+		? "postgres://@localhost:5432/devhead_test"
 		: process.env.LIVE_DATABASE_URL;
 
 const config: PoolConfig = {

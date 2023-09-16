@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { User } from "../models/users";
 import { useUser } from "@clerk/remix";
 import { useEffect } from "react";
-import Blob from "../components/Blob";
+import Blob from "../components/utility/Blob";
 import type { UserData, Users } from "../types";
 import UserCard from "~/components/UserCard";
 

@@ -10,7 +10,6 @@ export class Skills {
        		 	VALUES ($1, $2)`,
 				[userId, skill]
 			);
-
 			return { success: true };
 		} catch (error) {
 			return json({

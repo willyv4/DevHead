@@ -1,12 +1,12 @@
 import { useUser } from "@clerk/remix";
 import { useEffect } from "react";
-import CommentSlider from "~/components/user-view/CommentSlider";
+import CommentSlider from "~/components/comment/CommentSlider";
 import Posts from "~/models/posts";
-import Blob from "../components/Blob";
+import Blob from "../components/utility/Blob";
 import type { LoaderFunction } from "@remix-run/node";
 import { useLoaderData, useNavigate } from "@remix-run/react";
 import type { UserProject } from "~/types";
-import ProjectCard from "~/components/ProjectCard";
+import ProjectCard from "~/components/projects/ProjectCard";
 import useCommentView from "~/hooks/useCommentView";
 
 export const loader: LoaderFunction = async () => {
