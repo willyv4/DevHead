@@ -11,7 +11,6 @@ function useImageUpload() {
 	async function uploadFileToServer(file: File | null) {
 		if (file !== null) {
 			try {
-				// console.log("Valid File:", file);
 				const formData = new FormData();
 				formData.append("file", file);
 

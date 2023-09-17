@@ -18,7 +18,6 @@ async function commonBeforeAll() {
             ('5', 'user5@example.com', 'UI/UX Designer', 'Creating beautiful interfaces.', 'NY', 'David', 'Brown');
     `);
 
-	// Insert portfolio posts
 	await db.query(`
         INSERT INTO portfolio_posts (user_id, title, description)
         VALUES

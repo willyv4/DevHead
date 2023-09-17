@@ -3,7 +3,8 @@
 		"remix.env.d.ts",
 		"**/*.ts",
 		"**/*.tsx",
-		"app/routes/user.view.$userid.comments.$id.tsx"
+		"app/routes/user.view.$userid.comments.$id.tsx",
+		"app/comp-tests/Home.test.js"
 	],
 	"compilerOptions": {
 		"lib": ["DOM", "DOM.Iterable", "ES2019"],

@@ -34,7 +34,7 @@ export const loader: LoaderFunction = (args) => {
 			const user = await User.getUserById(userId ?? "");
 			let currUser = {};
 			if (user && user) currUser = user;
-			// console.log("Root loader auth:", { userId, sessionId, getToken });
+			// ("Root loader auth:", { userId, sessionId, getToken });
 			return { currUser: currUser, userId: userId };
 		},
 		{

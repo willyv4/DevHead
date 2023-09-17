@@ -1,11 +1,9 @@
-import { json } from "@remix-run/node";
-import { db } from "~/db.server";
+import { db } from "../db.server";
 
 export default class Posts {
 	static async getUserProjectsById(id: string | number) {
-		try {
-			const result = await db.query(
-				`
+		const result = await db.query(
+			`
     		SELECT pp.*,
     			COUNT(pc.id) AS comment_count,
     			ARRAY(
@@ -20,13 +18,10 @@ export default class Posts {
 			GROUP BY pp.id
 			ORDER BY pp.id ASC;
     	`,
-				[id]
-			);
+			[id]
+		);
 
-			return result.rows;
-		} catch (error) {
-			return [];
-		}
+		return result.rows;
 	}
 
 	static async addUserProject(
@@ -36,17 +31,13 @@ export default class Posts {
 		projectLiveLink: string,
 		projectCodeLink: string
 	) {
-		try {
-			await db.query(
-				`INSERT INTO portfolio_posts
+		await db.query(
+			`INSERT INTO portfolio_posts
      			(user_id, image_url, title, code_link, live_link)
      			VALUES ($1, $2, $3, $4, $5)`,
-				[userId, projectImage, projectTitle, projectLiveLink, projectCodeLink]
-			);
-			return json({ success: true });
-		} catch (error) {
-			return json({ success: false });
-		}
+			[userId, projectImage, projectTitle, projectLiveLink, projectCodeLink]
+		);
+		return { success: true };
 	}
 
 	static async updateUserProject(
@@ -57,47 +48,38 @@ export default class Posts {
 		projectCodeLink: string,
 		projectLiveLink: string
 	) {
-		try {
-			await db.query(
-				`UPDATE portfolio_posts
+		await db.query(
+			`UPDATE portfolio_posts
      		SET user_id = $2,
          	image_url = $3,
          	title = $4,
          	code_link = $5,
          	live_link = $6
      		WHERE id = $1`,
-				[
-					projectId,
-					userId,
-					projectImage,
-					projectTitle,
-					projectCodeLink,
-					projectLiveLink,
-				]
-			);
-			return { success: true };
-		} catch (error) {
-			return json({ message: `Error updating projects - error: ${error}` });
-		}
+			[
+				projectId,
+				userId,
+				projectImage,
+				projectTitle,
+				projectCodeLink,
+				projectLiveLink,
+			]
+		);
+		return { success: true };
 	}
 
 	static async deleteProjectById(id: number) {
-		try {
-			await db.query(
-				`DELETE
+		await db.query(
+			`DELETE
             FROM portfolio_posts
             WHERE id = $1`,
-				[id]
-			);
-			return json({ deleted: true });
-		} catch (error) {
-			return json({ message: `Error deleting projects - error: ${error}` });
-		}
+			[id]
+		);
+		return { deleted: true };
 	}
 
 	static async getAllUserProjects() {
-		try {
-			const result = await db.query(`
+		const result = await db.query(`
         		SELECT
             		pp.*,
             		u.first_name AS author_first_name,
@@ -113,11 +95,6 @@ export default class Posts {
         		LEFT JOIN users u ON pp.user_id = u.id
         		GROUP BY pp.id, author_first_name, author_last_name;`);
 
-			return result.rows;
-		} catch (error) {
-			return json({
-				message: `Error getting all user projects - error: ${error}`,
-			});
-		}
+		return result.rows;
 	}
 }
