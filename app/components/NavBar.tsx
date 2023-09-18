@@ -1,5 +1,5 @@
 import { SignedIn, SignedOut, SignOutButton } from "@clerk/remix";
-import { Link, useNavigate, useNavigation } from "@remix-run/react";
+import { Link, NavLink, useNavigate, useNavigation } from "@remix-run/react";
 import logo from "../../public/devhead_logo.png";
 import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
@@ -28,6 +28,7 @@ const NavBar = ({ currUser, userId }: any) => {
 	}, [isSignedOut, navigate]);
 
 	const textState = (text: string) => {
+		// navigation.location?.pathname;
 		return isClicked === text &&
 			(navigation.state === "submitting" || navigation.state === "loading")
 			? "Loading..."
@@ -59,26 +60,31 @@ const NavBar = ({ currUser, userId }: any) => {
 							<div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
 								<div className="hidden sm:ml-6 sm:block">
 									<div className="flex space-x-4">
-										<Link to="/" prefetch="render">
+										<NavLink to="/" prefetch="render">
 											<img src={logo} width="32" height="32" alt="Logo" />
-										</Link>
+										</NavLink>
 										<SignedIn>
-											<Link
+											<NavLink
 												to="/users"
 												prefetch="render"
 												onClick={() => setIsClicked("Devs")}
-												className="bg-gray-900/10 text-white rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-800/90"
+												className={(p) =>
+													"bg-gray-900/10 text-white rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-800/90"
+												}
 											>
-												{textState("Devs")}
-											</Link>
-											<Link
+												{(p) => {
+													return p.isPending ? "loading..." : "Devs";
+													// {textState("Devs")}
+												}}
+											</NavLink>
+											<NavLink
 												to="/posts"
 												prefetch="render"
 												onClick={() => setIsClicked("Posts")}
 												className="bg-gray-900/10 text-white rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-800/90"
 											>
 												{textState("Posts")}
-											</Link>
+											</NavLink>
 										</SignedIn>
 									</div>
 								</div>

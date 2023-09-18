@@ -119,7 +119,7 @@ describe("User.addUser", () => {
 	});
 
 	test("should return the existing user if user with the same id already exists", async () => {
-		const userId = "1"; // An existing user id
+		const userId = "1";
 
 		const existingUser = await User.addUser(
 			userId,
@@ -136,7 +136,7 @@ describe("User.addUser", () => {
 
 describe("User.updateUser", () => {
 	test("should update an existing user with valid input", async () => {
-		const userId = "1"; // An existing user id
+		const userId = "1";
 		const updatedFirstName = "Updated First Name";
 		const updatedLastName = "Updated Last Name";
 		const updatedEmail = "updated@example.com";
@@ -180,7 +180,7 @@ describe("User.updateUser", () => {
 
 describe("User.connectLeetcode", () => {
 	test("should return success: true when a valid LeetCode username is provided", async () => {
-		const userId = "1"; // An existing user id
+		const userId = "1";
 		const leetcodeUsername = "testLeetCodeUsername";
 
 		const result = await User.connectLeetcode(userId, leetcodeUsername);
@@ -190,7 +190,7 @@ describe("User.connectLeetcode", () => {
 	});
 
 	test("should return success: false when a null LeetCode username is provided", async () => {
-		const userId = "1"; // An existing user id
+		const userId = "1";
 		const leetcodeUsername = null;
 
 		const result = await User.connectLeetcode(userId, leetcodeUsername);
@@ -202,7 +202,7 @@ describe("User.connectLeetcode", () => {
 
 describe("User.connectGithub", () => {
 	test("should return success: true when a valid GitHub username is provided", async () => {
-		const userId = "1"; // An existing user id
+		const userId = "1";
 		const githubUsername = "testGithubUsername";
 
 		const result = await User.connectGithub(userId, githubUsername);
@@ -212,7 +212,7 @@ describe("User.connectGithub", () => {
 	});
 
 	test("should return success: false when a null GitHub username is provided", async () => {
-		const userId = "1"; // An existing user id
+		const userId = "1";
 		const githubUsername = null;
 
 		const result = await User.connectGithub(userId, githubUsername);
@@ -224,7 +224,7 @@ describe("User.connectGithub", () => {
 
 describe("User.addUserBio", () => {
 	test("should return success: true when a valid user bio is provided", async () => {
-		const userId = "1"; // An existing user id
+		const userId = "1";
 		const userBio = "This is my bio.";
 
 		const result = await User.addUserBio(userId, userBio);
@@ -234,7 +234,7 @@ describe("User.addUserBio", () => {
 	});
 
 	test("should return success: false when a null user bio is provided", async () => {
-		const userId = "1"; // An existing user id
+		const userId = "1";
 		const userBio = null;
 
 		const result = await User.addUserBio(userId, userBio);
@@ -246,7 +246,7 @@ describe("User.addUserBio", () => {
 
 describe("User.remove", () => {
 	test("should return { deleted: true } when a valid user id is provided", async () => {
-		const userId = "1"; // An existing user id
+		const userId = "1";
 
 		const result = await User.remove(userId);
 

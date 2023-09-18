@@ -2,7 +2,7 @@ import Posts from "./posts";
 
 describe("Posts.getUserProjectsById", () => {
 	test("should return an array of user projects when a valid user id is provided", async () => {
-		const userId = "1"; // An existing user id
+		const userId = "1"; 
 
 		const userProjects = await Posts.getUserProjectsById(userId);
 
@@ -11,7 +11,7 @@ describe("Posts.getUserProjectsById", () => {
 	});
 
 	test("should return an empty array when an invalid user id is provided", async () => {
-		const invalidUserId = "invalidId"; // An invalid user id
+		const invalidUserId = "invalidId";
 
 		const userProjects = await Posts.getUserProjectsById(invalidUserId);
 
@@ -22,7 +22,7 @@ describe("Posts.getUserProjectsById", () => {
 
 describe("Posts.addUserProject", () => {
 	test("should return { success: true } when adding a user project", async () => {
-		const userId = "1"; // An existing user id
+		const userId = "1"; 
 		const projectImage = "projectImage.jpg";
 		const projectTitle = "Project Title";
 		const projectLiveLink = "https://example.com/live";
@@ -43,8 +43,8 @@ describe("Posts.addUserProject", () => {
 
 describe("Posts.updateUserProject", () => {
 	test("should return { success: true } when updating a user project by its ID", async () => {
-		const projectId = 1; // An existing project ID
-		const userId = "1"; // An existing user id
+		const projectId = 1; 
+		const userId = "1"; 
 		const projectImage = "updatedImage.jpg";
 		const projectTitle = "Updated Title";
 		const projectLiveLink = "https://updated.com/live";
@@ -66,7 +66,7 @@ describe("Posts.updateUserProject", () => {
 
 describe("Posts.deleteProjectById", () => {
 	test("should return { deleted: true } when deleting a project by its ID", async () => {
-		const projectId = 1; // An existing project ID
+		const projectId = 1;
 
 		const result = await Posts.deleteProjectById(projectId);
 

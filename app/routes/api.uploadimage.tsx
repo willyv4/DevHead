@@ -31,3 +31,5 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		return json({ error: `File upload failed: ${error}`, status: 500 });
 	}
 };
+
+// PUT or POST at /images:upload

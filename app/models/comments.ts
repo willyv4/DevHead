@@ -1,5 +1,34 @@
 import { db } from "../db.server";
 
+interface Comment {
+	comment_id: number;
+	author_first_name: string;
+	author_last_name: string;
+	author_image_url: string;
+	comment: string;
+	user_id: string;
+}
+
+export function isComment(data: any): data is Comment {
+	if ("comment_id" in data) {
+		return true;
+	}
+	return false;
+}
+interface CommentsRespose {
+	comments: Comment[];
+}
+function isCommentsResponse(data: any): data is CommentsRespose {
+	if (
+		"comments" in data &&
+		Array.isArray(data.comments) &&
+		"comment_id" in data.comments[0]
+	) {
+		return true;
+	}
+	return false;
+}
+
 export class Comments {
 	static async addComment(userId: string, postId: number, comment: string) {
 		await db.query(
@@ -30,7 +59,12 @@ export class Comments {
 					WHERE pc.post_id = $1;`,
 			[postId]
 		);
-		return res.rows[0];
+		let data = res.rows[0];
+		if (isCommentsResponse(data)) {
+			return data;
+		}
+		return { comments: [] };
+		// return res.rows[0];
 	}
 
 	static async deleteComment(commentId: number) {

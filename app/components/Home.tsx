@@ -5,27 +5,27 @@ import screenshot from "../../public/screen_shot.png";
 import GitHubIcon from "./utility/icon-components/GitHubIcon";
 import LeetCodeIcon from "./utility/icon-components/LeetCodeIcon";
 
+const features = [
+	{
+		name: "Share Projects/Contributions",
+		description:
+			"Join the DevHead community and proudly share your coding achievements. Post your projects, share code links, and showcase live websites. Be inspired as you explore and contribute to others' projects!",
+		icon: ComputerDesktopIcon,
+	},
+	{
+		name: "Connect LeetCode",
+		description:
+			"Why say you have coding skills when you can show it? Link your LeetCode profile and showcase your problem-solving abilities with an overview of your LeetCode stats.",
+		icon: LeetCodeIcon,
+	},
+	{
+		name: "Connect GitHub",
+		description:
+			"Link your GitHub account and showcase your programming expertise with an overview of your GitHub statistics and contributions.",
+		icon: GitHubIcon,
+	},
+];
 const Home = () => {
-	const features = [
-		{
-			name: "Share Projects/Contributions",
-			description:
-				"Join the DevHead community and proudly share your coding achievements. Post your projects, share code links, and showcase live websites. Be inspired as you explore and contribute to others' projects!",
-			icon: ComputerDesktopIcon,
-		},
-		{
-			name: "Connect LeetCode",
-			description:
-				"Why say you have coding skills when you can show it? Link your LeetCode profile and showcase your problem-solving abilities with an overview of your LeetCode stats.",
-			icon: LeetCodeIcon,
-		},
-		{
-			name: "Connect GitHub",
-			description:
-				"Link your GitHub account and showcase your programming expertise with an overview of your GitHub statistics and contributions.",
-			icon: GitHubIcon,
-		},
-	];
 	return (
 		<div className="bg-gray-900">
 			<div className="relative isolate pt-14">

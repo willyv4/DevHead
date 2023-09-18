@@ -1,5 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 
+// github-users/...
 export const loader: LoaderFunction = async ({ params }) => {
 	const username = params["githubusername"];
 	const token = process.env.GITHUB_API_TOKEN;

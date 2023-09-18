@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { UserData } from "~/types";
 
 const UserCard = ({ user }: { user: UserData }) => {
-	const [isClicked, setIsClicked] = useState<string>("");
+	const [isClicked, setIsClicked] = useState("");
 	const navigation = useNavigation();
 
 	function renderLinkState() {

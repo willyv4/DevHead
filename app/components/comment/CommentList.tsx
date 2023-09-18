@@ -1,6 +1,10 @@
 import DeleteCommentForm from "./DeleteCommentForm";
 
-const CommentList = ({ comments, userId }: any) => {
+interface Props {
+	comments: Comment[];
+	userId: string | number;
+}
+const CommentList: React.FC<Props> = ({ comments, userId }) => {
 	return (
 		<div className="pl-4 py-2">
 			<div className="mt-10">
