@@ -1,4 +1,5 @@
 import { useLoaderData, useNavigate } from "@remix-run/react";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { User } from "../models/users";
 import { useUser } from "@clerk/remix";
@@ -7,7 +8,7 @@ import Blob from "../components/utility/Blob";
 import type { UserData, Users } from "../types";
 import UserCard from "~/components/UserCard";
 
-export const loader = async () => {
+export const loader = async ({ params }: LoaderArgs) => {
 	const users = await User.getUserOverviews();
 	return json({ users });
 };

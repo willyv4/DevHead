@@ -1,6 +1,6 @@
 import type { ActionArgs, ActionFunction } from "@remix-run/node";
 import { json } from "react-router";
-import { Skills } from "~/models/skills";
+import { Skills } from "../models/skills";
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
 	try {

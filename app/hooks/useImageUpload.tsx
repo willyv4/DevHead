@@ -17,7 +17,7 @@ function useImageUpload() {
 				// const url = "http://localhost:3000/";
 				const url = "https://dev-head-willyv4.vercel.app/";
 
-				const response = await fetch(`${url}${"api/uploadimage"}`, {
+				const response = await fetch(`${url}api/images/upload`, {
 					method: "POST",
 					body: formData,
 				});

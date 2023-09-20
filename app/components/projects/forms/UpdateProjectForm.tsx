@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Alert from "~/components/utility/Alert";
 import { useFormClear } from "~/hooks/useFormClear";
 import useImageUpload from "~/hooks/useImageUpload";
+import Input from "../../utility/Input";
 
 type Project = {
 	id: string | number;
@@ -135,45 +136,33 @@ const ProjectUpdateForm: React.FC<Props> = ({ userId, project, setOpen }) => {
 					required
 				/>
 
-				<div className="relative mt-4 mb-4">
-					<label className="absolute -top-2 left-2 inline-block bg-gray-700 px-1 text-xs font-medium text-gray-300">
-						Project Title
-					</label>
-					<input
-						required
-						value={formData.projectTitle}
-						onChange={handleInputChange}
-						type="text"
-						name="projectTitle"
-						className="pl-2 bg-gray-700 block w-full rounded-md border-0 py-1.5 text-gray-300 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-1 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-					/>
-				</div>
-				<div className="relative mt-4 mb-4">
-					<label className="absolute -top-2 left-2 inline-block bg-gray-700 px-1 text-xs font-medium text-gray-300">
-						Project Live Link
-					</label>
-					<input
-						required
-						value={formData.projectLiveLink}
-						onChange={handleInputChange}
-						type="text"
-						name="projectLiveLink"
-						className="pl-2 bg-gray-700 block w-full rounded-md border-0 py-1.5 text-gray-300 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-1 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-					/>
-				</div>
-				<div className="relative mt-4 mb-4">
-					<label className="absolute -top-2 left-2 inline-block bg-gray-700 px-1 text-xs font-medium text-gray-300">
-						Project Code Link
-					</label>
-					<input
-						required
-						value={formData.projectCodeLink}
-						onChange={handleInputChange}
-						type="text"
-						name="projectCodeLink"
-						className="pl-2 bg-gray-700 block w-full rounded-md border-0 py-1.5 text-gray-300 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-1 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-					/>
-				</div>
+				<Input
+					id={undefined}
+					type="text"
+					name="projectTitle"
+					placeholder={undefined}
+					onChange={handleInputChange}
+					value={formData.projectTitle}
+					title="Project Title"
+				/>
+				<Input
+					id={undefined}
+					type="text"
+					name="projectLiveLink"
+					placeholder={undefined}
+					value={formData.projectLiveLink}
+					onChange={handleInputChange}
+					title="Project Live Link"
+				/>
+				<Input
+					id={undefined}
+					type="text"
+					name="projectCodeLink"
+					placeholder={undefined}
+					value={formData.projectCodeLink}
+					onChange={handleInputChange}
+					title="Project Code Link"
+				/>
 
 				{!formData.imageUrl ? (
 					<div

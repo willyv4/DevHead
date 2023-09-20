@@ -34,8 +34,8 @@ export default function UserProfile() {
 	const { userid } = useParams();
 
 	useEffect(() => {
-		if (!isSignedIn) return navigate("/");
-	}, [navigate, isSignedIn]);
+		if (!isSignedIn || userid !== userProfile.id) return navigate("/");
+	}, [navigate, isSignedIn, userid, userProfile.id]);
 
 	const userBio: string | null = userProfile?.about ?? "";
 
@@ -54,7 +54,6 @@ export default function UserProfile() {
 					leetcodeUsername={userProfile?.leetcode_username}
 					userId={userid}
 				/>
-				{/* Comments Flyout Drawer ...props */}
 			</div>
 		</div>
 	);

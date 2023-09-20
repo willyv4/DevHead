@@ -8,7 +8,7 @@ module.exports = {
 		v2_normalizeFormMethod: true,
 		v2_routeConvention: true,
 	},
-	ignoredRouteFiles: [".*", "**/__tests__/**"],
+	ignoredRouteFiles: [".*", "**/route_tests/**"],
 	// ignoredRouteFiles: ["**/.*"],
 	serverModuleFormat: "cjs",
 	tailwind: true,

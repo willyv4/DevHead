@@ -1,4 +1,3 @@
-import { json } from "react-router";
 import { db } from "~/db.server";
 
 export class Likes {
@@ -11,11 +10,11 @@ export class Likes {
 				[postId, userId]
 			);
 
-			return json({ success: true });
+			return { success: true };
 		} catch (error) {
-			return json({
+			return {
 				message: `Error adding like with userid: ${userId} and postId: ${postId} ERROR: ${error}`,
-			});
+			};
 		}
 	}
 
@@ -28,9 +27,9 @@ export class Likes {
 
 			return { success: true };
 		} catch (error) {
-			return json({
+			return {
 				message: `Error removing like with userid: ${userId} and postId: ${projectId} ERROR: ${error}`,
-			});
+			};
 		}
 	}
 
@@ -45,9 +44,9 @@ export class Likes {
 
 			return arr;
 		} catch (error) {
-			return json({
+			return {
 				message: `Error getting likes with userid: ${userId} ERROR: ${error}`,
-			});
+			};
 		}
 	}
 }

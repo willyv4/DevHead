@@ -2,6 +2,10 @@ import type { ActionArgs, ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
+	if (request.method !== "POST") {
+		return json({ error: `Invalid Method`, status: 500 });
+	}
+
 	try {
 		const api_key: string = process.env.CLOUDINARY_API_KEY || "";
 		const formData = await request.formData();
@@ -31,5 +35,3 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 		return json({ error: `File upload failed: ${error}`, status: 500 });
 	}
 };
-
-// PUT or POST at /images:upload

@@ -12,10 +12,12 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 	const bioPut = useFetcher();
 	const [buttonClicked, setButtonClicked] = useState(false);
 
-	function renderTextState(text: string) {
+	function renderTextState() {
 		return bioPut.state === "submitting" || bioPut.state === "loading"
 			? "Proccessing..."
-			: text;
+			: !userBio
+			? "Add Bio"
+			: "Edit";
 	}
 
 	return !buttonClicked ? (
@@ -30,14 +32,8 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 						type="submit"
 						className="flex flex-row rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
 					>
-						{!userBio ? (
-							<>{renderTextState("Add Bio")}</>
-						) : (
-							<>
-								{renderTextState("Edit")}{" "}
-								<PencilIcon className="h-4 w-4 ml-2 mt-[2px]" />
-							</>
-						)}
+						{renderTextState()}
+						<PencilIcon className="h-4 w-4 ml-2 mt-[2px]" />
 					</button>
 				</div>
 			</div>

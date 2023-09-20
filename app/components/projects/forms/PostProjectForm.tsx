@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Alert from "~/components/utility/Alert";
 import { useFormClear } from "~/hooks/useFormClear";
 import useImageUpload from "~/hooks/useImageUpload";
+import Input from "../../utility/Input";
 
 const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 	const projectPost = useFetcher();
@@ -83,7 +84,7 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 										<p className="pl-1">
 											{isDragActive ? "Drop file here..." : "or drag and drop"}
 										</p>
-										<p className="text-sm">PNG, JPG, GIF up to 10MB</p>
+										<p className="text-sm">PNG, JPG up to 10MB</p>
 									</>
 								)}
 							</div>
@@ -91,43 +92,34 @@ const ProjectForm = ({ userId }: { userId: string | undefined }) => {
 					</div>
 				)}
 
-				<div className="relative mt-4 mb-4">
-					<label className="absolute -top-2 left-2 inline-block bg-gray-700 px-1 text-xs font-medium text-gray-300">
-						Project Title
-					</label>
-					<input
-						required
-						id="file-upload"
-						type="text"
-						name="projectTitle"
-						placeholder="Devhead"
-						className="pl-2 bg-gray-700 block w-full rounded-md border-0 py-1.5 text-gray-300 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-1 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-					/>
-				</div>
-				<div className="relative mt-4 mb-4">
-					<label className="absolute -top-2 left-2 inline-block bg-gray-700 px-1 text-xs font-medium text-gray-300">
-						Project Live Link
-					</label>
-					<input
-						required
-						type="text"
-						name="projectLiveLink"
-						placeholder="https://devhead.com"
-						className="pl-2 bg-gray-700 block w-full rounded-md border-0 py-1.5 text-gray-300 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-1 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-					/>
-				</div>
-				<div className="relative mt-4 mb-4">
-					<label className="absolute -top-2 left-2 inline-block bg-gray-700 px-1 text-xs font-medium text-gray-300">
-						Project Code Link
-					</label>
-					<input
-						required
-						type="text"
-						name="projectCodeLink"
-						placeholder="https://github.com/user/devhead"
-						className="pl-2 bg-gray-700 block w-full rounded-md border-0 py-1.5 text-gray-300 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-1 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-					/>
-				</div>
+				<Input
+					id={"file-upload"}
+					type={"text"}
+					name={"projectTitle"}
+					placeholder={"Devhead"}
+					title="Project Title"
+					value={undefined}
+					onChange={undefined}
+				/>
+				<Input
+					id={undefined}
+					type="text"
+					name="projectLiveLink"
+					placeholder="https://devhead.com"
+					title="Project Live Link"
+					value={undefined}
+					onChange={undefined}
+				/>
+				<Input
+					id={undefined}
+					type="text"
+					name="projectCodeLink"
+					placeholder="https://github.com/user/devhead"
+					title="Project Code Link"
+					value={undefined}
+					onChange={undefined}
+				/>
+
 				{!image ? (
 					<div
 						className="text-center w-full rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"

@@ -45,8 +45,10 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 				userId.toString(),
 				leetcodeUsername.toString()
 			);
-			return json({ success: true, status: 200 });
+			return json({ success: true, status: 201 });
 		}
+
+		return json({ success: false, status: 500 });
 	} catch (error) {
 		return json({ success: false, status: 500, error: error });
 	}

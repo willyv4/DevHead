@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Alert from "~/components/utility/Alert";
 import useImageUpload from "~/hooks/useImageUpload";
 import type { UserProfile } from "../../../types";
+import Input from "../../utility/Input";
 
 type Props = {
 	userProfile: UserProfile;
@@ -124,61 +125,43 @@ const ProfileUpdateForm: React.FC<Props> = ({ userProfile, setOpen }) => {
 					name="userImage"
 				/>
 				<input defaultValue={userProfile.id} type="hidden" name="userId" />
-				<div className="relative mt-4 mb-4">
-					<label className="absolute -top-2 left-2 inline-block bg-gray-700 px-1 text-xs font-medium text-gray-300">
-						First Name
-					</label>
-					<input
-						required
-						value={formData.firstName || ""}
-						onChange={handleInputChange}
-						type="text"
-						name="firstName"
-						className="pl-2 bg-gray-700 block w-full rounded-md border-0 py-1.5 text-gray-300 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-1 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-					/>
-				</div>
+				<Input
+					id={undefined}
+					value={formData.firstName || ""}
+					onChange={handleInputChange}
+					type="text"
+					name="firstName"
+					title="First Name"
+					placeholder={undefined}
+				/>
+				<Input
+					id={undefined}
+					value={formData.lastName || ""}
+					onChange={handleInputChange}
+					type="text"
+					name="lastName"
+					title="Last Name"
+					placeholder={undefined}
+				/>
+				<Input
+					id={undefined}
+					value={formData.userEmail || ""}
+					onChange={handleInputChange}
+					type="text"
+					name="userEmail"
+					title="Email"
+					placeholder={undefined}
+				/>
+				<Input
+					id={undefined}
+					value={formData.profileTitle || ""}
+					onChange={handleInputChange}
+					type="text"
+					name="profileTitle"
+					title="Title"
+					placeholder={"Software Engineer"}
+				/>
 
-				<div className="relative mt-4 mb-4">
-					<label className="absolute -top-2 left-2 inline-block bg-gray-700 px-1 text-xs font-medium text-gray-300">
-						Last Name
-					</label>
-					<input
-						required
-						value={formData.lastName || ""}
-						onChange={handleInputChange}
-						type="text"
-						name="lastName"
-						className="pl-2 bg-gray-700 block w-full rounded-md border-0 py-1.5 text-gray-300 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-1 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-					/>
-				</div>
-
-				<div className="relative mt-4 mb-4">
-					<label className="absolute -top-2 left-2 inline-block bg-gray-700 px-1 text-xs font-medium text-gray-300">
-						Email
-					</label>
-					<input
-						required
-						value={formData.userEmail || ""}
-						onChange={handleInputChange}
-						type="text"
-						name="userEmail"
-						className="pl-2 bg-gray-700 block w-full rounded-md border-0 py-1.5 text-gray-300 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-1 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-					/>
-				</div>
-				<div className="relative mt-4 mb-4">
-					<label className="absolute -top-2 left-2 inline-block bg-gray-700 px-1 text-xs font-medium text-gray-300">
-						Title
-					</label>
-					<input
-						required
-						value={formData.profileTitle || ""}
-						onChange={handleInputChange}
-						type="text"
-						name="profileTitle"
-						placeholder="Software Engineer"
-						className="pl-2 bg-gray-700 block w-full rounded-md border-0 py-1.5 text-gray-300 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-1 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-					/>
-				</div>
 				{!formData.userImage ? (
 					<div
 						className="text-center w-full rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"

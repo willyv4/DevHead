@@ -41,6 +41,4 @@ describe("Loader Function", () => {
 		expect(response).toHaveProperty("stats");
 		expect(response).toHaveProperty("language");
 	});
-
-	// Add more test cases for different scenarios, such as missing token, error responses, etc.
 });

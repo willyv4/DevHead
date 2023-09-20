@@ -4,6 +4,7 @@
 		"**/*.ts",
 		"**/*.tsx",
 		"app/routes/user.view.$userid.comments.$id.tsx",
+		"app/routes/api.images.upload.tsx",
 		"app/comp-tests/Home.test.js"
 	],
 	"compilerOptions": {
