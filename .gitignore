@@ -6,7 +6,9 @@ node_modules
 .env
 .env.test
 
+
 /coverage
+/coverage/Icov_report
 
 .vercel
 .output
