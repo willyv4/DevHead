@@ -1,12 +1,20 @@
 import { Comments } from "./comments";
 import Posts from "./posts";
+import {
+	commonBeforeAll,
+	commonBeforeEach,
+	commonAfterEach,
+} from "./_testCommon";
+
+beforeAll(commonBeforeAll);
+beforeEach(commonBeforeEach);
+afterEach(commonAfterEach);
 
 let postId: number;
 
 beforeAll(async () => {
 	const userProjects = await Posts.getUserProjectsById("1");
 
-	console.log(userProjects);
 	postId = userProjects[0].id || userProjects[1].id;
 });
 

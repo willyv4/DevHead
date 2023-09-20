@@ -7,7 +7,8 @@ function useGitHubFetcher(githubUsername: string | null) {
 	const stats = gitHubFetcher.data?.stats;
 
 	useEffect(() => {
-		if (githubUsername) gitHubFetcher.load(`/api/github/${githubUsername}`);
+		if (githubUsername)
+			gitHubFetcher.load(`/api/github-users/${githubUsername}`);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [githubUsername]);
 

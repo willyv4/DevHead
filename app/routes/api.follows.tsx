@@ -1,6 +1,6 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Follows } from "~/models/follows";
+import { Follows } from "../models/follows";
 
 export const action: ActionFunction = async ({ request }) => {
 	const formData = await request.formData();

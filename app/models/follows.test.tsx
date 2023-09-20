@@ -1,4 +1,13 @@
 import { Follows } from "./follows";
+import {
+	commonBeforeAll,
+	commonBeforeEach,
+	commonAfterEach,
+} from "./_testCommon";
+
+beforeAll(commonBeforeAll);
+beforeEach(commonBeforeEach);
+afterEach(commonAfterEach);
 
 describe("Follows.addFollow", () => {
 	test("should return { success: true } when adding a follow", async () => {

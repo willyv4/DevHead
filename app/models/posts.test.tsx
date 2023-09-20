@@ -1,8 +1,17 @@
 import Posts from "./posts";
+import {
+	commonBeforeAll,
+	commonBeforeEach,
+	commonAfterEach,
+} from "./_testCommon";
+
+beforeAll(commonBeforeAll);
+beforeEach(commonBeforeEach);
+afterEach(commonAfterEach);
 
 describe("Posts.getUserProjectsById", () => {
 	test("should return an array of user projects when a valid user id is provided", async () => {
-		const userId = "1"; 
+		const userId = "1";
 
 		const userProjects = await Posts.getUserProjectsById(userId);
 
@@ -22,7 +31,7 @@ describe("Posts.getUserProjectsById", () => {
 
 describe("Posts.addUserProject", () => {
 	test("should return { success: true } when adding a user project", async () => {
-		const userId = "1"; 
+		const userId = "1";
 		const projectImage = "projectImage.jpg";
 		const projectTitle = "Project Title";
 		const projectLiveLink = "https://example.com/live";
@@ -43,8 +52,8 @@ describe("Posts.addUserProject", () => {
 
 describe("Posts.updateUserProject", () => {
 	test("should return { success: true } when updating a user project by its ID", async () => {
-		const projectId = 1; 
-		const userId = "1"; 
+		const projectId = 1;
+		const userId = "1";
 		const projectImage = "updatedImage.jpg";
 		const projectTitle = "Updated Title";
 		const projectLiveLink = "https://updated.com/live";

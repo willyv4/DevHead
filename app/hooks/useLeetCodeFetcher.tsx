@@ -8,7 +8,7 @@ const useLeetCodeFetcher = (leetcodeUsername: string | null) => {
 
 	useEffect(() => {
 		if (leetcodeUsername) {
-			leetFetcher.load(`/api/leetcodedata/${leetcodeUsername}`);
+			leetFetcher.load(`/api/leetcode-users/${leetcodeUsername}`);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [leetcodeUsername]);

@@ -16,6 +16,8 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 			await Likes.addLike(userId.toString(), Number(projectId));
 			return json({ success: true, status: 201 });
 		}
+
+		return json({ success: false, status: 500 });
 	} catch (error) {
 		return json({ success: false, status: 500, error: error });
 	}
