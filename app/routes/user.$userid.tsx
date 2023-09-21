@@ -49,7 +49,7 @@ export default function UserProfile() {
 			userProjects.length > 0 &&
 			userProfile.about
 		) {
-			console.log(true);
+			setShow(false);
 		} else {
 			setMessage(
 				"your profile will be searchable by other users when your profile is complete."
