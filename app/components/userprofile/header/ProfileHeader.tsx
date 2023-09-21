@@ -30,7 +30,7 @@ const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
 				<div className="-mt-36 sm:flex sm:items-end sm:space-x-5">
 					<div className="flex">
 						<img
-							className="object-cover h-24 w-24 rounded-full ring-4 ring-gray-900 sm:h-32 sm:w-32"
+							className="object-cover h-24 w-24 rounded-full sm:h-32 sm:w-32"
 							src={
 								userProfile?.image_url
 									? userProfile?.image_url

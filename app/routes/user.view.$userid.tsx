@@ -38,8 +38,8 @@ export default function UserProfile() {
 
 	if (userProfile && user?.id) {
 		return (
-			<div className="pt-28 sm:px-10 px-4">
-				<div className="rounded-2xl ring-1 ring-gray-950 mt-10">
+			<div className="pt-28 sm:px-10 px-4 lg:px-36">
+				<div className="rounded-2xl ring-1 ring-gray-950/40 shadow-md shadow-gray-950">
 					<Header userProfile={userProfile} userId={user?.id} />
 					<BioView userBio={userProfile.about} />
 					<SkillView userSkills={userSkills} />

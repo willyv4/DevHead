@@ -13,7 +13,7 @@ type Props = {
 };
 
 const LeetCodeProfileView: React.FC<Props> = ({ leetcodeUsername, userId }) => {
-	const [stats] = useLeetCodeFetcher(leetcodeUsername);
+	const [stats, leetFetcher] = useLeetCodeFetcher(leetcodeUsername);
 	const [leetCodeOpen, setLeetCodeOpen] = useState<boolean>(false);
 
 	const LeetCodeModal = (
@@ -25,7 +25,7 @@ const LeetCodeProfileView: React.FC<Props> = ({ leetcodeUsername, userId }) => {
 		</button>
 	);
 
-	if (!stats)
+	if (!leetFetcher.data)
 		return (
 			<div className="my-96 sm:my-32">
 				<EmptyStatus

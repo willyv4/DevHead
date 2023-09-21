@@ -40,7 +40,7 @@ export default function UserProfile() {
 	const userBio: string | null = userProfile?.about ?? "";
 
 	return (
-		<div className="pt-28 sm:px-10 px-4">
+		<div className="pt-28 sm:px-10 px-4 lg:px-36">
 			<div className="rounded-2xl ring-1 ring-gray-950/40 shadow-md shadow-gray-950">
 				<ProfileHeader userProfile={userProfile} />
 				<BioSection userId={userProfile?.id} userBio={userBio} />

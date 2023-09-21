@@ -1,6 +1,6 @@
-import { SignedIn } from "@clerk/remix";
+import { SignedIn, SignedOut } from "@clerk/remix";
 import { ComputerDesktopIcon } from "@heroicons/react/24/solid";
-import { Link } from "@remix-run/react";
+import { NavLink } from "@remix-run/react";
 import screenshot from "../../public/screen_shot.png";
 import GitHubIcon from "./utility/icon-components/GitHubIcon";
 import LeetCodeIcon from "./utility/icon-components/LeetCodeIcon";
@@ -45,7 +45,7 @@ const Home = () => {
 					<div className="mx-auto max-w-7xl px-6 lg:px-8">
 						<div className="mx-auto max-w-2xl text-center">
 							<h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-								Connect, Code, Collaborate.
+								DevHead: Connect, Code, Collaborate.
 							</h1>
 							<p className="mt-6 text-lg leading-8 text-gray-300">
 								DevHead is your gateway to a thriving developer community!
@@ -54,25 +54,75 @@ const Home = () => {
 								seeking inspiration, learning opportunities, or simply a place
 								to share your coding journey, DevHead has you covered.
 							</p>
-
 							<SignedIn>
 								<div className="mt-10 flex items-center justify-center gap-x-6">
 									<div className="mt-10 flex items-center gap-x-6">
-										<Link
+										<NavLink
 											to="/posts"
 											className="rounded-md ring-1 ring-purple-400 bg-purple-400/30 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-purple-300/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-300/20"
 										>
-											Explore Projects
-										</Link>
-										<Link
+											{(p) => (p.isPending ? "loading..." : "Explore Projects")}
+										</NavLink>
+										<NavLink
 											to="/users"
 											className="text-sm font-semibold text-white"
 										>
-											Connect with people <span aria-hidden="true">→</span>
-										</Link>
+											{(p: any) =>
+												p.isPending ? (
+													"loading..."
+												) : (
+													<>
+														Connect with Devs <span aria-hidden="true">→</span>{" "}
+													</>
+												)
+											}
+										</NavLink>
 									</div>
 								</div>
 							</SignedIn>
+							<SignedOut>
+								<div className="mt-10 flex items-center justify-center gap-x-6">
+									<div className="mt-10 flex items-center gap-x-6">
+										<NavLink
+											to="/about"
+											prefetch="render"
+											className="rounded-md ring-1 ring-purple-400 bg-purple-400/30 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-purple-300/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-300/20"
+										>
+											{(p) => (p.isPending ? "loading..." : "About DevHead")}
+										</NavLink>
+										<NavLink
+											to="/sign-in"
+											prefetch="render"
+											className="text-sm font-semibold text-white"
+										>
+											{(p) =>
+												p.isPending ? (
+													"loading..."
+												) : (
+													<>
+														Sign In <span aria-hidden="true">→</span>{" "}
+													</>
+												)
+											}
+										</NavLink>
+										<NavLink
+											to="/sign-up"
+											prefetch="render"
+											className="text-sm font-semibold text-white"
+										>
+											{(p) =>
+												p.isPending ? (
+													"loading..."
+												) : (
+													<>
+														Sign Up <span aria-hidden="true">→</span>{" "}
+													</>
+												)
+											}
+										</NavLink>
+									</div>
+								</div>
+							</SignedOut>
 						</div>
 						<img
 							src={screenshot}

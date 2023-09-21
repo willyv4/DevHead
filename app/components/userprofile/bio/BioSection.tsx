@@ -43,7 +43,10 @@ const BioSection: React.FC<Props> = ({ userId, userBio }) => {
 					<div className="text-center mt-16 font-bold text-l"> NO BIO YET</div>
 				)}
 				{userBio?.split("\n")?.map((paragraph, index) => (
-					<p key={index + "paragraph"} className="my-2 text-gray-400">
+					<p
+						key={index + "paragraph"}
+						className="my-2 text-sm sm:text-lg font-semibold  text-gray-400"
+					>
 						{paragraph}
 					</p>
 				))}

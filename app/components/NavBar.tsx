@@ -12,13 +12,9 @@ function classNames(...classes: any) {
 
 const NavBar = ({ currUser, userId }: any) => {
 	const [isSignedOut, setIsSignedOut] = useState<boolean>(false);
-	const [isClicked, setIsClicked] = useState<string>("");
 	const navigate = useNavigate();
 	const navigation = useNavigation();
-
-	const handleCLick = () => {
-		setIsSignedOut(true);
-	};
+	const handleCLick = () => setIsSignedOut(true);
 
 	useEffect(() => {
 		if (isSignedOut) {
@@ -26,14 +22,6 @@ const NavBar = ({ currUser, userId }: any) => {
 			return navigate("/");
 		}
 	}, [isSignedOut, navigate]);
-
-	const textState = (text: string) => {
-		// navigation.location?.pathname;
-		return isClicked === text &&
-			(navigation.state === "submitting" || navigation.state === "loading")
-			? "Loading..."
-			: text;
-	};
 
 	return (
 		<Disclosure
@@ -67,23 +55,18 @@ const NavBar = ({ currUser, userId }: any) => {
 											<NavLink
 												to="/users"
 												prefetch="render"
-												onClick={() => setIsClicked("Devs")}
 												className={(p) =>
 													"bg-gray-900/10 text-white rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-800/90"
 												}
 											>
-												{(p) => {
-													return p.isPending ? "loading..." : "Devs";
-													// {textState("Devs")}
-												}}
+												{(p) => (p.isPending ? "loading..." : "Devs")}
 											</NavLink>
 											<NavLink
 												to="/posts"
 												prefetch="render"
-												onClick={() => setIsClicked("Posts")}
 												className="bg-gray-900/10 text-white rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-800/90"
 											>
-												{textState("Posts")}
+												{(p) => (p.isPending ? "loading..." : "Posts")}
 											</NavLink>
 										</SignedIn>
 									</div>
@@ -176,31 +159,28 @@ const NavBar = ({ currUser, userId }: any) => {
 					<Disclosure.Panel className="sm:hidden ">
 						<div className="flex flex-col m-2 justify-between bg-gray-900 p-4 rounded">
 							<Disclosure.Button>
-								<Link
+								<NavLink
 									className="bg-white/10 text-white block rounded-md px-3 py-2 text-base font-medium w-full mb-1"
 									to="/"
-									onClick={() => setIsClicked("Home")}
 								>
-									{textState("Home")}
-								</Link>
+									{(p) => (p.isPending ? "loading..." : "Home")}
+								</NavLink>
 							</Disclosure.Button>
 							<Disclosure.Button>
-								<Link
+								<NavLink
 									to="/users"
 									className="bg-white/10 text-white block rounded-md px-3 py-2 text-base font-medium w-full mb-1"
-									onClick={() => setIsClicked("Devs")}
 								>
-									{textState("Devs")}
-								</Link>
+									{(p) => (p.isPending ? "loading..." : "Devs")}
+								</NavLink>
 							</Disclosure.Button>
 							<Disclosure.Button>
-								<Link
+								<NavLink
 									to="/posts"
-									onClick={() => setIsClicked("Posts")}
 									className="bg-white/10 text-white block rounded-md px-3 py-2 text-base font-medium w-full mb-1"
 								>
-									{textState("Posts")}
-								</Link>
+									{(p) => (p.isPending ? "loading..." : "Posts")}
+								</NavLink>
 							</Disclosure.Button>
 						</div>
 					</Disclosure.Panel>
