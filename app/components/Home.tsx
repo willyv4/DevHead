@@ -45,7 +45,7 @@ const Home = () => {
 				<div className="py-24 sm:py-32 lg:pb-40">
 					<div className="mx-auto max-w-7xl px-6 lg:px-8">
 						<div className="mx-auto max-w-2xl text-center">
-							<div className="ml-20 sm:ml-24 text-4xl font-bold tracking-tight text-white sm:text-6xl flex flex-row">
+							<div className="ml-6 sm:ml-24 text-4xl font-bold tracking-tight text-white sm:text-6xl flex flex-row">
 								DevHead:{" "}
 								<div className="ml-2">
 									<Typewriter
