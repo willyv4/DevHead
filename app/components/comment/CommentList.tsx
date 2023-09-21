@@ -1,10 +1,11 @@
+import { useUser } from "@clerk/remix";
 import DeleteCommentForm from "./DeleteCommentForm";
 
 interface Props {
 	comments: Comment[];
-	userId: string | number;
 }
-const CommentList: React.FC<Props> = ({ comments, userId }) => {
+const CommentList: React.FC<Props> = ({ comments }) => {
+	const { user } = useUser();
 	return (
 		<div className="pl-4 py-2">
 			<div className="mt-10">
@@ -21,7 +22,7 @@ const CommentList: React.FC<Props> = ({ comments, userId }) => {
 									{comment?.author_first_name + " " + comment?.author_last_name}
 								</span>
 							</div>
-							{comment?.user_id === userId && (
+							{comment?.user_id === user?.id && (
 								<DeleteCommentForm commentId={comment?.comment_id} />
 							)}
 						</div>

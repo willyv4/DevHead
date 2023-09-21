@@ -19,7 +19,7 @@ export const loader: LoaderFunction = async ({ params }: LoaderArgs) => {
 };
 
 export default function ProjectComments() {
-	const { user, isSignedIn } = useUser();
+	const { isSignedIn } = useUser();
 	const comments = useLoaderData() as CommentResp | null;
 	const navigate = useNavigate();
 
@@ -28,10 +28,6 @@ export default function ProjectComments() {
 	}, [navigate, isSignedIn]);
 
 	return (
-		<>
-			{user?.id && comments && (
-				<CommentList comments={comments.comments} userId={user?.id} />
-			)}{" "}
-		</>
+		<>{comments?.comments && <CommentList comments={comments.comments} />}</>
 	);
 }
