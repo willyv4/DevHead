@@ -1,4 +1,13 @@
 import { db } from "../db.server";
+import type { UserOverviews } from "../types";
+
+interface UserResp {
+	users: UserOverviews[];
+}
+
+function isUser(data: any): data is UserResp {
+	return "users" in data && Array.isArray(data.users) ? true : false;
+}
 
 export class User {
 	static async getUserById(id: string) {
@@ -44,17 +53,64 @@ export class User {
 	}
 
 	static async getUserOverviews() {
-		const result = await db.query(`
-        		SELECT 
-            		u.*,
-            		ARRAY_AGG(DISTINCT f1.user_following_id) AS following,
-            		ARRAY_AGG(DISTINCT f2.user_being_followed_id) AS followers
-        		FROM users u
-        		LEFT JOIN follows f1 ON u.id = f1.user_being_followed_id
-        		LEFT JOIN follows f2 ON u.id = f2.user_following_id
-        		GROUP BY u.id`);
+		// const result = await db.query(`
+		// 		SELECT
+		//     		u.*,
+		//     		ARRAY_AGG(DISTINCT f1.user_following_id) AS following,
+		//     		ARRAY_AGG(DISTINCT f2.user_being_followed_id) AS followers
+		// 		FROM users u
+		// 		LEFT JOIN follows f1 ON u.id = f1.user_being_followed_id
+		// 		LEFT JOIN follows f2 ON u.id = f2.user_following_id
+		// 		GROUP BY u.id`);
 
-		return result.rows;
+		const result = await db.query(`
+			SELECT
+    			u.id,
+    			u.first_name,
+    			u.last_name,
+    			u.place,
+    			u.image_url,
+    			u.email,
+    			u.title,
+    			u.about,
+    			u.leetcode_username,
+    			u.github_username,
+    		ARRAY_AGG(DISTINCT f1.user_following_id) AS following,
+    		ARRAY_AGG(DISTINCT f2.user_being_followed_id) AS followers
+			FROM users u
+				LEFT JOIN follows f1 ON u.id = f1.user_being_followed_id
+				LEFT JOIN follows f2 ON u.id = f2.user_following_id
+			WHERE
+    			u.about IS NOT NULL
+    			AND (u.github_username IS NOT NULL OR u.leetcode_username IS NOT NULL)
+    			AND EXISTS (
+        			SELECT 1
+        			FROM portfolio_posts pp
+        			WHERE pp.user_id = u.id
+    			)
+    			AND EXISTS (
+        			SELECT 1
+        			FROM skills s
+        			WHERE s.user_id = u.id
+    			)
+			GROUP BY
+    			u.id,
+    			u.first_name,
+    			u.last_name,
+    			u.place,
+    			u.image_url,
+    			u.email,
+    			u.title,
+    			u.about,
+    			u.leetcode_username,
+    			u.github_username;`);
+
+		let users = result.rows;
+
+		if (isUser({ users })) {
+			return { users };
+		}
+		return { users: [] };
 	}
 
 	static async addUser(

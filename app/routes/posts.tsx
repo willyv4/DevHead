@@ -10,7 +10,7 @@ import ProjectCard from "~/components/projects/ProjectCard";
 import useCommentView from "~/hooks/useCommentView";
 
 export const loader: LoaderFunction = async () => {
-	const projects = Posts.getAllUserProjects();
+	const projects = await Posts.getAllUserProjects();
 	return projects;
 };
 

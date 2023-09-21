@@ -11,7 +11,7 @@ import Projects from "~/models/posts";
 import SkillsSection from "~/components/userprofile/skills/SkillsSection";
 import { Skills } from "~/models/skills";
 import { useUser } from "@clerk/remix";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { UserProfile, LoaderData } from "~/types";
 
 export const loader: LoaderFunction = async ({
@@ -32,6 +32,8 @@ export default function UserProfile() {
 	const { isSignedIn } = useUser();
 	const { userProfile, userProjects, userSkills } = useLoaderData<LoaderData>();
 	const { userid } = useParams();
+	const [message, setMessage] = useState<string | null>(null);
+	const [show, setShow] = useState(true);
 
 	useEffect(() => {
 		if (!isSignedIn || userid !== userProfile.id) return navigate("/");
@@ -39,10 +41,45 @@ export default function UserProfile() {
 
 	const userBio: string | null = userProfile?.about ?? "";
 
+	useEffect(() => {
+		if (
+			userSkills.length > 0 &&
+			userProfile.github_username &&
+			userProfile.leetcode_username &&
+			userProjects.length > 0 &&
+			userProfile.about
+		) {
+			console.log(true);
+		} else {
+			setMessage(
+				"your profile will be searchable by other users when your profile is complete."
+			);
+			setTimeout(() => {
+				setShow(false);
+			}, 7000);
+		}
+	}, [
+		message,
+		userProfile.about,
+		userProfile.github_username,
+		userProfile.leetcode_username,
+		userProjects.length,
+		userSkills.length,
+	]);
+
 	return (
 		<div className="pt-28 sm:px-10 px-4 lg:px-36">
+			{show && (
+				<p className="absolute top-5 right-24 text-xs inline-flex items-center rounded-md bg-red-400/10 px-2 py-1 text-xs font-medium text-red-400 ring-1 ring-inset ring-red-400/20">
+					{message}
+				</p>
+			)}
 			<div className="rounded-2xl ring-1 ring-gray-950/40 shadow-md shadow-gray-950">
-				<ProfileHeader userProfile={userProfile} />
+				<ProfileHeader
+					userProfile={userProfile}
+					setMessage={setMessage}
+					message={message}
+				/>
 				<BioSection userId={userProfile?.id} userBio={userBio} />
 				<SkillsSection userId={userProfile?.id} userSkills={userSkills} />
 				<ProjectList userId={userid} userProjects={userProjects} />

@@ -6,10 +6,13 @@ const SkillsForm = ({ userId }: { userId: string }) => {
 	const [skill, setSkill] = useState<string>("");
 	const skillPost = useFetcher();
 
-	const text =
-		skillPost.state === "submitting" || skillPost.state === "loading"
-			? "Processing..."
+	function renderTextState() {
+		return skillPost.state === "submitting"
+			? "Saving..."
+			: skillPost.state === "loading"
+			? "Saved!"
 			: "Add Skill";
+	}
 
 	const handleChange = (e: { target: { value: SetStateAction<string> } }) =>
 		setSkill(e.target.value);
@@ -38,7 +41,7 @@ const SkillsForm = ({ userId }: { userId: string }) => {
 				className="w-full rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
 				type="submit"
 			>
-				{text}
+				{renderTextState()}
 			</button>
 		</skillPost.Form>
 	);

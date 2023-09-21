@@ -59,6 +59,21 @@ export type UserProject = {
 	user_id: string;
 };
 
+export type UserProjects = {
+	id: number;
+	image_url: string;
+	title: string;
+	description: string | null;
+	code_link: string;
+	live_link: string;
+	like_count: string[] | null;
+	comment_count: string;
+	liked_user_ids: string[] | never[];
+	author_first_name: string;
+	author_last_name: string;
+	user_id: string;
+};
+
 export type Comment = {
 	author_first_name: string;
 	author_image_url: string;
@@ -94,4 +109,19 @@ export type LeetCodeData = {
 	};
 	rank: number;
 	tags: Tags;
+};
+
+export type UserOverviews = {
+	id: string;
+	first_name: string | null;
+	last_name: string | null;
+	place: string | null;
+	image_url: string | null;
+	email: string;
+	title: string | null;
+	about: string | null;
+	leetcode_username: string | null;
+	github_username: string | null;
+	followers: string[] | never[];
+	following: string[] | never[];
 };

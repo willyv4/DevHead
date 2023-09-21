@@ -9,7 +9,8 @@ import type { UserData, Users } from "../types";
 import UserCard from "~/components/UserCard";
 
 export const loader = async ({ params }: LoaderArgs) => {
-	const users = await User.getUserOverviews();
+	const { users } = await User.getUserOverviews();
+
 	return json({ users });
 };
 

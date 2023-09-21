@@ -5,7 +5,15 @@ import Modal from "../../utility/Modal";
 import ProfileUpdateForm from "./UpdateProfileForm";
 import type { UserProfile } from "~/types";
 
-const ProfileHeader = ({ userProfile }: { userProfile: UserProfile }) => {
+const ProfileHeader = ({
+	userProfile,
+	message,
+	setMessage,
+}: {
+	userProfile: UserProfile;
+	message: string | null;
+	setMessage: (value: string | null) => void;
+}) => {
 	const [updateFromView, setUpdateFormView] = useState(false);
 	const navigation = useNavigation();
 	const followerCount = userProfile.followers?.filter((f) => f !== null).length;

@@ -1,4 +1,17 @@
 import { db } from "../db.server";
+import type { UserProjects } from "../types";
+
+type AllUserProjectResp = {
+	UserProjects: UserProjects[];
+};
+
+function isUserProject(data: any): data is AllUserProjectResp {
+	return "user_id" in data[0] &&
+		Array.isArray(data[0].liked_user_ids) &&
+		"id" in data[0]
+		? true
+		: false;
+}
 
 export default class Posts {
 	static async getUserProjectsById(id: string | number) {
@@ -95,6 +108,10 @@ export default class Posts {
         		LEFT JOIN users u ON pp.user_id = u.id
         		GROUP BY pp.id, author_first_name, author_last_name;`);
 
-		return result.rows;
+		let userProject = result.rows;
+		if (isUserProject(userProject)) {
+			return userProject;
+		}
+		return [];
 	}
 }

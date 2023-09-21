@@ -12,7 +12,10 @@ const BioView: React.FC<Props> = ({ userBio }) => {
 			</div>
 			<div className="story-container m-1 p-4 sm:p-4 lg:m-4">
 				{userBio?.split("\n")?.map((paragraph, index) => (
-					<p key={index + "paragraph"} className="my-2 text-gray-400 ">
+					<p
+						key={index + "paragraph"}
+						className="my-2 text-sm sm:text-lg font-semibold text-gray-400"
+					>
 						{paragraph}
 					</p>
 				))}
