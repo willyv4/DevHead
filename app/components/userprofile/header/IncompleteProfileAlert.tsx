@@ -13,7 +13,7 @@ const IncompleteProfileAlert: React.FC<Props> = ({ isCompleteProfile }) => {
 
 	return !profileComplete && !isCompleteProfile ? (
 		<span className="absolute ml-2 mt-2 flex flex-row transform sm:text-xs inline-flex items-center gap-x-0.5 rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-			Complete your profile to enable it to be searchable
+			Complete your profile to feature it in the 'Devs' page.
 			<button
 				type="button"
 				onClick={() => setProfileComplete(true)}
