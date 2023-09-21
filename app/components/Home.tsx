@@ -104,21 +104,6 @@ const Home = () => {
 											{(p) => (p.isPending ? "loading..." : "About DevHead")}
 										</NavLink>
 										<NavLink
-											to="/sign-in"
-											prefetch="render"
-											className="text-sm font-semibold text-white"
-										>
-											{(p) =>
-												p.isPending ? (
-													"loading..."
-												) : (
-													<>
-														Sign In <span aria-hidden="true">→</span>{" "}
-													</>
-												)
-											}
-										</NavLink>
-										<NavLink
 											to="/sign-up"
 											prefetch="render"
 											className="text-sm font-semibold text-white"
