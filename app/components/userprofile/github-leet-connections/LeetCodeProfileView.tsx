@@ -25,16 +25,6 @@ const LeetCodeProfileView: React.FC<Props> = ({ leetcodeUsername, userId }) => {
 		</button>
 	);
 
-	if (!leetFetcher.data)
-		return (
-			<div className="my-96 sm:my-32">
-				<EmptyStatus
-					Icon={<LeetCodeIcon height="2.5rem" width="2.5rem" />}
-					ModalButton={LeetCodeModal}
-				/>
-			</div>
-		);
-
 	if (!leetcodeUsername)
 		return (
 			<div className="mt-20">
@@ -45,6 +35,16 @@ const LeetCodeProfileView: React.FC<Props> = ({ leetcodeUsername, userId }) => {
 					open={leetCodeOpen}
 					setOpen={setLeetCodeOpen}
 				/>
+				<EmptyStatus
+					Icon={<LeetCodeIcon height="2.5rem" width="2.5rem" />}
+					ModalButton={LeetCodeModal}
+				/>
+			</div>
+		);
+
+	if (!leetFetcher.data)
+		return (
+			<div className="my-96 sm:my-32">
 				<EmptyStatus
 					Icon={<LeetCodeIcon height="2.5rem" width="2.5rem" />}
 					ModalButton={LeetCodeModal}

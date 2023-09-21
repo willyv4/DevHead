@@ -37,7 +37,7 @@ export default function UserList() {
 			</div>
 			<div
 				role="list"
-				className="pb-10 px-12 md:px-4 lg:px-24 mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3"
+				className="pb-10 px-16 sm:px-6 mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
 			>
 				{users?.map((user: UserData) => (
 					<UserCard key={user.id} user={user} />

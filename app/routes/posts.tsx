@@ -40,7 +40,7 @@ export default function Projects() {
 
 			<Blob />
 
-			<div className="container justify-center mx-auto">
+			<div className="justify-center mx-auto">
 				<div className="flex-col justify-center mt-12">
 					<CommentSlider
 						userId={user?.id}

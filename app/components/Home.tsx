@@ -4,6 +4,7 @@ import { NavLink } from "@remix-run/react";
 import screenshot from "../../public/screen_shot.png";
 import GitHubIcon from "./utility/icon-components/GitHubIcon";
 import LeetCodeIcon from "./utility/icon-components/LeetCodeIcon";
+import Typewriter from "typewriter-effect";
 
 const features = [
 	{
@@ -44,9 +45,22 @@ const Home = () => {
 				<div className="py-24 sm:py-32 lg:pb-40">
 					<div className="mx-auto max-w-7xl px-6 lg:px-8">
 						<div className="mx-auto max-w-2xl text-center">
-							<h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-								DevHead: Connect, Code, Collaborate.
-							</h1>
+							<div className="ml-20 sm:ml-24 text-4xl font-bold tracking-tight text-white sm:text-6xl flex flex-row">
+								DevHead:{" "}
+								<div className="ml-2">
+									<Typewriter
+										options={{
+											strings: ["Connect.", "Code.", "Create."],
+											autoStart: true,
+											loop: true,
+										}}
+										onInit={(typewriter) => {
+											typewriter.pauseFor(1000).deleteAll().start();
+										}}
+									/>
+								</div>
+							</div>
+
 							<p className="mt-6 text-lg leading-8 text-gray-300">
 								DevHead is your gateway to a thriving developer community!
 								Connect with fellow developers, integrate your LeetCode and

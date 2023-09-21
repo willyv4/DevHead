@@ -19,7 +19,7 @@ const UserCard = ({ user }: { user: UserData }) => {
 	}
 
 	return (
-		<div className="bg-gray-400/5 border-2 border-gray-950/10 col-span-1 flex flex-col rounded-md text-center shadow">
+		<div className="bg-gray-800/40 border-2 border-gray-950/10 col-span-1 flex flex-col rounded-md text-center shadow">
 			<div className="flex flex-1 flex-col p-8 rounded-lg">
 				<img
 					className="object-cover mx-auto h-32 w-32 flex-shrink-0 rounded-full"
