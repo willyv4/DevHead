@@ -70,10 +70,11 @@ export default function UserProfile() {
 	return (
 		<div className="pt-28 sm:px-10 px-4 lg:px-36">
 			{show && (
-				<p className="absolute top-5 right-24 text-xs inline-flex items-center rounded-md bg-red-400/10 px-2 py-1 text-xs font-medium text-red-400 ring-1 ring-inset ring-red-400/20">
+				<p className="absolute text-[9px] top-10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 sm:text-xs inline-flex items-center rounded-md bg-red-400/10 px-2 py-1 text-xs font-medium text-red-400 ring-1 ring-inset ring-red-400/20">
 					{message}
 				</p>
 			)}
+
 			<div className="rounded-2xl ring-1 ring-gray-950/40 shadow-md shadow-gray-950">
 				<ProfileHeader
 					userProfile={userProfile}
