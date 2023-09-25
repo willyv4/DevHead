@@ -30,6 +30,7 @@ const Home = () => {
 	return (
 		<div className="bg-gray-900">
 			<div className="relative isolate pt-14">
+				{/* PURPLE BLOB */}
 				<div
 					className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
 					aria-hidden="true"
@@ -42,9 +43,11 @@ const Home = () => {
 						}}
 					/>
 				</div>
+
 				<div className="py-24 sm:py-32 lg:pb-40">
 					<div className="mx-auto max-w-7xl px-6 lg:px-8">
 						<div className="mx-auto max-w-2xl text-center">
+							{/* HEADER */}
 							<div className="justify-center text-center text-4xl font-bold tracking-tight text-white sm:text-6xl flex flex-row">
 								DevHead:{" "}
 								<div className="ml-2">
@@ -67,6 +70,8 @@ const Home = () => {
 								seeking inspiration, learning opportunities, or simply a place
 								to share your coding journey, DevHead has you covered.
 							</p>
+
+							{/* SIGNED IN LINKS */}
 							<SignedIn>
 								<div className="mt-10 flex items-center justify-center gap-x-6">
 									<div className="mt-10 flex items-center gap-x-6">
@@ -93,6 +98,8 @@ const Home = () => {
 									</div>
 								</div>
 							</SignedIn>
+
+							{/* SIGNED OUT LINKS */}
 							<SignedOut>
 								<div className="mt-10 flex items-center justify-center gap-x-6">
 									<div className="mt-10 flex items-center gap-x-6">
@@ -131,6 +138,7 @@ const Home = () => {
 						/>
 					</div>
 				</div>
+				{/* PURPLE BLOB */}
 				<div
 					className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
 					aria-hidden="true"
@@ -145,8 +153,7 @@ const Home = () => {
 				</div>
 			</div>
 
-			{/* features */}
-
+			{/* FEATURES */}
 			<div className="-mt-6 sm:-mt-20">
 				<div className="mx-auto max-w-7xl px-6 lg:px-8">
 					<div className="mx-auto max-w-2xl lg:mx-0">

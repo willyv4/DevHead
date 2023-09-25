@@ -72,12 +72,13 @@ describe("User.getUserById", () => {
 
 describe("User.getUserOverviews", () => {
 	test("returns the correct amount of users in the database", async () => {
-		const users = (await User.getUserOverviews()) as UserData[];
-		expect(users.length).toEqual(5);
+		const users = (await User.getUserOverviews()).users as UserData[];
+		// no users in the testing have a complete profile
+		expect(users.length).toEqual(0);
 	});
 
 	test("each method is defined and user.id it not null", async () => {
-		const users = (await User.getUserOverviews()) as UserData[];
+		const users = (await User.getUserOverviews()).users as UserData[];
 
 		// eslint-disable-next-line array-callback-return
 		users.map((user) => {

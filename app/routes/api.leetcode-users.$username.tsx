@@ -15,6 +15,7 @@ type Tags = {
 export const loader: LoaderFunction = async ({ params }) => {
 	const username = params["username"];
 
+	// copy a fetch statement from leetcode networks graphql
 	const getProfile = fetch("https://leetcode.com/graphql/", {
 		headers: {
 			accept: "*/*",

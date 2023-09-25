@@ -43,6 +43,8 @@ const NavBar = ({ currUser, userId }: any) => {
 									)}
 								</Disclosure.Button>
 							</div>
+
+							{/* LARGE SCREEN VISIBLE NAVLINKS */}
 							<div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
 								<div className="hidden sm:ml-6 sm:block">
 									<div className="flex space-x-4">
@@ -70,6 +72,8 @@ const NavBar = ({ currUser, userId }: any) => {
 									</div>
 								</div>
 							</div>
+
+							{/* PROFILE MENU AND SIGN OUT BUTTON */}
 							<div className="absolute z-20 inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 								<SignedIn>
 									<Menu as="div" className="relative ml-3">
@@ -154,6 +158,7 @@ const NavBar = ({ currUser, userId }: any) => {
 						</div>
 					</div>
 
+					{/* SMALL SCREEN VISIBLE NAVLINKS WHEN CLICKING HAMBUGER MENU */}
 					<Disclosure.Panel className="sm:hidden ">
 						<div className="flex flex-col m-2 justify-between bg-gray-900 p-4 rounded">
 							<Disclosure.Button>

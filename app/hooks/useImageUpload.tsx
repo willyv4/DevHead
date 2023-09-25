@@ -8,6 +8,7 @@ function useImageUpload() {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [message, setMessage] = useState<string | null>(null);
 
+	// Function to upload a file to the server
 	async function uploadFileToServer(file: File | null) {
 		if (file !== null) {
 			try {
@@ -35,6 +36,7 @@ function useImageUpload() {
 		}
 	}
 
+	// Use useEffect to trigger file upload when a valid file is selected
 	useEffect(() => {
 		if (validFile && !isSubmitted) {
 			uploadFileToServer(validFile);
@@ -43,7 +45,9 @@ function useImageUpload() {
 		}
 	}, [validFile, isSubmitted]);
 
+	// Function to handle file drop
 	const onDrop = (files: File[]) => {
+		// Filter out valid image files (PNG, JPG, JPEG)
 		const validFiles = files.filter((f) =>
 			f.type.match(/image\/(png|jpg|jpeg)/)
 		);
@@ -57,6 +61,7 @@ function useImageUpload() {
 		}
 	};
 
+	// UseDropzone hook to manage file drop functionality
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		onDrop,
 		accept: { "image/*": [] },

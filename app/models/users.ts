@@ -63,6 +63,7 @@ export class User {
 		// 		LEFT JOIN follows f2 ON u.id = f2.user_following_id
 		// 		GROUP BY u.id`);
 
+		// only get users with a filled out profile
 		const result = await db.query(`
 			SELECT
     			u.id,

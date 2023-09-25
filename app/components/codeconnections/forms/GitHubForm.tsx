@@ -9,7 +9,6 @@ const GitHubForm = ({
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
 	const gitHubPost = useFetcher();
-
 	function renderTextState() {
 		return gitHubPost.state === "submitting"
 			? "Saving..."

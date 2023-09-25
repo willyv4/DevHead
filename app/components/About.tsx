@@ -19,11 +19,14 @@ const cards = [
 const About = () => {
 	return (
 		<div className="relative py-56 overflow-hidden overflow-y-clip">
+			{/* Background image */}
 			<img
 				src={logo}
 				alt=""
 				className="absolute right-0 -top-10 -z-10 object-fit object-left opacity-5"
 			/>
+
+			{/* Left background shape (hidden on small screens) */}
 			<div className="hidden sm:absolute sm:-top-10 sm:right-1/2 sm:-z-10 sm:mr-10 sm:block sm:transform-gpu sm:blur-3xl">
 				<div
 					className="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-tr from-[#ff4694] to-[#776fff] opacity-20"
@@ -33,6 +36,8 @@ const About = () => {
 					}}
 				/>
 			</div>
+
+			{/* Right background shape */}
 			<div className="absolute -top-96 left-1/2 -z-10 -translate-x-1/2 transform-gpu blur-3xl sm:top-[-28rem] sm:ml-16 sm:translate-x-0 sm:transform-gpu">
 				<div
 					className="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-tr from-[#ff4694] to-[#776fff] opacity-20"
@@ -42,11 +47,16 @@ const About = () => {
 					}}
 				/>
 			</div>
+
+			{/* Content */}
 			<div className="mx-auto max-w-7xl px-6 lg:px-8">
 				<div className="mx-auto max-w-2xl lg:mx-0">
+					{/* Title */}
 					<h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
 						About DevHead
 					</h2>
+
+					{/* Description */}
 					<p className="mt-6 text-md leading-8 text-gray-300">
 						Welcome to DevHead—a social media app, empowering developers to
 						showcase their projects, skills, and stats all in one place. I have
@@ -57,7 +67,10 @@ const About = () => {
 						DevHead is your tech hub.
 					</p>
 				</div>
+
+				{/* Contact and information cards */}
 				<div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-8">
+					{/* Contact card */}
 					<div className="flex gap-x-4 rounded-xl bg-white/5 p-6 ring-1 ring-inset ring-white/10">
 						<PhoneIcon
 							className="h-7 w-5 flex-none text-indigo-400"
@@ -76,6 +89,8 @@ const About = () => {
 							</p>
 						</div>
 					</div>
+
+					{/* Information cards */}
 					{cards.map((card) => (
 						<div
 							key={card.name}
