@@ -8,7 +8,7 @@ type Props = {
 };
 
 const LeetCodeUserView: React.FC<Props> = ({ leetcodeUsername }) => {
-	const [stats] = useLeetCodeFetcher(leetcodeUsername);
+	const [stats, leetFetcher] = useLeetCodeFetcher(leetcodeUsername);
 
 	const LeetCodeModal = (
 		<div className="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20">
@@ -16,7 +16,7 @@ const LeetCodeUserView: React.FC<Props> = ({ leetcodeUsername }) => {
 		</div>
 	);
 
-	if (!stats) {
+	if (!leetFetcher.data) {
 		return (
 			<div className="my-96 sm:my-32 animate-pulse">
 				<EmptyStatus
