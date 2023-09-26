@@ -19,11 +19,18 @@ import stylesheet from "./tailwind.css";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import { User } from "./models/users";
+import logo from "../public/devhead_logo.png";
 
 export const ErrorBoundary = V2_ClerkErrorBoundary();
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: stylesheet },
+	{
+		rel: "icon",
+		href: logo,
+		type: "image/png",
+	},
 ];
+
 export const meta: V2_MetaFunction = () => [{ title: "DevHead" }];
 export const loader: LoaderFunction = (args) => {
 	return rootAuthLoader(
