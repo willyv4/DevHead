@@ -96,8 +96,6 @@
 
 # DevHead Backend API Documentation
 
-Welcome to the DevHead backend API documentation. Below are the available API routes:
-
 ## Comments API
 
 ### Add Comment
@@ -138,7 +136,7 @@ Welcome to the DevHead backend API documentation. Below are the available API ro
 
 ### Remove Like
 
-- \*\*DELETE` `/api/likes`
+- **DELETE** `/api/likes`
   - Remove a like from a project.
 
 ## Projects API
@@ -155,7 +153,7 @@ Welcome to the DevHead backend API documentation. Below are the available API ro
 
 ### Delete Project
 
-- \*\*DELETE` `/api/projects`
+- **DELETE** `/api/projects`
   - Delete a project by its project ID.
 
 ## Skills API
@@ -167,7 +165,7 @@ Welcome to the DevHead backend API documentation. Below are the available API ro
 
 ### Remove Skill
 
-- \*\*DELETE` `/api/skills`
+- **DELETE** `/api/skills`
   - Remove a skill from a user's profile.
 
 ## GitHub User API
