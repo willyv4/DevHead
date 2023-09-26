@@ -1,6 +1,6 @@
-### [DevHead Live Site](https://dev-head-willyv4.vercel.app/)
+# [DevHead Live Site](https://dev-head-willyv4.vercel.app/)
 
-### API DATA
+# API DATA
 
 - Personal backend API
 - Github Graphql API
@@ -8,7 +8,7 @@
 - Clerk Auth API
 - Cloudinary API (Image uploads)
 
-### Database Outline
+# Database Outline
 
 ![Database Schema](./public/database.png)
 
