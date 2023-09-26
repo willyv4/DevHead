@@ -20,43 +20,43 @@
 
 ## Profile Page
 
-      -  **Customizable Profiles**: Users create unique digital identities by personalizing their profile pages with pictures, bio, skills, and contact info.
+      -  Customizable Profiles: Users create unique digital identities by personalizing their profile pages with pictures, bio, skills, and contact info.
 
-      - **Showcase Contributions**: A central hub for displaying contributions, projects, and statistics.
+      - Showcase Contributions: A central hub for displaying contributions, projects, and statistics.
 
-      -  **Integrate LeetCode and GitHub**: Connect accounts to reveal problem-solving abilities and GitHub contributions.
+      -  Integrate LeetCode and GitHub: Connect accounts to reveal problem-solving abilities and GitHub contributions.
 
-      -  **Flexible Customization**: Conveniently add, edit, or delete features and posts to keep profiles current.
+      -  Flexible Customization: Conveniently add, edit, or delete features and posts to keep profiles current.
 
-      -  **Post Management**: Create, edit, and delete posts directly from the profile page.
+      -  Post Management: Create, edit, and delete posts directly from the profile page.
 
-      -  **Profile Completion Notifications**: Encourage completion for visibility on the Devs page.
+      -  Profile Completion Notifications: Encourage completion for visibility on the Devs page.
 
 ## Landing Page
 
-      -  **Introduction**: Initial platform overview with key features.
+      -  Introduction: Initial platform overview with key features.
 
-      -  **Navigation**: Visitors can explore, sign in, or register.
+      -  Navigation: Visitors can explore, sign in, or register.
 
 ## About Page
 
-      -  **In-Depth Information**: Learn more about DevHead, its platform, developer, and future vision.
+      -  In-Depth Information: Learn more about DevHead, its platform, developer, and future vision.
 
 ## Devs Page
 
-      -  **User Directory**: Explore and connect with developers who completed their profiles.
+      -  User Directory: Explore and connect with developers who completed their profiles.
 
 ## Post Page
 
-      -  **Dynamic Feed**: Engage with developer posts through likes, comments, and links.
+      -  Dynamic Feed: Engage with developer posts through likes, comments, and links.
 
 ## Customization and Posting
 
-      -  **User Control**: Customize profiles and posts to reflect evolving skills and projects.
+      -  User Control: Customize profiles and posts to reflect evolving skills and projects.
 
 ## Authentication and Security
 
-      - **Secure Login**: OAuth-based authentication ensures user data safety.
+      - Secure Login: OAuth-based authentication ensures user data safety.
 
 ---
 
