@@ -12,7 +12,7 @@
 
 ![Database Schema](./public/database.png)
 
---
+---
 
 # DevHead Features
 
@@ -56,7 +56,7 @@
 
 - **Secure Login**: OAuth-based authentication ensures user data safety.
 
---
+---
 
 # DevHead User Flow (Before and After Login)
 
