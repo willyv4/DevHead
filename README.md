@@ -1,3 +1,5 @@
+# Welcome to DevHead
+
 # [DevHead Live Site](https://dev-head-willyv4.vercel.app/)
 
 # API DATA
@@ -16,43 +18,37 @@
 
 # DevHead Features
 
-### Profile Page
+## Profile Page
 
 - Customizable Profiles: Users create unique digital identities by personalizing their profile pages with pictures, bio, skills, and contact info.
-
 - Showcase Contributions: A central hub for displaying contributions, projects, and statistics.
-
 - Integrate LeetCode and GitHub: Connect accounts to reveal proble-solving abilities and GitHub contributions.
-
 - Flexible Customization: Conveniently add, edit, or delete features and posts to keep profiles current.
-
 - Post Management: Create, edit, and delete posts directly from the profile page.
-
 - Profile Completion Notifications: Encourage completion for visibility on the Devs page.
 
-### Landing Page
+## Landing Page
 
 - Introduction: Initial platform overview with key features.
-
 - Navigation: Visitors can explore, sign in, or register.
 
-### About Page
+## About Page
 
 - In-Depth Information: Learn more about DevHead, its platform, developer, and future vision.
 
-### Devs Page
+## Devs Page
 
 - User Directory: Explore and connect with developers who completed their profiles.
 
-### Post Page
+## Post Page
 
 - Dynamic Feed: Engage with developer posts through likes, comments, and links.
 
-### Customization and Posting
+## Customization and Posting
 
 - User Control: Customize profiles and posts to reflect evolving skills and projects.
 
-### Authentication and Security
+## Authentication and Security
 
 - Secure Login: OAuth-based authentication ensures user data safety.
 
@@ -60,7 +56,7 @@
 
 # DevHead User Flow (Before and After Login)
 
-### Before Login
+## Before Login
 
 1.  **Initial Visit**:
 
@@ -79,7 +75,7 @@
 4.  **Authentication and Security (Login/Sign Up)**:
     - Secure OAuth-based authentication for registration and login.
 
-### After Login
+## After Login
 
 5.  **Landing Page (After Login)**:
 
@@ -96,7 +92,7 @@
 - you can run tests with `npm run test`
 - tests are located in the modules files and route-tests file
 
-Certainly, I've added the additional API endpoints for fetching GitHub user info, LeetCode user info, and uploading images to Cloudinary:
+---
 
 # DevHead Backend API Documentation
 
@@ -142,7 +138,7 @@ Welcome to the DevHead backend API documentation. Below are the available API ro
 
 ### Remove Like
 
-- **DELETE** `/api/likes`
+- \*\*DELETE` `/api/likes`
   - Remove a like from a project.
 
 ## Projects API
@@ -159,7 +155,7 @@ Welcome to the DevHead backend API documentation. Below are the available API ro
 
 ### Delete Project
 
-- **DELETE** `/api/projects`
+- \*\*DELETE` `/api/projects`
   - Delete a project by its project ID.
 
 ## Skills API
@@ -171,7 +167,7 @@ Welcome to the DevHead backend API documentation. Below are the available API ro
 
 ### Remove Skill
 
-- **DELETE** `/api/skills`
+- \*\*DELETE` `/api/skills`
   - Remove a skill from a user's profile.
 
 ## GitHub User API
@@ -194,5 +190,3 @@ Welcome to the DevHead backend API documentation. Below are the available API ro
 
 - **POST** `/api/images/upload`
   - Upload an image to Cloudinary.
-
-That's an overview of the available API endpoints, including the new endpoints for GitHub user info, LeetCode user info, and image uploading to Cloudinary.
