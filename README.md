@@ -16,6 +16,8 @@
 
 # DevHead Features
 
+> -
+
 ## Profile Page
 
 - **Customizable Profiles**: Users create unique digital identities by personalizing their profile pages with pictures, bio, skills, and contact info.
