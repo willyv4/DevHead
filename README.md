@@ -14,6 +14,24 @@
 
 ![Database Schema](./public/database.png)
 
+# Tech Stack
+
+DevHead is built using the following technologies:
+
+- React
+- RemixJS
+- TypeScript
+- PostgreSQL
+- node-pg
+- Tailwind CSS
+- Jest
+
+---
+
+---
+
+---
+
 ---
 
 # DevHead Features
@@ -54,6 +72,12 @@
 
 ---
 
+---
+
+---
+
+---
+
 # DevHead User Flow (Before and After Login)
 
 ## Before Login
@@ -91,6 +115,12 @@
 
 - you can run tests with `npm run test`
 - tests are located in the modules files and route-tests file
+
+---
+
+---
+
+---
 
 ---
 
