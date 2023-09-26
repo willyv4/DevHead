@@ -1,6 +1,6 @@
-## [DevHead Live Site](https://dev-head-willyv4.vercel.app/)
+### [DevHead Live Site](https://dev-head-willyv4.vercel.app/)
 
-## API DATA
+### API DATA
 
 - Personal backend API
 - Github Graphql API
@@ -8,7 +8,7 @@
 - Clerk Auth API
 - Cloudinary API (Image uploads)
 
-## Database Outline
+### Database Outline
 
 ![Database Schema](./public/database.png)
 
@@ -16,7 +16,7 @@
 
 # DevHead Features
 
-## Profile Page
+### Profile Page
 
 - Customizable Profiles: Users create unique digital identities by personalizing their profile pages with pictures, bio, skills, and contact info.
 
@@ -30,29 +30,29 @@
 
 - Profile Completion Notifications: Encourage completion for visibility on the Devs page.
 
-## Landing Page
+### Landing Page
 
 - Introduction: Initial platform overview with key features.
 
 - Navigation: Visitors can explore, sign in, or register.
 
-## About Page
+### About Page
 
 - In-Depth Information: Learn more about DevHead, its platform, developer, and future vision.
 
-## Devs Page
+### Devs Page
 
 - User Directory: Explore and connect with developers who completed their profiles.
 
-## Post Page
+### Post Page
 
 - Dynamic Feed: Engage with developer posts through likes, comments, and links.
 
-## Customization and Posting
+### Customization and Posting
 
 - User Control: Customize profiles and posts to reflect evolving skills and projects.
 
-## Authentication and Security
+### Authentication and Security
 
 - Secure Login: OAuth-based authentication ensures user data safety.
 
@@ -60,7 +60,7 @@
 
 # DevHead User Flow (Before and After Login)
 
-## Before Login
+### Before Login
 
 1.  **Initial Visit**:
 
@@ -79,7 +79,7 @@
 4.  **Authentication and Security (Login/Sign Up)**:
     - Secure OAuth-based authentication for registration and login.
 
-## After Login
+### After Login
 
 5.  **Landing Page (After Login)**:
 
