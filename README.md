@@ -62,36 +62,36 @@
 
 ## Before Login:
 
-1. **Initial Visit**:
+1.  **Initial Visit**:
 
-   - New visitors arrive at DevHead.
-   - Explore Landing Page and About Page without login.
+    - New visitors arrive at DevHead.
+    - Explore Landing Page and About Page without login.
 
-2. **Landing Page (Before Login)**:
+2.  **Landing Page (Before Login)**:
 
-   - Learn about site purpose and key features.
-   - Navigate to other pages or sign in/register.
+    - Learn about site purpose and key features.
+    - Navigate to other pages or sign in/register.
 
-3. **About Page (Before Login)**:
+3.  **About Page (Before Login)**:
 
-   - Access detailed information about DevHead, its mission, and vision.
+    - Access detailed information about DevHead, its mission, and vision.
 
-4. **Authentication and Security (Login/Sign Up)**:
-   - Secure OAuth-based authentication for registration and login.
+4.  **Authentication and Security (Login/Sign Up)**:
+    - Secure OAuth-based authentication for registration and login.
 
 ## After Login:
 
-5. **Landing Page (After Login)**:
+5.  **Landing Page (After Login)**:
 
-   - Redirected to Landing Page with navigation options.
+    - Redirected to Landing Page with navigation options.
 
-6. **Navigation Bar**:
-   - Access different sections:
-     - **Profile Page**: Customize your profile, manage posts.
-     - **Devs Page**: Explore other developers.
-     - **Post Page**: Engage with posts from developers.
+6.  **Navigation Bar**:
+    - Access different sections:
+    - **Profile Page**: Customize your profile, manage posts.
+    - **Devs Page**: Explore other developers.
+    - **Post Page**: Engage with posts from developers.
 
-## Tests
+# Tests
 
 - you can run tests with `npm run test`
 - tests are located in the modules files and route-tests file
