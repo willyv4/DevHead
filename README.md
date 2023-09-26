@@ -1,6 +1,6 @@
 ## [DevHead Live Site](https://dev-head-willyv4.vercel.app/)
 
-## API DATA:
+## API DATA
 
 - Personal backend API
 - Github Graphql API
@@ -8,15 +8,13 @@
 - Clerk Auth API
 - Cloudinary API (Image uploads)
 
-## Database Outline:
+## Database Outline
 
 ![Database Schema](./public/database.png)
 
 ---
 
 # DevHead Features
-
->
 
 ## Profile Page
 
@@ -62,7 +60,7 @@
 
 # DevHead User Flow (Before and After Login)
 
-## Before Login:
+## Before Login
 
 1.  **Initial Visit**:
 
@@ -81,7 +79,7 @@
 4.  **Authentication and Security (Login/Sign Up)**:
     - Secure OAuth-based authentication for registration and login.
 
-## After Login:
+## After Login
 
 5.  **Landing Page (After Login)**:
 
