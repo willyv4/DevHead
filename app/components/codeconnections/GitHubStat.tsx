@@ -35,7 +35,7 @@ const GithubStat: React.FC<Props> = ({ languages, stats }) => {
 							))}
 						</dd>
 						<dt className="mt-1 text-sm font-bold leading-6 text-gray-400">
-							Commonanly used languages
+							Commonly used languages
 						</dt>
 					</div>
 				</dl>
