@@ -26,11 +26,6 @@ DevHead is built using the following technologies:
 - Tailwind CSS
 - Jest
 
----
-
----
-
----
 
 ---
 
@@ -70,11 +65,6 @@ DevHead is built using the following technologies:
 
 - Secure Login: OAuth-based authentication ensures user data safety.
 
----
-
----
-
----
 
 ---
 
@@ -116,11 +106,7 @@ DevHead is built using the following technologies:
 - you can run tests with `npm run test`
 - tests are located in the modules files and route-tests file
 
----
 
----
-
----
 
 ---
 
