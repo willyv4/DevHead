@@ -2,25 +2,20 @@ import { supabase } from "../db.server";
 
 export class User {
   static async getUserById(id: string) {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("users")
       .select("id, image_url")
       .eq("id", id);
 
-    if (error) {
-      console.error("Supabase error:", error);
-      return {
-        message: `Error getting user with id: ${id}}`,
-      };
-    }
-
-    return data[0] ? data[0] : { id: "", image_url: "" };
+    return data ? data[0] : { id: "", image_url: "" };
   }
 
   static async getUserProfileById(userId: string) {
     const { data, error } = await supabase.rpc("get_user_profile_by_id", {
       p_user_id: userId,
     });
+
+    console.log("🔍 data", data);
 
     if (error || !data || data.length === 0) {
       return {
@@ -76,7 +71,9 @@ export class User {
       image_url: imageUrl,
     });
 
-    return !_data ? { success: false } : { success: true };
+    return !_data
+      ? { id: "", success: false }
+      : { id: _data?.id, success: true };
   }
 
   static async updateUser(
