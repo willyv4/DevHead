@@ -1,5 +1,15 @@
 import { loader } from "../routes/api.leetcode-users.$username";
 
+import {
+	commonBeforeAll,
+	commonBeforeEach,
+	commonAfterEach,
+} from "../models/_testCommon";
+
+beforeAll(commonBeforeAll);
+beforeEach(commonBeforeEach);
+afterEach(commonAfterEach);
+
 jest.mock("../routes/api.leetcode-users.$username", () => {
 	return {
 		loader: jest.fn().mockResolvedValue({

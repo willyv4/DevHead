@@ -1,35 +1,31 @@
-import { db } from "../db.server";
+import { supabase } from "../db.server";
 
 export class Skills {
-	static async addSkill(userId: string, skill: string) {
-		await db.query(
-			`
-        		INSERT INTO skills (user_id, skill)
-       		 	VALUES ($1, $2)`,
-			[userId, skill]
-		);
-		return { success: true };
-	}
+  static async addSkill(userId: string, skill: string) {
+    await supabase.from("skills").insert({
+      user_id: userId,
+      skill: skill,
+    });
+    return { success: true };
+  }
 
-	static async getSkillsById(userId: string) {
-		const result = await db.query(
-			`
-        		SELECT * FROM skills
-        		WHERE user_id = $1`,
-			[userId]
-		);
+  static async getSkillsById(userId: string) {
+    const { data, error } = await supabase
+      .from("skills")
+      .select("*")
+      .eq("user_id", userId);
 
-		return result.rows;
-	}
+    if (error) {
+      console.error("Supabase error:", error);
+      return [];
+    }
 
-	static async removeSkill(id: number) {
-		await db.query(
-			`
-        		DELETE FROM skills
-        		WHERE id = $1`,
-			[id]
-		);
+    return data;
+  }
 
-		return { success: true };
-	}
+  static async removeSkill(id: number) {
+    await supabase.from("skills").delete().eq("id", id);
+
+    return { success: true };
+  }
 }

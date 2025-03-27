@@ -1,4 +1,4 @@
-import { Likes } from "../models/likes";
+import { Likes } from "./likes";
 import Posts from "./posts";
 import {
 	commonBeforeAll,

@@ -1,10 +1,10 @@
 import { db } from "../db.server";
+import { action } from "../routes/api.skills";
 import {
 	commonBeforeAll,
 	commonBeforeEach,
 	commonAfterEach,
 } from "../models/_testCommon";
-import { action } from "../routes/api.skills";
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);

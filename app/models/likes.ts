@@ -1,52 +1,49 @@
-import { db } from "~/db.server";
+import { supabase } from "~/db.server";
 
 export class Likes {
-	static async addLike(userId: string, postId: number) {
-		try {
-			await db.query(
-				`
-      			INSERT INTO likes (post_id, user_id)
-      			VALUES ($1, $2)`,
-				[postId, userId]
-			);
+  static async addLike(userId: string, postId: number) {
+    try {
+      await supabase.from("likes").insert({
+        post_id: postId,
+        user_id: userId,
+      });
 
-			return { success: true };
-		} catch (error) {
-			return {
-				message: `Error adding like with userid: ${userId} and postId: ${postId} ERROR: ${error}`,
-			};
-		}
-	}
+      return { success: true };
+    } catch (error) {
+      return {
+        message: `Error adding like with userid: ${userId} and postId: ${postId} ERROR: ${error}`,
+      };
+    }
+  }
 
-	static async removeLike(userId: string, projectId: number) {
-		try {
-			await db.query(`DELETE FROM likes WHERE user_id = $1 AND post_id = $2`, [
-				userId,
-				projectId,
-			]);
+  static async removeLike(userId: string, projectId: number) {
+    try {
+      await supabase
+        .from("likes")
+        .delete()
+        .eq("user_id", userId)
+        .eq("post_id", projectId);
 
-			return { success: true };
-		} catch (error) {
-			return {
-				message: `Error removing like with userid: ${userId} and postId: ${projectId} ERROR: ${error}`,
-			};
-		}
-	}
+      return { success: true };
+    } catch (error) {
+      return {
+        message: `Error removing like with userid: ${userId} and postId: ${projectId} ERROR: ${error}`,
+      };
+    }
+  }
 
-	static async getLikesById(userId: string) {
-		try {
-			const res = await db.query(
-				`SELECT post_id FROM likes WHERE user_id = $1`,
-				[userId]
-			);
+  static async getLikesById(userId: string) {
+    try {
+      const { data } = await supabase
+        .from("likes")
+        .select("post_id")
+        .eq("user_id", userId);
 
-			const arr = res.rows.map((row: any) => row.post_id);
-
-			return arr;
-		} catch (error) {
-			return {
-				message: `Error getting likes with userid: ${userId} ERROR: ${error}`,
-			};
-		}
-	}
+      return data?.map((row: any) => row.post_id);
+    } catch (error) {
+      return {
+        message: `Error getting likes with userid: ${userId} ERROR: ${error}`,
+      };
+    }
+  }
 }

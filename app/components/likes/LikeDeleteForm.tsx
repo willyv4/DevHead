@@ -18,6 +18,7 @@ const LikeDeleteForm: React.FC<Props> = ({ userId, postId, likeCount }) => {
 			<HeartIcon className="w-5 text-rose-500" />
 		);
 	}
+
 	return (
 		<likeDelete.Form
 			method="DELETE"

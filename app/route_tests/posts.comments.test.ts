@@ -1,9 +1,9 @@
+import { loader } from "../routes/posts.comments.$id";
 import {
 	commonBeforeAll,
 	commonBeforeEach,
 	commonAfterEach,
 } from "../models/_testCommon";
-import { loader } from "../routes/posts.comments.$id";
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);

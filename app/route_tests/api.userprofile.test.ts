@@ -1,4 +1,13 @@
 import { action } from "../routes/api.userprofile"; // Update the import path
+import {
+	commonBeforeAll,
+	commonBeforeEach,
+	commonAfterEach,
+} from "../models/_testCommon";
+
+beforeAll(commonBeforeAll);
+beforeEach(commonBeforeEach);
+afterEach(commonAfterEach);
 
 describe("Path Action /api/userprofile", () => {
 	test("should update user information without bio using PUT method", async () => {

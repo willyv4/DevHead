@@ -1,21 +1,22 @@
-import { db } from "../db.server";
+import { supabase } from "../db.server";
 
 export class Follows {
-	static async addFollow(userId: string, followedUser: string) {
-		await db.query(
-			`INSERT INTO follows (user_being_followed_id, user_following_id) VALUES ($1, $2)`,
-			[userId, followedUser]
-		);
+  static async addFollow(userId: string, followedUser: string) {
+    await supabase.from("follows").insert({
+      user_being_followed_id: followedUser,
+      user_following_id: userId,
+    });
 
-		return { success: true };
-	}
+    return { success: true };
+  }
 
-	static async removeFollow(userId: string, followedUser: string) {
-		await db.query(
-			`DELETE FROM follows WHERE user_being_followed_id = $2 AND user_following_id = $1`,
-			[followedUser, userId]
-		);
+  static async removeFollow(userId: string, followedUser: string) {
+    await supabase
+      .from("follows")
+      .delete()
+      .eq("user_being_followed_id", followedUser)
+      .eq("user_following_id", userId);
 
-		return { success: true };
-	}
+    return { success: true };
+  }
 }

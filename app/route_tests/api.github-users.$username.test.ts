@@ -1,9 +1,13 @@
+import { loader } from "../routes/api.github-users.$username";
 import {
 	commonBeforeAll,
 	commonBeforeEach,
 	commonAfterEach,
 } from "../models/_testCommon";
-import { loader } from "../routes/api.github-users.$username";
+
+beforeAll(commonBeforeAll);
+beforeEach(commonBeforeEach);
+afterEach(commonAfterEach);
 
 jest.mock("../routes/api.github-users.$username", () => ({
 	loader: jest.fn(async () => {
