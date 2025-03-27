@@ -32,7 +32,7 @@ export const loader: LoaderFunction = async (args) => {
 
   if (!newUser.id) return json({ message: "could not create db user" });
 
-  return null;
+  return json({ message: "success" });
 };
 
 export default function Index() {
