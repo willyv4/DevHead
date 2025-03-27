@@ -37,11 +37,12 @@ export const loader: LoaderFunction = (args) => {
     args,
     async ({ request }) => {
       const { userId } = request.auth;
-      const user = await User.getUserById(userId ?? "");
-      let currUser = {};
-      if (user && user) currUser = user;
+      if (!userId) {
+        return { currUser: { id: "", image_url: "" }, userId: "" };
+      }
+      const user = await User.getUserById(userId);
 
-      return { currUser: currUser, userId: userId };
+      return { currUser: user, userId: userId };
     },
     {
       loadUser: true,

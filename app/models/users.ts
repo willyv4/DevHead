@@ -14,7 +14,7 @@ export class User {
       };
     }
 
-    return data[0];
+    return data[0] ? data[0] : { id: "", image_url: "" };
   }
 
   static async getUserProfileById(userId: string) {
